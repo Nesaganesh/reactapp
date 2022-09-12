@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import logo from '../images/FlyToezLogo_1_ReSize1.jpeg';
 
 function Navbar() {
   const [click, setClick] = useState(false);
@@ -26,12 +27,18 @@ function Navbar() {
 
   return (
     <>
+      
       <nav className='navbar'>
         <div className='navbar-container'>
-          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-            Flytoez Dance Company
-            <i class='fab fa-typo3' />
-          </Link>
+          <div className='navbar-logo' onClick={handleClick}>
+            <img src={logo} alt="Mylogo" /> 
+          </div>
+          <div className='navbar-logo' onClick={handleClick}>
+            <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+              Flytoez Dance Company
+            </Link>
+          </div>
+          
           <div className='menu-icon' onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
