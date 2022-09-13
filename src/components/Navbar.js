@@ -31,7 +31,7 @@ function Navbar() {
       <nav className='navbar'>
         <div className='navbar-container'>
           <div className='navbar-logo' onClick={handleClick}>
-            <img src={logo} alt="Mylogo" /> 
+            <img src={'https://s3.amazonaws.com/flytoez.content/FlyToezLogo_1_ReSize1.jpeg'} alt="Mylogo" /> 
           </div>
           <div className='navbar-logo' onClick={handleClick}>
             <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
