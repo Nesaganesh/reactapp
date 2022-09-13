@@ -1,9 +1,9 @@
 import React from 'react';
 import '../App.css';
 import { Button } from './Button';
-import './HeroSection.css';
+import './PromotionSection.css';
 
-function HeroSection() {
+function PromotionSection() {
   return (
     <div className='hero-container'>
       <video src='https://s3.amazonaws.com/flytoez.content/FlytoezPromo1.mp4' autoPlay loop muted />
@@ -30,4 +30,4 @@ function HeroSection() {
   );
 }
 
-export default HeroSection;
+export default PromotionSection;
