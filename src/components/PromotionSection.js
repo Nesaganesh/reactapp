@@ -13,15 +13,16 @@ function PromotionSection() {
         <Button
           className='btns'
           buttonStyle='btn--outline'
-          buttonSize='btn--large'
+          buttonSize='btn--large' 
+          to="/signup"
         >
           Sign up
         </Button>
         <Button
           className='btns'
           buttonStyle='btn--primary'
-          buttonSize='btn--large'
-          onClick={console.log('hey')}
+          buttonSize='btn--large' 
+          to="/aboutus"
         >
           About FDC <i className='far fa-play-circle' />
         </Button>
