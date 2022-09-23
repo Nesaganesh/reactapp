@@ -1,21 +1,15 @@
 
   
 .navbar-logo-diwali {
-    color: #fff;
-    margin-left: 350px;
-    display: flex;
-    align-items: center;
     height: 500px;
-    width: 350px;
+    width: auto;
 }
   
 .form-body-diwali{
+    text-align: left;
+    width: auto;
     background-color: white;
-    border-radius: 5px;
-    margin-left: 700px;
-    width: 350px;
-    text-align: center;
-    padding: 20px 10px;
+    
 }
 
 .form-body-diwali > *{

@@ -36,22 +36,23 @@ function Classes() {
             <h2 className='timetable'>Ipswich Timetable</h2>
             <h3 className='timetable'>Timetable updated September 2022<br/></h3>
             <br/><br/>
-            <p className='timetable'><strong>Thursday<br/>Suffolk New College College Drive of, Grimwade St, Ipswich IP4 1LT</strong></p>
+            <p className='timetable'><strong>Wednesday<br/>Suffolk New College College Drive of, Grimwade St, Ipswich IP4 1LT</strong></p>
             <br/>
             <p className='timetable'>
-                5.30pm - 6.30pm         Kids (age 5 - 9 years)           
+                6.00pm - 7.00pm         Kids (Beginners)           
                 <br/>                                    
-                6.30pm - 7.30pm         Adults (any level Beginners, Intermediate)
+                7.00pm - 8.00pm         Adults (any level Beginners, Intermediate)
                 <br/>
             </p>
             <br/><br/>
             <p className='timetable'><strong>Friday<br/>Suffolk New College College Drive of, Grimwade St, Ipswich IP4 1LT</strong></p>
             <br/>
             <p className='timetable'>
-                5.30pm - 6.30pm         Kids (age 5 - 9 years)           
+                5.30pm - 6.30pm         Kids (Beginners)           
                 <br/>                                    
-                6.30pm - 7.30pm         Adults (any level Beginners, Intermediate)
+                6.30pm - 7.30pm         Kids (Intermediate)
                 <br/>
+                6.30pm - 7.30pm         Adults (any level Beginners, Intermediate)
             </p>
             <br/><br/><br/><br/><br/>
             {/* <p>
