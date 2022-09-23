@@ -1,6 +1,6 @@
 import emailjs from 'emailjs-com';
 import './SignUp.css';
-
+import Navbar from '../Navbar';
 
 const SignUp = () => {
     
@@ -17,7 +17,8 @@ const SignUp = () => {
 
     };
     return (
-
+        <>
+        <Navbar />
         <form className="form" onSubmit={sendEmail}>
 
             <div><h2>Register with FDC</h2>
@@ -32,9 +33,9 @@ const SignUp = () => {
                         </div>
                         <div className="gender">
                                 <label className="form__label" for="lastName"> Male  </label>
-                                <input className="form__input" type="radio" name="gender" value="male" id="gender" placeholder="Male" name="gender"/>
+                                <input className="form__input" type="radio" name="gender" value="male" id="gender" placeholder="Male" />
                                 <label className="form__label" for="lastName">    Female    </label>
-                                <input className="form__input" type="radio" name="gender" value="female" id="gender" placeholder="Female" name="gender"/>
+                                <input className="form__input" type="radio" name="gender" value="female" id="gender" placeholder="Female" />
                         </div>
                         <div className="dob">
                             <label className="form__label" for="dob">DOB </label>
@@ -59,7 +60,7 @@ const SignUp = () => {
 
                 </div> 
         </form>
-        
+        </>
     );
 
 };

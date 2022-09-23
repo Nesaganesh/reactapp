@@ -1,10 +1,12 @@
 
 import React from 'react';
 import './Contactus.css';
+import Navbar from '../Navbar';
 
 function Contactus() {
   return (
     <>
+        <Navbar />
         <form className="form">
             <div><h2>Contact Us</h2>
                     <div className="form-body">

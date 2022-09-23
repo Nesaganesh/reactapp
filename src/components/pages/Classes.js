@@ -1,10 +1,12 @@
 
 import React from 'react';
 import './Classes.css';
+import Navbar from '../Navbar';
 
 function Classes() {
   return (
     <>
+        <Navbar />
         <form className="form">
             <div><h2>CLASSES</h2>
                     <div>
