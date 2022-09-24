@@ -2,10 +2,18 @@
 import React from 'react';
 import './Diwali.css';
 
+
 function Diwali() {
+
+    const navigate = () => {
+        window.location.href = 'https://buy.stripe.com/test_3cs16je6g7FJ36w9AB';
+    };
   return (
     <>
             <br/>
+             {/* https://buy.stripe.com/test_3cs16je6g7FJ36w9AB */}
+            
+              <br/><br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Promo.png'} alt="Mylogo" /> 
             </div>
@@ -74,9 +82,18 @@ Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
 Account Number: 21663662<br/>
 Sort-Code: 400317<br/>
-	
-	
-	
+<br/>
+Pay for 1 Adult <button onClick={navigate}> PayNow  </button>
+<br/>
+<br/>
+Pay for 2 Adults <button onClick={navigate}> PayNow  </button>
+<br/>
+<br/>
+Pay for 2 Adults and 1 Children <button onClick={navigate}> PayNow  </button>
+<br/>
+<br/>
+Pay for 2 Adults and 2 Children <button onClick={navigate}> PayNow  </button>
+<br/>
 
                         </p>
                     </div>
