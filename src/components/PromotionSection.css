@@ -70,3 +70,15 @@ video {
       width: 100%;
     }
   }
+
+  .diwali-promotions {
+    background-color: coral;
+    display:none;
+  }
+
+  @media screen and (max-width: 960px) {
+
+    .diwali-promotions {
+      display:block;
+    }
+  }

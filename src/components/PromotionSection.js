@@ -3,11 +3,20 @@ import '../App.css';
 import { Button } from './Button';
 import './PromotionSection.css';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 
 function PromotionSection() {
+
   return (
     <>
-    <Navbar />
+      <Navbar />
+      <div className='diwali-promotions'>
+          <Link
+                  to='/diwali'
+                  className='nav-links'>
+                  <b><u>Diwali 2022  (!!!! Click here !!!!)</u></b>
+                </Link>
+      </div>
       <div className='hero-container'>
         <video src='https://s3.amazonaws.com/flytoez.content/FlytoezPromo1.mp4' autoPlay loop muted />
         <h1>Bollywood in Ipswich</h1>

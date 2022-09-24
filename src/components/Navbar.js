@@ -34,7 +34,7 @@ function Navbar() {
           </div>
           <div className='navbar-logo' onClick={handleClick}>
             <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-              Flytoez Dance Company
+               Flytoez Dance Company
             </Link>
           </div>
           
@@ -43,38 +43,47 @@ function Navbar() {
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                Home
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link
-                to='/classes'
-                className='nav-links'
-                onClick={closeMobileMenu}
-              >
-                Classes
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link
-                to='/contactus'
-                className='nav-links'
-                onClick={closeMobileMenu}
-              >
-                Contact Us
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to='/signup'
-                className='nav-links-mobile'
-                onClick={closeMobileMenu}
-              >
-                Sign Up
-              </Link>
-            </li>
+                <Link
+                  to='/diwali'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  Diwali 2022 !!!!
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                  Home
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link
+                  to='/classes'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  Classes
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link
+                  to='/contactus'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  Contact Us
+                </Link>
+              </li>
+              
+              <li>
+                <Link
+                  to='/signup'
+                  className='nav-links-mobile'
+                  onClick={closeMobileMenu}
+                >
+                  Sign Up
+                </Link>
+              </li>
           </ul>
           {button && <Button buttonStyle='btn--outline' to='/signup' >SIGN UP</Button>}
         </div>
