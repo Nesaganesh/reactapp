@@ -1,18 +1,15 @@
-
 import React from 'react';
 import './Diwali.css';
-
+import '../PromotionSection.css';
 
 function Diwali() {
 
     const navigate = () => {
-        window.location.href = 'https://buy.stripe.com/test_3cs16je6g7FJ36w9AB';
+        window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
     };
   return (
     <>
             <br/>
-             {/* https://buy.stripe.com/test_3cs16je6g7FJ36w9AB */}
-            
               <br/><br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Promo.png'} alt="Mylogo" /> 
@@ -24,75 +21,76 @@ function Diwali() {
                         <p>
         
                            	   <b><u>More Details Follows</u></b>
-                        </p> <br/><p>
+                        </p> <p>
 
 Diwali is just not ‘Festival of lights’ its 
 the is most beautiful time of the year where we welcome the winter with lighting diyas, seek blessing from God and indulge in feast.
 Our main objective is to encourage the kids to understand our rich culture and come together as one family to celebrate the triumph of good over evil
-</p> <br/><p>
+</p><p>
 <b><u>What you expect on the day</u></b>
-</p> <br/><p>
+</p><p>
 Let's unite and enjoy this beautiful day with various cultural programs both adults and kids
 </p> <br/><p>
 
 <b><u>Events and Registration</u></b>
-</p> <br/><p>
+</p> <p>
 Kindly register yourself or on behalf of your kids for the events before 21st Oct
-</p> <br/><p>
+</p><p>
 
-Singing:
+<b>Singing:</b>
 </p><p>
 (Both solo and group)
-Register with 
-WhatsApp: +447424529361
+Register with <br/>
+WhatsApp: +447424529361 <br/>
 Mobile: +447741843819
 </p><p>
-Dance & Drama : 
+<b>Dance and Drama : </b>
 </p><p>
-Dance: 
-FDC (FlyToez Dance Company) will support you perform on the big stage helping you in both Choreo and music, enrol to Adults solo, kids solo, Adults group and kids group 
+<u>Dance</u>:
+Either please come with your own choreo or FDC happy to help make you perform on the stage, please register with them for both Solo or Group Dance for both Adults and Kids  
 </p><p>
-Drama:
+<u>Drama</u>:
 	15-20 mins of skit must be performed more of acting skills
-    </p><p>
-(Both solo and group)
-Register with Nesa
+</p><p>
+Register with Nesa :
+<br/>
 WhatsApp: +447424529361
+<br/>
 Mobile: +447741843819
 </p><p>
 
-Volunteers for Rangoli:
+<b>Volunteers for Rangoli:</b>
 </p><p>
-WhatsApp: +447424529361
+WhatsApp: +447424529361 <br/>
 Mobile: +447741843819
 </p><p>
-Food:
+<b>Food:</b>
 </p><p>
 Menu yet to be decided as we are talking to few caters who can help us.
 </p><p>
-Tickets:
+<b>Tickets:</b> Can be paid either bank transfer or pay online using credit/debit card
 </p><p>
-	Single. – £15
-Couples - £25
-	Family Pack – £30 (2A, 1C)
-	Extra adults from same family – £10
-    Extra child from same family – £5
+	Single. – £15 <br/>
+    Couples - £25 <br/>
+	Family Pack – £30 (2A, 1C) <br/>
+	Extra adults from same family – £10 <br/>
+    Extra child from same family – £5 <br/>
     </p><p>
-Account Details:<br/>
+Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
 Account Number: 21663662<br/>
 Sort-Code: 400317<br/>
 <br/>
-Pay for 1 Adult <button onClick={navigate}> PayNow  </button>
+Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
 <br/>
-Pay for 2 Adults <button onClick={navigate}> PayNow  </button>
+Pay for 2 Adults or 1 Child   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults and 1 Children <button onClick={navigate}> PayNow  </button>
+Pay for 2 Adults and 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £35</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults and 2 Children <button onClick={navigate}> PayNow  </button>
+Pay for 4 Adults and 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £55</b>  </button>
 <br/>
 
                         </p>
