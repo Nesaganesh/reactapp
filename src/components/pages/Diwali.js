@@ -40,9 +40,8 @@ Kindly register yourself or on behalf of your kids for the events before 21st Oc
 <b>Singing:</b>
 </p><p>
 (Both solo and group)
-Register with <br/>
-WhatsApp: +447424529361 <br/>
-Mobile: +447741843819
+Register with Sundari <br/>
+WhatsApp/Mobile: +44 7405 585697 <br/>
 </p><p>
 <b>Dance and Drama : </b>
 </p><p>
@@ -52,24 +51,32 @@ Either please come with your own choreo or FDC happy to help make you perform on
 <u>Drama</u>:
 	15-20 mins of skit must be performed more of acting skills
 </p><p>
-Register with Nesa :
+Register with Nesa/Sundari :
 <br/>
-WhatsApp: +447424529361
+WhatsApp Sundari: +44 7405 585697 <br/>
+WhatsApp Nesa: +447424529361
 <br/>
-Mobile: +447741843819
+Mobile Nesa: +447741843819
 </p><p>
 
 <b>Volunteers for Rangoli:</b>
 </p><p>
-WhatsApp: +447424529361 <br/>
-Mobile: +447741843819
+Register with Dharani/Indu :
+<br/>
+Dharani: +44 7438 916510 <br/>
+Indu: +44 7479 986635
 </p><p>
 <b>Food:</b>
 </p><p>
 Menu yet to be decided as we are talking to few caters who can help us.
 </p><p>
-<b>Tickets:</b> Can be paid either bank transfer or pay online using credit/debit card
-</p>Free for kids under 5 years old<p>
+<b>Tickets:</b> 
+<br/>
+Free for kids under 5 years old. 
+<br />
+Kindly pay as soon as possible, so that we can arrange everything to be fall in place for a good show.
+<br/>Can be paid either bank transfer or pay online using credit/debit card.</p>
+<p>
 	Single. – £15 <br/>
     Couples - £25 <br/>
 	Family Pack – £30 (2A, 1C) <br/>
