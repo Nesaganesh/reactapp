@@ -77,28 +77,35 @@ Free for kids under 5 years old.
 Kindly pay as soon as possible, so that we can arrange everything to be fall in place for a good show.
 <br/>Can be paid either bank transfer or pay online using credit/debit card.</p>
 <p>
-	Single. – £15 <br/>
-    Couples - £25 <br/>
-	Family Pack – £30 (2A, 1C) <br/>
-	Extra adults from same family – £10 <br/>
-    Extra child from same family – £5 <br/>
-    </p><p>
 Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
-Account Number: 21663662<br/>
+Account Number: 21663992<br/>
 Sort-Code: 400317<br/>
 <br/>
 Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
 <br/>
-Pay for 2 Adults or with 1 Child   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
+Pay for 2 Adults   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
+<br/>
+<br/>
+Pay for 2 Adults with 1 Child  <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
 <br/>
 <br/>
 Pay for 2 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £35</b>  </button>
 <br/>
 <br/>
-Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £55</b>  </button>
+Pay for 4 Adults with 1 Child  <button onClick={navigate} className='btns' > <b>PayNow 60</b>  </button>
 <br/>
+<br/>
+Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button>
+<br/>
+
+                        </p>
+                        <p>
+                            <b><u>Note</u></b>: Please reach out immediately to the below numbers in case of any more clarity needed on the payments <br/>
+                            We will also get back to you if there is any discrepancy on the payments  <br/>
+                            Nesa whats app : +44 7424529361 <br/>
+                            Indu whats app : +44 7479986635 <br/> <br/>
 
                         </p>
                     </div>
