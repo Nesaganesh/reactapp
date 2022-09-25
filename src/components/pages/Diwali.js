@@ -69,7 +69,7 @@ Mobile: +447741843819
 Menu yet to be decided as we are talking to few caters who can help us.
 </p><p>
 <b>Tickets:</b> Can be paid either bank transfer or pay online using credit/debit card
-</p><p>
+</p>Free for kids under 5 years old<p>
 	Single. – £15 <br/>
     Couples - £25 <br/>
 	Family Pack – £30 (2A, 1C) <br/>
