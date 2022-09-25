@@ -84,13 +84,13 @@ Sort-Code: 400317<br/>
 Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
 <br/>
-Pay for 2 Adults or 1 Child   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
+Pay for 2 Adults or with 1 Child   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults and 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £35</b>  </button>
+Pay for 2 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £35</b>  </button>
 <br/>
 <br/>
-Pay for 4 Adults and 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £55</b>  </button>
+Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £55</b>  </button>
 <br/>
 
                         </p>
