@@ -1,18 +1,24 @@
 import React from 'react';
 import './Diwali.css';
 import '../PromotionSection.css';
+// import FetchSheet from '../FetchSheet';
+
 
 function Diwali() {
 
     const navigate = () => {
-        window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
     };
+
   return (
-    <>
+    <>  
+            
+            
             <br/>
-              <br/><br/>
+              <br/>
+              {/* <div className="livestream-body"> <FetchSheet /> </div><br/>   */}
             <div className='navbar-logo-diwali'>
-                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Promo.png'} alt="Mylogo" /> 
+                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
             </div>
             <br/><br/>
             <div>

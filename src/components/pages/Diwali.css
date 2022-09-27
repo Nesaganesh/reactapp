@@ -16,6 +16,14 @@
     padding: 15px;
 }
 
+.livestream-body {
+    text-align: left;
+    background-color: rgb(240, 219, 148);
+    padding: 15px;
+    height: 75px;
+    width: 350px;
+}
+
 @media screen and (max-width: 768px) {
     .navbar-logo-diwali {
         height: 500px;
