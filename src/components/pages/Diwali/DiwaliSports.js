@@ -9,6 +9,7 @@ class DiwaliSports extends Component {
        super(props)
 
         this.state = {
+          sport: "",
           challenge: "",
           fullName: "",
           emailid: "",
@@ -27,7 +28,7 @@ class DiwaliSports extends Component {
     }
     emailidhandler = (event) => {
         this.setState({
-            emaildid: event.target.value
+          emailid: event.target.value
         })
     }
     phonehandler = (event) => {
@@ -78,7 +79,7 @@ class DiwaliSports extends Component {
 
                 <form onSubmit={this.handleSubmit}>
                     <h1><u>Tornament for Mens and Womens</u></h1>
-                    <label>Sport :</label><select id="di" defaultValue="Select Sport" onChange={(e) => this.handleChange(e)}>
+                    <label>Sport :</label><select name="sport" defaultValue="Select Sport" onChange={(e) => this.handleChange(e)}>
                         <option defaultValue>Select Sport</option>
                         <option value="cricket">Cricket</option>
                         <option value="badmiton">Badmiton</option>
@@ -87,15 +88,15 @@ class DiwaliSports extends Component {
                     <br />
                     <div className={this.state.sport}>
                       <label> Individual  </label>
-                      <input id="individual" value="individual" name="challenge" type="radio" onChange={(e) => this.handleChange(e)} />
+                      <input value="individual" name="challenge" type="radio" onChange={(e) => this.handleChange(e)} />
                       <label> Team  </label>
-                      <input id="team" value="team" name="challenge" type="radio" onChange={(e) => this.handleChange(e)}/>
+                      <input value="team" name="challenge" type="radio" onChange={(e) => this.handleChange(e)}/>
                     </div>
                     <br />
                     <br/>
                     <label>FullName :</label> <input type="text" value={this.state.fullname} name="fullname"  placeholder="FullName..." /><br /><br />
-                    <label>Email Id :</label> <input type="text" value={this.state.emailid} name="emaiid"  placeholder="EmailId..." /><br /><br />
-                    <label>Phone :</label> <input type="password" value={this.state.phone} name="phone"  placeholder="Phone..." /><br /><br />
+                    <label>Email Id :</label> <input type="text" value={this.state.emailid1} name="emailid1"  placeholder="EmailId..." /><br /><br />
+                    <label>Phone :</label> <input type="text" value={this.state.phone1} name="phone1"  placeholder="Phone..." /><br /><br />
                     <label>Gender :</label>
                     <select name="gender" defaultValue="Select Gender">
                         <option defaultValue>Select Gender</option>
