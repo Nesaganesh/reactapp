@@ -91,6 +91,8 @@ class DiwaliSports extends Component {
                       <input value="individual" name="challenge" type="radio" onChange={(e) => this.handleChange(e)} />
                       <label> Team  </label>
                       <input value="team" name="challenge" type="radio" onChange={(e) => this.handleChange(e)}/>
+                      <label> Family  </label>
+                      <input value="family" name="challenge" type="radio" onChange={(e) => this.handleChange(e)}/>
                     </div>
                     <br />
                     <br/>
@@ -104,7 +106,7 @@ class DiwaliSports extends Component {
                         <option value="female">Female</option>
                     </select><br /><br />
                     <div className={this.state.challenge}> 
-                    <label>Team Names :</label><br/>
+                    <label>Team Members/Partner Name :</label><br/>
                     <textarea name='teamnames' rows="15" cols="50"></textarea>
                     </div><br/><br />
                     <label>Are you registerted in Diwali Nov 2022  </label>
