@@ -1,6 +1,7 @@
 import React from 'react';
 import './Diwali.css';
 import '../PromotionSection.css';
+import { Link } from 'react-router-dom';
 // import FetchSheet from '../FetchSheet';
 
 
@@ -15,8 +16,11 @@ function Diwali() {
             
             
             <br/>
-              <br/>
+            <br/>
               {/* <div className="livestream-body"> <FetchSheet /> </div><br/>   */}
+              <div className='diwaliSports'>
+              <Link to='/diwalisports' className='nav-links'><b><u>Diwali Sports Registration</u></b></Link>
+            </div>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
             </div>

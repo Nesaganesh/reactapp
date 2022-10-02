@@ -30,6 +30,11 @@
         width: 400px;
     }
 
+    .diwaliSports {
+        height: 50px;
+        width: 300px;
+      }
+
     .form-body-diwali{
         text-align: left;
         width: 400px;
@@ -43,5 +48,10 @@
     font-size: 17px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
       'Lucida Sans', Arial, sans-serif;
+  }
+
+  .diwaliSports {
+    height: 150px;
+    width: 300px;
   }
   

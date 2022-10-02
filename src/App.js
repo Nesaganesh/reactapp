@@ -7,6 +7,7 @@ import Contactus from './components/pages/Contactus';
 import Classes from './components/pages/Classes';
 
 import Diwali from './components/pages/Diwali';
+import DiwaliSports from './components/pages/Diwali/DiwaliSports';
 
 
 
@@ -21,6 +22,8 @@ function App() {
               <Route path="/classes" element={<Classes />}></Route>
               
               <Route path="/diwali" element={<Diwali />}></Route>
+              <Route path="/diwalisports" element={<DiwaliSports />}></Route>
+              
               
           </Routes>
       </Router>
