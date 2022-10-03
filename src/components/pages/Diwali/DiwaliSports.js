@@ -120,8 +120,14 @@ class DiwaliSports extends Component {
                     <div className="submitClass">
                       <input type="submit" value="Submit" />
                     </div>
-                    <br/><br/><br/>
-                    
+                    <br/><br/>
+
+                    <p>
+  <br/><a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Cricket_Whatsapp_Group</a><br/>
+  <br/><a href='https://chat.whatsapp.com/LLqZLTtZWaTF6PQzc6r8mF'>Badmiton_Whatsapp_Group</a><br/>
+  <br/><a href='https://chat.whatsapp.com/F14jF3caGC45ISo5h3hb6M'>CaromBoard_Whatsapp_Group</a><br/>
+</p>
+<br/><br/>
                 </form>
 
             </div>
@@ -129,5 +135,4 @@ class DiwaliSports extends Component {
         )
     }
 }
-
 export default DiwaliSports

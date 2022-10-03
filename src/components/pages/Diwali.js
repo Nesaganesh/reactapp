@@ -45,20 +45,24 @@ Let's unite and enjoy this beautiful day with various cultural programs both adu
 <b><u>Events and Registration</u></b>
 </p> <p>
 Kindly register yourself or on behalf of your kids for the events before 21st Oct
+</p>
+
+<p>
+<b>Singing:</b>
+<br/><a href='https://chat.whatsapp.com/CK8LnuCU14e1LEejmDtT3E'>Singing_Whatsapp_Group</a><br/>
 </p><p>
 
-<b>Singing:</b>
-</p><p>
 (Both solo and group)
 Register with Sundari <br/>
 WhatsApp/Mobile: +44 7405 585697 <br/>
 </p><p>
 <b>Dance and Drama : </b>
 </p><p>
-<u>Dance</u>:
+<u>Dance</u>: <br/><a href='https://chat.whatsapp.com/FxxJnlk7GZsHYNHpxHFtcC'>Dance_Whatsapp_Group</a><br/>
 Either please come with your own choreo or FDC happy to help make you perform on the stage, please register with them for both Solo or Group Dance for both Adults and Kids  
 </p><p>
 <u>Drama</u>:
+<br/><a href='https://chat.whatsapp.com/KTcQFTo5IGIClhZbFN5O1B'>Skit_Whatsapp_Group</a><br/>
 	15-20 mins of skit must be performed more of acting skills
 </p><p>
 Register with Nesa/Sundari :
@@ -67,7 +71,12 @@ WhatsApp Sundari: +44 7405 585697 <br/>
 WhatsApp Nesa: +447424529361
 <br/>
 Mobile Nesa: +447741843819
-</p><p>
+</p>
+
+
+
+
+<p>
 
 <b>Volunteers for Rangoli:</b>
 </p><p>
@@ -79,7 +88,9 @@ Indu: +44 7479 986635
 <b>Food:</b>
 </p><p>
 Menu yet to be decided as we are talking to few caters who can help us.
-</p><p>
+</p>
+
+<p>
 <b>Tickets:</b> 
 <br/>
 Free for kids under 5 years old. 
