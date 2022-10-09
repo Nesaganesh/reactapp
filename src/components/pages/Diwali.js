@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 function Diwali() {
 
     const navigate = () => {
-      window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      //window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      alert(' TICKETS SOLD OUT, Please whatsapp to +447424529361 or +447479986635 for any cancellations ');
     };
 
   return (
@@ -19,7 +20,7 @@ function Diwali() {
             <br/>
               {/* <div className="livestream-body"> <FetchSheet /> </div><br/>   */}
               <div className='diwaliSports'>
-              <Link to='/diwalisports' className='nav-links'><b><u>Diwali Sports Registration</u></b></Link>
+              <Link to='/' className='nav-links'><b><u>Diwali Sports Registration </u> <br/> ( TICKETS SOLD OUT, Please whatsapp to +447424529361/+447479986635 for any cancellations ) </b></Link>
             </div>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
@@ -100,8 +101,8 @@ Kindly pay as soon as possible, so that we can arrange everything to be fall in 
 <p>
 Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
-Account Number: 21663992<br/>
-Sort-Code: 400317<br/>
+Account Number: ********<br/>
+Sort-Code: ******<br/>
 <br/>
 Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
