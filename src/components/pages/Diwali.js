@@ -1,27 +1,23 @@
 import React from 'react';
 import './Diwali.css';
 import '../PromotionSection.css';
-import { Link } from 'react-router-dom';
-// import FetchSheet from '../FetchSheet';
 
 
 function Diwali() {
 
     const navigate = () => {
-      //window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
-      alert(' TICKETS SOLD OUT, Please whatsapp to +447424529361 or +447479986635 for any cancellations ');
+      window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      //alert(' TICKETS SOLD OUT, Please whatsapp to +447424529361 or +447479986635 for any cancellations ');
     };
 
   return (
-    <>  
-            
-            
+    <>      
             <br/>
             <br/>
               {/* <div className="livestream-body"> <FetchSheet /> </div><br/>   */}
-              <div className='diwaliSports'>
-              <Link to='/' className='nav-links'><b><u>Diwali Sports Registration </u> <br/> ( TICKETS SOLD OUT, Please whatsapp to +447424529361/+447479986635 for any cancellations ) </b></Link>
-            </div>
+              {/* <div className='diwaliSports'>
+              <Link to='/diwalisports' className='nav-links'><b><u>Diwali Sports Registration </u> <br/> ( TICKETS selling fast ....) </b></Link>
+            </div> */}
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
             </div>
@@ -88,7 +84,21 @@ Indu: +44 7479 986635
 </p><p>
 <b>Food:</b>
 </p><p>
-Menu yet to be decided as we are talking to few caters who can help us.
+Aloo gobi<br/>
+Veg spring rolls<br/>
+Chicken 65<br/>
+Porotta <br/>
+Thadka Dhall <br/>
+Mutter paneer masala <br/>
+Butter chicken masala <br/>
+Lamb korai<br/>
+Chicken Briyani<br/>
+Veg Briyani<br/>
+Plain rice<br/>
+Pappadom <br/>
+Pickle <br/>
+Raitha<br/>
+Gulab jamoon<br/>
 </p>
 
 <p>
@@ -101,8 +111,8 @@ Kindly pay as soon as possible, so that we can arrange everything to be fall in 
 <p>
 Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
-Account Number: ********<br/>
-Sort-Code: ******<br/>
+Account Number: 21663992<br/>
+Sort-Code: 400317<br/>
 <br/>
 Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
