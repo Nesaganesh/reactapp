@@ -8,7 +8,7 @@ import Classes from './components/pages/Classes';
 
 import Diwali from './components/pages/Diwali';
 import DiwaliSports from './components/pages/Diwali/DiwaliSports';
-
+import GoogleForm from './components/pages/Diwali/GoogleForm';
 
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
               
               <Route path="/diwali" element={<Diwali />}></Route>
               <Route path="/diwalisports" element={<DiwaliSports />}></Route>
+              <Route path="/diwalientry" element={<GoogleForm />}></Route>
+            
               
               
           </Routes>

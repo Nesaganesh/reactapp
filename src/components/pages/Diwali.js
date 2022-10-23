@@ -1,27 +1,27 @@
 import React from 'react';
 import './Diwali.css';
 import '../PromotionSection.css';
+import { Link } from 'react-router-dom';
 
 
 function Diwali() {
 
     const navigate = () => {
       window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
-      //alert(' TICKETS SOLD OUT, Please whatsapp to +447424529361 or +447479986635 for any cancellations ');
     };
 
   return (
     <>      
             <br/>
             <br/>
-              {/* <div className="livestream-body"> <FetchSheet /> </div><br/>   */}
-              {/* <div className='diwaliSports'>
-              <Link to='/diwalisports' className='nav-links'><b><u>Diwali Sports Registration </u> <br/> ( TICKETS selling fast ....) </b></Link>
-            </div> */}
+            <div className='diwaliSports'>
+              <Link to='/diwalientry' className='nav-links'><b><u>Diwali Registration </u> </b></Link>
+            </div>
+            <br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
             </div>
-            <br/><br/>
+            <br />
             <div>
                     <div className="form-body-diwali">
                         

@@ -41,6 +41,10 @@
         background-color: white;
         
     }
+    .navbar-logo-diwali-att {
+        height: 1650px;
+        width: 400px;
+    }
   }
 
   .btns {
@@ -55,3 +59,8 @@
     width: 300px;
   }
   
+    
+.navbar-logo-diwali-att {
+    height: 1650px;
+    width: auto;
+}

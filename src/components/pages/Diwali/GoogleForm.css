@@ -1,0 +1,15 @@
+
+.navbar-logo-diwali-att {
+    height: 1650px;
+    width: 700px;
+}
+@media screen and (max-width: 768px) {
+    
+    .navbar-logo-diwali-att {
+        height: 1650px;
+        width: 385px;
+    }
+  }
+
+    
+
