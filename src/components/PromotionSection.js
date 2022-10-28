@@ -12,7 +12,7 @@ function PromotionSection() {
       <Navbar />
       <div className='diwali-promotions'>
           <Link
-                  to='/diwalientry'
+                  to='/diwali'
                   className='nav-links'>
                   <b><u>Diwali 2022 Registration  (!!!! Click here !!!!)</u></b>
                 </Link>
