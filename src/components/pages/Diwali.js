@@ -1,22 +1,22 @@
 import React from 'react';
 import './Diwali.css';
 import '../PromotionSection.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 
 function Diwali() {
 
-    const navigate = () => {
-      window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
-    };
+    // const navigate = () => {
+    //   window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+    // };
 
   return (
     <>      
-            <br/>
+            {/* <br/>
             <br/>
             <div className='diwaliSports'>
               <Link to='/diwalientry' className='nav-links'><b><u>Diwali Registration </u> </b></Link>
-            </div>
+            </div> */}
             <br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
@@ -27,7 +27,7 @@ function Diwali() {
                         
                         <p>
         
-                           	   <b><u>More Details Follows</u></b>
+                           	   <b><u>More Details Follows ************** REGISTRITIONS CLOSED *********** ************** REGISTRITIONS CLOSED *********** </u></b>
                         </p> <p>
 
 Diwali is just not ‘Festival of lights’ its 
@@ -109,12 +109,16 @@ Free for kids under 5 years old.
 Kindly pay as soon as possible, so that we can arrange everything to be fall in place for a good show.
 <br/>Can be paid either bank transfer or pay online using credit/debit card.</p>
 <p>
-Bank Transfer - Account Details:<br/>
+<br/><br/>
+************** REGISTRITIONS CLOSED ***********
+
+<br/>
+{/* Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
 Account Number: 21663992<br/>
-Sort-Code: 400317<br/>
+Sort-Code: 400317<br/> */}
 <br/>
-Pay for 1 Adult   <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
+{/* Pay for 1 Adult <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
 <br/>
 Pay for 2 Adults   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
@@ -129,7 +133,7 @@ Pay for 2 Adults with 2 Children  <button onClick={navigate} className='btns' > 
 Pay for 4 Adults with 1 Child  <button onClick={navigate} className='btns' > <b>PayNow 60</b>  </button>
 <br/>
 <br/>
-Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button>
+Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button> */}
 <br/>
 
                         </p>
