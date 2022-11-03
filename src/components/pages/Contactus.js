@@ -15,7 +15,7 @@ function Contactus() {
                         </div>
                         <div className="lastname">
                             t: 07741 843819
-                            e: flytoezdancecompany.co.uk 
+                            e: flytoezdancecompany@gmail.com 
                         </div>
                         <div className="gender">
                             facebook: www.facebook.com/FlytoezDanceCompany
