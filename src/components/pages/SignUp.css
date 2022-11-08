@@ -33,3 +33,17 @@ body{
 .footer{
     text-align: center;
 }
+
+
+.registeration_css {
+    height: 1650px;
+    width: 700px;
+}
+
+@media screen and (max-width: 768px) {
+    
+    .registeration_css {
+        height: 1650px;
+        width: 385px;
+    }
+  }

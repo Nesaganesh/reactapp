@@ -1,25 +1,25 @@
-import emailjs from 'emailjs-com';
+// import emailjs from 'emailjs-com';
 import './SignUp.css';
 import Navbar from '../Navbar';
 
 const SignUp = () => {
     
-    function sendEmail(e){
+    // function sendEmail(e){
 
-        e.preventDefault(); // Prevents default refresh by the browser
-        emailjs.sendForm('service_h6in7wb', 'template_cbzdbyr', e.target, 'WUNJawiU6bdr4-wXs')
-        .then((result) => {
-            console.log(result);
-        },
-        (error) => {
-            console.log(error);
-        }).catch(err => console.log(err));
+    //     e.preventDefault(); // Prevents default refresh by the browser
+    //     emailjs.sendForm('service_h6in7wb', 'template_cbzdbyr', e.target, 'WUNJawiU6bdr4-wXs')
+    //     .then((result) => {
+    //         console.log(result);
+    //     },
+    //     (error) => {
+    //         console.log(error);
+    //     }).catch(err => console.log(err));
 
-    };
+    // };
     return (
         <>
         <Navbar />
-        <form className="form" onSubmit={sendEmail}>
+        {/* <form className="form" onSubmit={sendEmail}>
 
             <div><h2>Register with FDC</h2>
                     <div className="form-body">
@@ -59,7 +59,12 @@ const SignUp = () => {
                     </div>
 
                 </div> 
-        </form>
+        </form> */}
+        <br/>
+        <br/>
+        <iframe title="Signup" src="https://docs.google.com/forms/d/e/1FAIpQLSc-FPT1kzQQ0YIZ4oY6wKwsV6lGUPOX22Eg82yns4UQn3huDQ/viewform?embedded=true" className='registeration_css'>Loading…</iframe>
+        <br/><br/>
+
         </>
     );
 
