@@ -1,0 +1,151 @@
+version: '3.7'
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
+services:
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=3d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    ports:
+      - 9090:9090
+    depends_on:
+      - cadvisor  
+    networks:
+      - monitor-net
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+      restart_policy:
+        condition: on-failure
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8081:8080
+    networks:
+      - monitor-net
+    deploy:
+      mode: global
+      restart_policy:
+          condition: on-failure
+
+  node-exporter:
+    image: flaviostutz/docker-swarm-node-exporter
+    environment:
+      - NODE_ID={{.Node.ID}}
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /etc/hostname:/etc/nodename
+    networks:
+      - monitor-net
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+
+  docker-exporter:
+    image: prometheusnet/docker_exporter
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9417:9417
+    networks:
+      - monitor-net
+    deploy:
+      mode: global
+      restart_policy:
+          condition: on-failure  
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - "./alertmanager/:/etc/alertmanager/"
+    networks:
+      - monitor-net
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    deploy:
+      placement:
+        constraints:
+           - node.role==manager
+      restart_policy:
+        condition: on-failure 
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    networks:
+      - monitor-net
+    user: "472"
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+      restart_policy:
+        condition: on-failure
+
+  selenium_grid_exporter:
+    image: wakeful/selenium-grid-exporter
+    ports:
+      - 8082:8080
+    command: "--scrape-uri http://hub:4444"
+    networks:
+      - monitor-net
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  prometheus-msteams-alert:
+    image: quay.io/prometheusmsteams/prometheus-msteams
+    ports:
+      - 2000:2000
+    networks:
+      - monitor-net
+    environment:
+      - "TEAMS_INCOMING_WEBHOOK_URL=https://outlook.office.com/webhook/cb7c39e6-4d3c-4e5f-9082-ee1264eb50c6@72aa0d83-624a-4ebf-a683-1b9b45548610/IncomingWebhook/8ae723dfc95346bca48d90eb37b38f25/dceedb62-67b5-4156-8992-9bf54b701fbf"
+      - "TEAMS_REQUEST_URI=alertmanager"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager 
+
+
+networks:
+  monitor-net:
+    name: custom_network          

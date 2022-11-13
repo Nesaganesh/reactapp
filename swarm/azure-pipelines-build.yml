@@ -1,0 +1,226 @@
+variables:
+- name: swarmhost
+  value: 'uiplinfdoc009'
+- name: environment
+  value: 'Client_Docker_Swarm'
+
+stages:
+- stage: Create_swarm
+  jobs:
+  - job: Package_compose_file
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        Contents: '**/*'
+        TargetFolder: '$(Pipeline.workspace)/compose'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/compose'
+        artifact: 'docker-compose'
+        publishLocation: 'pipeline'
+
+  - deployment: masterNode
+    dependsOn: Package_compose_file
+    displayName: 'Configure swarm host'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: $(ENVIRONMENT)
+      resourceType: virtualmachine
+      tags: SwarmHost
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Restart Docker service'
+          inputs:
+            targetType: 'inline'
+            script: |
+              sudo systemctl enable docker || true
+              sudo systemctl stop docker 
+              sudo systemctl start docker
+        - task: Bash@3
+          displayName: 'Prune hanging containers'
+          inputs:
+            targetType: 'inline'
+            script: |
+              docker container prune --force
+        - task: Bash@3
+          displayName: 'Force to leave swarm'
+          inputs:
+            targetType: 'inline'
+            script: |
+              docker swarm leave --force || true #this will prevent script from failing if node is not part of swarm
+        - task: Bash@3
+          displayName: 'Init swarm and store information into output variable'
+          inputs:
+            targetType: 'inline'
+            script: |
+              sudo docker swarm init
+              token=$(docker swarm join-token worker -q)
+              IP=$(ip route get 8.8.8.8 | sed -n '/src/{s/.*src *\([^ ]*\).*/\1/p;q}')
+              echo $IP
+              echo $token
+              echo $(System.JobName)
+              echo "##vso[task.setvariable variable=token;isOutput=true]$token"
+              echo "##vso[task.setvariable variable=swarmip;isOutput=true]$IP"
+          name: setvarStep
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'docker-compose'
+            targetPath: '$(Pipeline.Workspace)/compose'
+
+
+  - deployment: swarmNode
+    dependsOn: masterNode
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: $(ENVIRONMENT)
+      resourceType: virtualmachine
+      tags: SwarmNode
+    variables:
+      swarmIp: $[ dependencies.masterNode.outputs['Deploy_${{ variables.swarmhost }}.setvarStep.swarmip'] ]
+      myToken: $[ dependencies.masterNode.outputs['Deploy_${{ variables.swarmhost }}.setvarStep.token'] ]
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Restart Docker service'
+          inputs:
+            targetType: 'inline'
+            script: |
+              sudo systemctl enable docker || true
+              sudo systemctl stop docker 
+              sudo systemctl start docker
+        - task: Bash@3
+          displayName: 'Docker swarm leave'
+          inputs:
+            targetType: 'inline'
+            script: |
+              docker swarm leave --force || true
+        - task: Bash@3
+          displayName: 'Docker volume prune'
+          inputs:
+            targetType: 'inline'
+            script: |
+              docker volume prune --force
+        - task: Bash@3
+          displayName: 'Prune hanging containers and system'
+          inputs:
+            targetType: 'inline'
+            script: |
+              docker container prune --force
+              docker system prune --force
+        - task: Bash@3
+          displayName: 'Joining node with swarm leader'
+          inputs:
+            targetType: 'inline'
+            script: |
+              sudo docker swarm join --token $(myToken) $(swarmIp)
+              echo ip: $(swarmIp)
+              echo token: $(myToken)
+
+- stage: Deploy_Prometheus_Stack
+  dependsOn: Create_swarm
+  jobs:
+  - deployment: deploy_stack
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: $(ENVIRONMENT)
+      resourceType: virtualmachine
+      tags: SwarmHost
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Force Init Swarm'
+          inputs:
+            targetType: 'inline'
+            script: |
+                docker swarm init --force-new-cluster
+        - task: Bash@3
+          displayName: 'Restart docker service'
+          inputs:
+            targetType: 'inline'
+            script: |
+                sudo systemctl restart docker
+        - task: Bash@3
+          displayName: 'Prepare compose folder with artifacts'
+          inputs:
+            targetType: 'inline'
+            script: |
+                if [ ! -d "/dev/compose/" ] 
+                then
+                    echo "Creating directory /dev/compose/" 
+                    sudo mkdir /dev/compose/
+                fi
+                sudo cp -a $(Pipeline.workspace)/compose/. /dev/compose/
+        - task: Bash@3
+          displayName: 'Deploy Docker Swarm Visualizer'
+          inputs:
+            targetType: 'inline'
+            script: |
+                sudo docker stack rm vis
+                sudo cp -a $(Pipeline.workspace)/compose/. /dev/compose/
+                sudo docker stack deploy -c /dev/compose/docker-stack-visualizer.yml vis --with-registry-auth || true
+        - task: Bash@3
+          displayName: 'Deploy Prometheus monitoring stack'
+          inputs:
+            targetType: 'inline'
+            script: |
+                sudo docker stack rm prom
+                #docker volume prune --force
+                sudo cp -a $(Pipeline.workspace)/compose/. /dev/compose/
+                sudo docker stack deploy -c /dev/compose/docker-stack-monitoring.yml prom --with-registry-auth || true
+
+- stage: Deploy_Selenium_Stack
+  dependsOn: Deploy_Prometheus_Stack
+  jobs:
+  - deployment: deploy_stack
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: $(ENVIRONMENT)
+      resourceType: virtualmachine
+      tags: SwarmHost
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Force Init Swarm'
+          inputs:
+            targetType: 'inline'
+            script: |
+                docker swarm init --force-new-cluster
+        - task: Bash@3
+          displayName: 'Restart docker service'
+          inputs:
+            targetType: 'inline'
+            script: |
+                sudo systemctl restart docker
+        - task: Bash@3
+          displayName: 'Prepare compose folder with artifacts'
+          inputs:
+            targetType: 'inline'
+            script: |
+                if [ ! -d "/dev/compose/" ] 
+                then
+                    echo "Creating directory /dev/compose/" 
+                    sudo mkdir /dev/compose/
+                fi
+                sudo cp -a $(Pipeline.workspace)/compose/. /dev/compose/
+        - task: Bash@3
+          displayName: 'Deploy Selenium stack'
+          inputs:
+            targetType: 'inline'
+            script: |
+                sudo docker stack rm selenium
+                sudo cp -a $(Pipeline.workspace)/compose/. /dev/compose/
+                sudo docker stack deploy -c /dev/compose/docker-stack-grid.yml selenium --with-registry-auth
