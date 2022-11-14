@@ -1,6 +1,6 @@
 import React from 'react';
 import './Diwali.css';
-import '../PromotionSection.css';
+import '../../PromotionSection.css';
 // import { Link } from 'react-router-dom';
 
 

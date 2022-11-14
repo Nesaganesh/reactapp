@@ -1,0 +1,38 @@
+# rebuilds the stack
+stages:
+- stage: RebuildSwarm
+  jobs:
+  - deployment: RemoveStack
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: swarm
+      resourceType: VirtualMachine
+      tags: SwarmHost
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Remove stack'
+          inputs:
+            targetType: 'inline'
+            script: docker stack rm test
+
+  - deployment: 'DeployStack'
+    dependsOn: RemoveStack
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment:
+      name: swarm
+      resourceType: VirtualMachine
+      tags: SwarmHost
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+        - task: Bash@3
+          displayName: 'Deploy stack'
+          inputs:
+            targetType: 'inline'
+            script: docker stack deploy -c /dev/compose/docker-compose.yml test
