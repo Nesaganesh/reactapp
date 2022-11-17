@@ -48,12 +48,16 @@
   .nav-menu {
     display: grid;
     grid-template-columns: repeat(4, auto);
-    grid-gap: 10px;
+    grid-gap: 50px;
     list-style: none;
     text-align: center;
-    width: 60vw;
+    width: 80vw;
     justify-content: end;
     margin-right: 2rem;
+  }
+
+  .navbar-menu-dis{
+    display: none;
   }
   
   .nav-item {
@@ -88,6 +92,10 @@
   
   @media screen and (max-width: 960px) {
     
+    .navbar-menu-dis{
+      display: block;
+    }
+
     .navbar-container {
       display: flex;
       justify-content: center;
@@ -134,18 +142,26 @@
       border-radius: 0;
     }
   
+    .navbar-menu {
+      color: #fff;
+      margin-left: 15px;
+      font-size: 1rem;
+      align-items: left;
+      margin-top: 0px;
+    }
+
     .navbar-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(25%, 50%);
-      
+      color: #fff;
+      margin-left: 15px;
+      font-size: 1rem;
+      align-items: left;
+      margin-top: 5px;
     }
 
     .navbar-logo-text {
       color: #fff;
       justify-self: start;
-      margin-left: 15px;
+      margin-left: 35px;
       cursor: pointer;
       text-decoration: none;
       font-size: 1.0rem;

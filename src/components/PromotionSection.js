@@ -1,3 +1,4 @@
+//import React, { useEffect, useState } from 'react';
 import React from 'react';
 import '../App.css';
 import { Button } from './Button';
@@ -7,31 +8,27 @@ import AboutUs from './aboutus';
 
 function PromotionSection() {
 
+  // const [style, setStyles] = useState([])
+  
+  // useEffect(() => {
+  //   fetch('http://localhost:5027/Styles')
+  //   .then(response => response.json().then(data => setStyles(data)));    
+  // }, [])
+
   return (
     <>
+      {/* <br/>
+      <br />
+      {style && <h3>{style}</h3>}
+      <br />
+      <br /> */}
       <Navbar />
-      {/* <div className='diwali-promotions'>
-          <Link
-                  to='/diwali'
-                  className='nav-links'>
-                  <b><u>Diwali 2022 Registration  (!!!! Click here !!!!)</u></b>
-                </Link>
-      </div> */}
       <div className='hero-container'>
         <video src='https://s3.amazonaws.com/flytoez.content/FlytoezPromo1.mp4' autoPlay loop muted />
         <h1>Bollywood in Ipswich</h1>
         <p>What are you waiting for?</p>
         <p>Register Today !!!</p>
         <div className='hero-btns'>
-          {/* <Button
-            className='btns'
-            buttonStyle='btn--outline'
-            buttonSize='btn--large' 
-            to="/signup"
-          >
-            Sign up
-          </Button> */}
-          
         </div>
       </div>
       <div className="aboutus">
