@@ -26,10 +26,10 @@ function App() {
               <Route path="/contactus" element={<Contactus />}></Route>
               <Route path="/classes" element={<Classes />}></Route>
               
-              <Route path="/diwali" element={<Diwali />}></Route>
+              {/* <Route path="/diwali" element={<Diwali />}></Route>
               <Route path="/diwalisports" element={<DiwaliSports />}></Route>
               <Route path="/diwalientry" element={<GoogleForm />}></Route>
-              <Route path="/login" element={<LoginForm />}></Route>
+              <Route path="/login" element={<LoginForm />}></Route> */}
           </Routes>
       </Router>
     </>
