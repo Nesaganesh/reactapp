@@ -11,14 +11,15 @@ function Contactus() {
             <div><h2>Contact Us</h2>
                     <div className="form-body">
                         <div className="username">
-                            Please contact us with any questions or to book your place on one of our classes!
+                            Please contact us with any questions or <br/>to book your place on one of our classes!
                         </div>
                         <div className="lastname">
                             t: 07741 843819
                             e: flytoezdancecompany@gmail.com 
                         </div>
                         <div className="gender">
-                            facebook: www.facebook.com/FlytoezDanceCompany
+                            <br/>facebook: <br/>
+                            www.facebook.com/FlytoezDanceCompany
                             instagram: @flytoez
                         </div>
                         

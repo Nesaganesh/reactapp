@@ -7,7 +7,7 @@ body{
 .form{
     background-color: #bdc3c7;
     border-radius: 5px;
-    width: 360px;
+    width: 660px;
     margin: 20px auto;
     padding: 20px;
     /* height: 600px; */
@@ -33,3 +33,23 @@ body{
 .footer{
     text-align: center;
 }
+
+
+@media screen and (max-width: 960px) { 
+
+    .form{
+        background-color: #bdc3c7;
+        border-radius: 5px;
+        width: 390px;
+        margin: 20px auto;
+        padding: 20px;
+        /* height: 600px; */
+    }
+
+    .form-body{
+        text-align: left;
+        padding: 20px 1px;
+    }
+}
+
+
