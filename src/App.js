@@ -17,16 +17,16 @@ function App() {
       
       <Router>
           <Routes>
-              <Route path="/" element={<Home />}></Route>
+              {/* <Route path="/" element={<Home />}></Route>
               <Route path="/signup" element={<SignUp />}></Route>
               <Route path="/contactus" element={<Contactus />}></Route>
-              <Route path="/classes" element={<Classes />}></Route>
+              <Route path="/classes" element={<Classes />}></Route> */}
               <Route path="/xmas" element={<Xmas />}> </Route>
               <Route path="/imaregistration" element={<GoogleForm />}> </Route>
               
               {/* <Route path="/diwali" element={<Diwali />}></Route>
-              <Route path="/diwalisports" element={<DiwaliSports />}></Route>
-              <Route path="/diwalientry" element={<GoogleForm />}></Route>
+                
+                <Route path="/diwalientry" element={<GoogleForm />}></Route>
               <Route path="/login" element={<LoginForm />}></Route> */}
           </Routes>
       </Router>
