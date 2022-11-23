@@ -49,7 +49,7 @@ Pay for 2 Adults with 2 Child (5-12 years of age )  <button onClick={navigate} c
 Pay for 2 Adults with 1 Child (above 12 years of age )  <button onClick={navigate}  className='btns' > <b>PayNow £70</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults with 2 Child (above 12 years of age )  <button onClick={navigate} className='btns' > <b>PayNow £70</b>  </button>
+Pay for 2 Adults with 2 Child (above 12 years of age )  <button onClick={navigate} className='btns' > <b>PayNow £75</b>  </button>
 <br/>
 <br/>
 Additional Ticket  Adult - £20,  Child (5-12 years of age ) is £10 and Child above 12-18 years is £20 
