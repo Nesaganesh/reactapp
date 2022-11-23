@@ -1,0 +1,66 @@
+
+  
+.navbar-logo-diwali {
+    height: 500px;
+    width: auto;
+}
+  
+.form-body-diwali{
+    text-align: left;
+    width: auto;
+    background-color: white;
+    
+}
+
+.form-body-diwali > *{
+    padding: 15px;
+}
+
+.livestream-body {
+    text-align: left;
+    background-color: rgb(240, 219, 148);
+    padding: 15px;
+    height: 75px;
+    width: 350px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-logo-diwali {
+        height: 500px;
+        width: 400px;
+    }
+
+    .diwaliSports {
+        height: 50px;
+        width: 300px;
+      }
+
+    .form-body-diwali{
+        text-align: left;
+        width: 400px;
+        background-color: white;
+        
+    }
+    .navbar-logo-diwali-att {
+        height: 1650px;
+        width: 400px;
+    }
+  }
+
+  .btns {
+    margin: 6px;
+    font-size: 17px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+      'Lucida Sans', Arial, sans-serif;
+  }
+
+  .diwaliSports {
+    height: 150px;
+    width: 300px;
+  }
+  
+    
+.navbar-logo-diwali-att {
+    height: 1650px;
+    width: auto;
+}

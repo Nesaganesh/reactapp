@@ -8,10 +8,10 @@ function GoogleForm() {
     <>      
             <br/>
             <br/>
-            <iframe title='googleForm' src="https://docs.google.com/forms/d/e/1FAIpQLSdzVcan3zo6EWqMks2VbpnhQZSUyZC2mDUu-CpFPUpsrst_LA/viewform?embedded=true" className='navbar-logo-diwali-att'>Loading…</iframe>
+            <iframe title='GoogleForm' src="https://docs.google.com/forms/d/e/1FAIpQLScZHSCGbBp66SltlBOCHbcUoKUFoLCsSpN9DP0DwWGOH7S1iQ/viewform?embedded=true" width="640" height="1968" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             <br/>
             <br/>
-              <Link to='/' className='btn-mobile'>
+              <Link to='/xmas' className='btn-mobile'>
                 <button
                   className='btns'
                   buttonStyle='btn--primary'
