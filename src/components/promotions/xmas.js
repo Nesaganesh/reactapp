@@ -22,8 +22,18 @@ function Xmas() {
                     <div className="form-body-diwali">
                         
 <br/>
-<p>IMA Registration link please enroll <Link to='/imaregistration' ><b><u>HERE</u> </b></Link>   before doing the payment</p>
-<p>After filling the form scroll down and click on the BACK button to do the payment </p>
+
+<p><b>Steps to Register & Pay for IMA Christmas & New Year Event </b></p>
+<ul>
+<li>Click on the REGISTER link below to fill the personal information.</li>
+<li>Click 'Submit' button and scroll up to see the confirmation message.</li>
+<li>Scroll down to bottom of the page to click on the 'Home' button</li>
+<li>Scroll down and Click on the 'PayNow' button to pay for the event.</li>
+<li>Check you received your confirmation email for your successfll payment.</li>
+<li>Wait for QR code ticket through an email (will arrive one week before the event)</li>
+</ul>
+<br/>
+<Link to='/imaregistration' ><b><u>REGISTER</u> </b></Link>
 <br/>
 <p>
 <b>Tickets:</b> <br/>
@@ -46,10 +56,10 @@ Pay for 2 Adults with 1 Child (5-12 years of age )  <button onClick={navigate}  
 Pay for 2 Adults with 2 Child (5-12 years of age )  <button onClick={navigate} className='btns' > <b>PayNow £60</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults with 1 Child (above 12 years of age )  <button onClick={navigate}  className='btns' > <b>PayNow £70</b>  </button>
+Pay for 2 Adults with 2 Child (above 12 years of age )  <button onClick={navigate}  className='btns' > <b>PayNow £70</b>  </button>
 <br/>
 <br/>
-Pay for 2 Adults with 2 Child (above 12 years of age )  <button onClick={navigate} className='btns' > <b>PayNow £75</b>  </button>
+Pay for 2 Adults with 3 Child (above 12 years of age )  <button onClick={navigate} className='btns' > <b>PayNow £75</b>  </button>
 <br/>
 <br/>
 Additional Ticket  Adult - £20,  Child (5-12 years of age ) is £10 and Child above 12-18 years is £20 
@@ -61,7 +71,7 @@ Additional Ticket  Adult - £20,  Child (5-12 years of age ) is £10 and Child a
                             We will also get back to you if there is any discrepancy on the payments  <br/>
                             Nesa whats app : +44 7424529361 <br/>
                             Shibi whats app : +44 7877795361 <br/>
-                            Joby whats app : +44 7417387527 <br/> <br/>
+                            Babu Mathy whats app : +44 7809686597 <br/> <br/>
 
                         </p>
                     </div>

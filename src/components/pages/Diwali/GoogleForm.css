@@ -6,8 +6,9 @@
 @media screen and (max-width: 768px) {
     
     .navbar-logo-diwali-att {
-        height: 1650px;
+        height: absolute;
         width: 385px;
+    
     }
   }
 

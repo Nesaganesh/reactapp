@@ -6,9 +6,21 @@ function GoogleForm() {
 
   return (
     <>      
+          <br/>
             <br/>
+              <Link to='/xmas' className='btn-mobile'>
+                <button
+                  className='btns'
+                  buttonStyle='btn--primary'
+                  buttonSize='btn--large'
+                >
+                  Back to Main Page
+                </button>
+              </Link>
             <br/>
-            <iframe title='GoogleForm' src="https://docs.google.com/forms/d/e/1FAIpQLScZHSCGbBp66SltlBOCHbcUoKUFoLCsSpN9DP0DwWGOH7S1iQ/viewform?embedded=true" width="640" height="1968" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+            <br/>
+            <iframe className='navbar-logo-diwali-att' title='GoogleForm' src="https://docs.google.com/forms/d/e/1FAIpQLScZHSCGbBp66SltlBOCHbcUoKUFoLCsSpN9DP0DwWGOH7S1iQ/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             <br/>
             <br/>
               <Link to='/xmas' className='btn-mobile'>
@@ -17,7 +29,7 @@ function GoogleForm() {
                   buttonStyle='btn--primary'
                   buttonSize='btn--large'
                 >
-                  Home Page
+                   Back to Main Page
                 </button>
               </Link>
             <br/>
@@ -27,3 +39,4 @@ function GoogleForm() {
 }
 
 export default GoogleForm;
+//width="640" height="1968"
