@@ -1,16 +1,31 @@
 
-.navbar-logo-diwali-att {
-    height: 1650px;
-    width: 700px;
-}
-@media screen and (max-width: 768px) {
     
-    .navbar-logo-diwali-att {
-        height: absolute;
-        width: 385px;
-    
-    }
+
+  .container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+    height: 100%;
   }
 
-    
-
+  .containerFooter {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Then style the iframe to fit in the container div with full height and width */
+  .responsive-iframe {
+    position: absolute;
+    top: 15%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }

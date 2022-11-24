@@ -8,6 +8,7 @@ function GoogleForm() {
     <>      
           <br/>
             <br/>
+            <div class="container1">
               <Link to='/xmas' className='btn-mobile'>
                 <button
                   className='btns'
@@ -17,21 +18,25 @@ function GoogleForm() {
                   Back to Main Page
                 </button>
               </Link>
-            <br/>
-
-            <br/>
-            <iframe className='navbar-logo-diwali-att' title='GoogleForm' src="https://docs.google.com/forms/d/e/1FAIpQLScZHSCGbBp66SltlBOCHbcUoKUFoLCsSpN9DP0DwWGOH7S1iQ/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+              </div>
             <br/>
             <br/>
+            <div class="container2">
+              <iframe class="responsive-iframe"  title='GoogleForm' src="https://docs.google.com/forms/d/e/1FAIpQLScZHSCGbBp66SltlBOCHbcUoKUFoLCsSpN9DP0DwWGOH7S1iQ/viewform?embedded=true" >Loading…</iframe>
+            </div>
+            <br/>
+            <br/>
+            <div class="containerFooter">
               <Link to='/xmas' className='btn-mobile'>
                 <button
                   className='btns'
                   buttonStyle='btn--primary'
                   buttonSize='btn--large'
                 >
-                   Back to Main Page
+                  Back to Main Page
                 </button>
               </Link>
+              </div>
             <br/>
             <br/>
     </>
