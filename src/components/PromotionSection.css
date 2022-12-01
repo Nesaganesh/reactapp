@@ -1,4 +1,8 @@
-video {
+
+  .header1{
+    text-align: left;
+  }
+  video {
     object-fit: cover;
     width: 100%;
     height: 100%;

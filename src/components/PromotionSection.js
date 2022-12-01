@@ -17,15 +17,12 @@ function PromotionSection() {
 
   return (
     <>
-      {/* <br/>
-      <br />
-      {style && <h3>{style}</h3>}
-      <br />
-      <br /> */}
+      
       <Navbar />
       <div className='hero-container'>
         <video src='https://s3.amazonaws.com/flytoez.content/FlytoezPromo1.mp4' autoPlay loop muted />
-        <h1>Bollywood in Ipswich</h1>
+        <h1>Bollywood Dance </h1>
+        <p> Ipswich and Colchester </p>
         <p>What are you waiting for?</p>
         <p>Register Today !!!</p>
         <div className='hero-btns'>
