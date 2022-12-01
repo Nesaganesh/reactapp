@@ -1,6 +1,7 @@
-// import emailjs from 'emailjs-com';
+//import emailjs from 'emailjs-com';
 import './SignUp.css';
 import Navbar from '../Navbar';
+import React from 'react';
 
 const SignUp = () => {
     

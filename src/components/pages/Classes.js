@@ -1,12 +1,131 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import './Classes.css';
 import Navbar from '../Navbar';
+import { useTable } from "react-table";
 
 function Classes() {
+
+
+    const columns = useMemo(
+        () => [
+          {
+            Header: "Place",
+            columns: [
+              {
+                Header: "Location",
+                accessor: "show.location"
+              }
+            ]
+          },
+          {
+            Header: "Day/Time/Group",
+            columns: [
+              {
+                Header: "Day",
+                accessor: "show.day"
+              },
+              {
+                Header: "Time",
+                accessor: "show.time"
+              },
+              {
+                Header: "Age",
+                accessor: "show.age"
+              }
+            ]
+          }
+        ]
+      );
+    
+    
+    
+    const data = useMemo(
+        () => [
+            {
+                "show": {
+                "location": "Goals Ipswich",
+                "time": " 7-8 pm",
+                "day": "Wednesday",
+                "age": "Womens Group"
+                } 
+            },
+            {
+                "show": {
+                "location": "Goals Ipswich",
+                "time": " 6-7 pm",
+                "day": "Friday",
+                "age": "Beginners"
+                } 
+            },
+            {
+                "show": {
+                "location": "Goals Ipswich",
+                "time": " 7-8 pm",
+                "day": "Friday",
+                "age": "Intermediate"
+                } 
+            }, 
+            {
+                "show": {
+                "location": "Myland Church Colchester",
+                "time": " 2-3 pm",
+                "day": "Saturday",
+                "age": "Beginners"
+                } 
+            }
+            , 
+            {
+                "show": {
+                    "location": "Myland Church Colchester",
+                "time": " 3-4 pm",
+                "day": "Saturday",
+                "age": "Intermediate"
+                } 
+            }
+    ] );
+
+
+
+    const {
+        getTableProps, // table props from react-table
+        getTableBodyProps, // table body props from react-table
+        headerGroups, // headerGroups, if your table has groupings
+        rows, // rows for the table based on the data passed
+        prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
+      } = useTable({
+        columns,
+        data
+      });
+
+
   return (
     <>
         <Navbar />
+        <table {...getTableProps()} className="form" border='1'>
+        <thead>
+            {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                ))}
+            </tr>
+            ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+                <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                })}
+                </tr>
+            );
+            })}
+        </tbody>
+        </table>
+
         <form className="form">
             <div><h2>CLASSES</h2>
                     <div>
@@ -32,7 +151,7 @@ function Classes() {
                     </div>
                 </div> 
         </form>
-        <div>
+        {/* <div>
             <h2 className='timetable'>Ipswich Timetable</h2>
             <h3 className='timetable'>Timetable updated September 2022<br/></h3>
             <br/><br/>
@@ -55,8 +174,8 @@ function Classes() {
                 6.30pm - 7.30pm         Adults (any level Beginners, Intermediate)
             </p>
             <br/><br/><br/><br/><br/>
-            {/* <p>
-                <table>
+            <p>
+                <table className="form">
                     <tr>
                         <th>
                             Time
@@ -82,8 +201,8 @@ function Classes() {
                         </td>
                     </tr>
                 </table>
-            </p> */}
-        </div>
+            </p>
+        </div> */}
     </>
   );
 }
