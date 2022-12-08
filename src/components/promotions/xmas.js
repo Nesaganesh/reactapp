@@ -36,9 +36,17 @@ function Xmas() {
 <Link to='/imaregistration' ><b><u>REGISTER</u> </b></Link>
 <br/>
 <p>
-<b>Tickets:</b> <br/>
-
+<b>Tickets: 2 ways to pay for the event (Bank transfer / Pay through paybuttons </b> <br/>
 <br/>
+<p><b><u>Payment via Bank Transfer </u></b> </p>
+<p>AccountName: IPSWICH MALAYALEE ASSOCIATION  </p>
+<p>AccountNumber: 45881268 </p>
+<p>SortCode: 30-94-55</p>
+<p>PaymentReference:  'YourEmailId'</p>
+<br/>
+<p><b><u>Payment via below link </u></b> </p>
+Click on any of the payment link, enter the respective amount choosen with all the details and click pay
+<br />
 Free for kids under 5 years old. 
 <br />
 Kindly pay as soon as possible, so that we can arrange everything well before the event.

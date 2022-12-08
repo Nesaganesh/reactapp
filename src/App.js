@@ -1,10 +1,6 @@
 import {React} from 'react';
 import './App.css';
-import Home from './components/pages/Home';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignUp from './components/pages/SignUp';
-import Contactus from './components/pages/Contactus';
-import Classes from './components/pages/Classes';
 import Xmas from './components/promotions/xmas';
 import GoogleForm from './components/pages/Diwali/GoogleForm';
 
