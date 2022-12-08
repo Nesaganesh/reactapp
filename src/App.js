@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Xmas from './components/promotions/xmas';
 import GoogleForm from './components/pages/Diwali/GoogleForm';
+import QRCodeGen from './components/pages/QRCodeGen';
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
               <Route path="/classes" element={<Classes />}></Route> */}
               <Route path="/xmas" element={<Xmas />}> </Route>
               <Route path="/imaregistration" element={<GoogleForm />}> </Route>
+              <Route path="/qrcodegen" element={<QRCodeGen />}> </Route>
+              
               
               {/* <Route path="/diwali" element={<Diwali />}></Route>
                 

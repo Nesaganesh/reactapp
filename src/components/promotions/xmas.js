@@ -24,6 +24,7 @@ function Xmas() {
 <br/>
 
 <p><b>Steps to Register & Pay for IMA Christmas & New Year Event </b></p>
+<div className="steps">
 <ul>
 <li>Click on the REGISTER link below to fill the personal information.</li>
 <li>Click 'Submit' button and scroll up to see the confirmation message.</li>
@@ -32,6 +33,7 @@ function Xmas() {
 <li>Check you received your confirmation email for your successfll payment.</li>
 <li>Wait for QR code ticket through an email (will arrive one week before the event)</li>
 </ul>
+</div>
 <br/>
 <Link to='/imaregistration' ><b><u>REGISTER</u> </b></Link>
 <br/>
