@@ -81,7 +81,7 @@ Additional Ticket  Adult - £20,  Child (5-12 years of age ) is £10 and Child a
                             We will also get back to you if there is any discrepancy on the payments  <br/>
                             Nesa whats app : +44 7424529361 <br/>
                             Shibi whats app : +44 7877795361 <br/>
-                            Babu Mathy whats app : +44 7809686597 <br/> <br/>
+                            Babu Mathai whats app : +44 7809686597 <br/> <br/>
 
                         </p>
                     </div>
