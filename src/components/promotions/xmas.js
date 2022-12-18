@@ -54,6 +54,9 @@ Free for kids under 5 years old.
 Kindly pay as soon as possible, so that we can arrange everything well before the event.
 <br/>
 <br/>
+Student per ticket  <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
+<br/>
+<br/>
 Pay for 1 Adult <button onClick={navigate} className='btns' >  <b>PayNow £20</b>   </button>
 <br/>
 <br/>
