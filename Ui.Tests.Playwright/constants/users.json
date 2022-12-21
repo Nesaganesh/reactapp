@@ -1,0 +1,48 @@
+{
+    "users": [
+      {
+      "jurisdictionName" : "UnitedKingdom",
+      "username": "urmdevops001" ,
+      "password": "test" ,
+      "jurisdiction": 1 ,
+      "territoryname": "GBR" ,
+      "currency": 9,
+      "serverid": 5118
+    },
+    {
+      "jurisdictionName" :  "malta",
+      "username": "defdevops001" ,
+      "password": "test" ,
+      "jurisdiction": 2 ,
+      "territoryname": "MLT" ,
+      "currency": 26,
+      "serverid": 5001
+    },
+    {
+      "jurisdictionName" :  "belgium",
+      "username": "beldevops001" ,
+      "password": "test" ,
+      "jurisdiction": 3 ,
+      "territoryname": "BEL" ,
+      "currency": 26,
+      "serverid": 5128
+    } ,
+    {
+      "jurisdictionName" :  "italy",
+      "username": "icndevops001" ,
+      "password": "test" ,
+      "jurisdiction": 4 ,
+      "territoryname": "ITA" ,
+      "currency": 26,
+      "serverid": 5101
+    } ,
+    {
+      "jurisdictionName" :  "spain",
+      "username": "srmdevops001" ,
+      "password": "test" ,
+      "jurisdiction": 5 ,
+      "territoryname": "ESP" ,
+      "currency": 26,
+      "serverid": 5104
+    }]
+  }

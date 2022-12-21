@@ -1,0 +1,25 @@
+{
+    "countries":
+     [
+     {
+       "segmentName": "uk",
+      "countryName": "england"
+    },
+    {
+      "segmentName": "malta",
+      "countryName": "malta"
+    },
+    {
+      "segmentName": "belgium",
+      "countryName": "belgium"
+    },
+    {
+      "segmentName": "italy",
+      "countryName": "italy"
+    },
+    {
+      "segmentName": "spain",
+      "countryName": "spain"
+    }
+    ]
+  }

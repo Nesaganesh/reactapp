@@ -1,0 +1,43 @@
+{
+    "environment": {
+        "type": "TC2"
+    },
+    "adminApi": {
+        "TC2URL" : "https://adminapi-uat-tc2.spinsport.ludologic.com",
+        "TC2UserName": "systemadministrator",
+        "TC2Password": "password" 
+    },
+    "clientApi": {
+        "clientApiUrl" : "https://api-pickles-the-dog.spinsport.derivcosports.com/api/"
+    },
+    "playwright": {
+        "url": "https://m-pickles-the-dog.spinsport.derivcosports.com/sports_betway_com/en/sports",
+        "show": false,
+        "browser": "chromium",
+        "waitForNavigation": "domcontentloaded",
+        "keepCookies": false,
+        "clapiRegex": "/api/(?:account|betting|configuration|content|events|feedback|fingerprinttracking|fraudtracking|gaming|livestreaming|messaging|players|promotions)"
+    },
+    "tapi": {
+        "url": "https://tradingapi.tc2.testarena.net/tradingapi",
+        "username": "ludo",
+        "password": "LudoTr4d1ng"
+    },
+    "delay": {
+        "global": 60
+    },
+    "qaHub": {
+        "enabled": false,
+        "url": "https://qahub.ludologic.com/api",
+        "scrumTeamID": 36,
+        "tag": "TestOpsTeam_QAHub_logging",
+        "component": 0,
+        "guid": ""
+    },
+    "usersapi": {
+        "url": "https://backend-users.spinsport.ludologic.com/users/"
+    },
+    "services": {
+        "url": "https://api-uat-tc2.spinsport.ludologic.com/api/"
+    }
+}
