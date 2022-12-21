@@ -1,0 +1,16 @@
+{
+    "projectId": "oj4c8s",
+    "integrationFolder":"Specs",
+	"chromeWebSecurity": false,
+	"video": true,
+    "reporter": "junit",
+	"reporterOptions": {
+		"mochaFile": "cypress/reports/junit.[hash].xml"
+	},
+	"retries": {
+        "runMode": 2,
+        "openMode": 0
+        
+    },
+    "numTestsKeptInMemory":1
+}

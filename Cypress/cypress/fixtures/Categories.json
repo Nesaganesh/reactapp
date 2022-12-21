@@ -1,0 +1,35 @@
+{
+    "Categories":[
+       
+      {
+         "ScheduledTournamentCount":0,
+         "CategoryCName":"soccer",
+         "CategoryName":"Football",
+         "CategoryOrder":{
+            "1":14,
+            "2":6,
+            "3":14,
+            "4":0
+         },
+         "Id":"soccer",
+         "LiveCount":541,
+         "UpcomingCount":60,
+         "TotalCount":851,
+         "LivePremiumCount":0,
+         "UpcomingPremiumCount":0,
+         "TotalPremiumCount":0,
+         "VirtualCount":0,
+         "OutrightCount":0,
+         "FixtureCount":851,
+         "HomePageIndex":0,
+         "InplayIndex":0,
+         "IsSuperTournament":false,
+         "CouponsCount":0
+      }
+      
+    ],
+    "MethodName":"Categories",
+    "MethodResult":"OK",
+    "Success":true,
+    "CorrelationId":"d904fb56-1c47-46de-bd13-b63639d77775"
+ }
