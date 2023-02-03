@@ -15,13 +15,12 @@ function Contact() {
     return (
         <>
         <Navbar />
-        <div className='container'>
                 <form className="form">
-                    <div><h2>Thanks for coming to the class !! </h2></div>
+                    <div><h2>Your Attendance has been recored for today !! </h2></div>
+                    <div><h0>Thanks for coming, hope you enjoy the session. </h0></div>
                 </form>
-        </div>
+        
         </>
-
     )
 }
 
