@@ -32,7 +32,6 @@ function QRCodeGen() {
 
     return (
         <>
-        <div className='container'>
                 <Navbar />
                 <br/><br/>
                 <form className="form" >
@@ -53,7 +52,6 @@ function QRCodeGen() {
                     
                    
                 </form>
-        </div>
         </>
 
     )

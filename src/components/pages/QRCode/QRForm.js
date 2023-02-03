@@ -60,13 +60,6 @@ function QRForm({ students }) {
                 
                 <div style={{ marginTop: '30px' }}>
                     <input type="button" value="Submit" onClick={redirectToStripe} />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Cancel"
-                        onClick={() => false}
-                    />
                 </div>
             </form>
         </div>

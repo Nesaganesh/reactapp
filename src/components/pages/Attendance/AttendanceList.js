@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Navbar from '../../Navbar';
 import AttendanceHeader from './AttendanceHeader';
+import './AttendanceList.css';
 
 function AttendanceList() {
 
@@ -52,9 +53,10 @@ function AttendanceList() {
       }
 
     return (
-        <div className='container'>
         <>
         <Navbar />
+        
+        <div className='container'>
         <AttendanceHeader />
         <div className='contain-table'>
             <table className='striped-table' >
@@ -84,8 +86,9 @@ function AttendanceList() {
                 </tbody>
             </table>
         </div>
-        </>
         </div>
+        </>
+        
     )
 }
 
