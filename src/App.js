@@ -6,6 +6,11 @@ import SignUp from './components/pages/SignUp';
 import Contactus from './components/pages/Contactus';
 import Classes from './components/pages/Classes';
 import Performances from './components/pages/Performances';
+import QRCodeGen from './components/pages/QRCode/QRCodeGen';
+import QRForm from './components/pages/QRCode/QRForm';
+import AttendanceSuccess from './components/pages/Attendance/AttendanceSuccess';
+import AttendanceList from './components/pages/Attendance/AttendanceList';
+
 
 function App() {
 
@@ -21,6 +26,10 @@ function App() {
               <Route path="/contactus" element={<Contactus />}></Route>
               <Route path="/classes" element={<Classes />}></Route>
               <Route path="/performances" element={<Performances />}></Route>
+              <Route path="/qrcode" element={<QRCodeGen />}></Route>
+              <Route path="/qrform" element={<QRForm />}></Route>
+              <Route path="/attendanceSuccess" element={<AttendanceSuccess />}></Route>
+              <Route path="/attendanceList" element={<AttendanceList />}></Route>              
               
           </Routes>
       </Router>
