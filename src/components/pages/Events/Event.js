@@ -61,8 +61,8 @@ function Event() {
         calculate();
   
         Swal.fire({
-          icon: 'success',
-          title: 'success',
+          icon: 'info',
+          title: 'Payment Info',
           text: 'Amount you are going to Pay ' + totalAmount,
           showConfirmButton: false,
           timer: 2500
