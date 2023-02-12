@@ -1,22 +1,89 @@
 import React from 'react';
 import './Diwali.css';
 import '../../PromotionSection.css';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 function Diwali() {
 
-    // const navigate = () => {
-    //   window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
-    // };
+    const navigate = () => {
+      window.location.href = 'https://localhost:5001/payments';
+    };
+  
+    async function redirectToStripe() {
+
+      var jsonData = {
+        "priceid": "89",
+        "ProductDesc": "PayAsGo Dance Session",
+      }
+
+      const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/payments', {
+        method: 'POST', 
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": "token-value",
+        },
+        body: JSON.stringify(jsonData)
+      });
+      const data = await response.json();
+      window.location.href = data.url;
+    }
+    
+    // async function handleClick() {
+      
+    //   var jsonData = {
+    //     "PriceId": "89"
+    //   }
+  
+    //   var jsonData1 = {
+    //     "users": [
+    //         {
+    //             "name": "alan", 
+    //             "age": 23,
+    //             "username": "aturing"
+    //         },
+    //         {
+    //             "name": "john", 
+    //             "age": 29,
+    //             "username": "__john__"
+    //         }
+    //     ]
+    //   }
+
+    //    await fetch('https://localhost:5001/payments', {  // Enter your IP address here
+  
+    //       method: 'POST',
+    //       body: JSON.stringify(jsonData)
+    //      }
+    //     );
+      
+
+      // await axios({
+      //   method: 'post',
+      //   mode: "no-cors",
+      //   url: 'https://localhost:5001/payments',
+      //   body: JSON.stringify(jsonData)
+      // }).then(response => {
+      //   alert(response);
+      // });
+      
+    //}
 
   return (
     <>      
-            {/* <br/>
+      <br />
+     {/* <Link to='/' className='nav-links' onClick={handleClick}>
+                  Pay
+                </Link> */}
+                <button onClick={redirectToStripe} className='btns' >  <b>PayPayPayPayPay £15</b>   </button>
+<br/>
+            <br/>
+
+
             <br/>
             <div className='diwaliSports'>
               <Link to='/diwalientry' className='nav-links'><b><u>Diwali Registration </u> </b></Link>
-            </div> */}
+            </div>
             <br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
@@ -110,15 +177,14 @@ Kindly pay as soon as possible, so that we can arrange everything to be fall in 
 <br/>Can be paid either bank transfer or pay online using credit/debit card.</p>
 <p>
 <br/><br/>
-************** REGISTRITIONS CLOSED ***********
 
 <br/>
-{/* Bank Transfer - Account Details:<br/>
+Bank Transfer - Account Details:<br/>
 Name: Nesaganesh Panneerselvam <br/>
 Account Number: 21663992<br/>
-Sort-Code: 400317<br/> */}
+Sort-Code: 400317<br/>
 <br/>
-{/* Pay for 1 Adult <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
+Pay for 1 Adult <button onClick={navigate} className='btns' >  <b>PayNow £15</b>   </button>
 <br/>
 <br/>
 Pay for 2 Adults   <button onClick={navigate}  className='btns' > <b>PayNow £30</b>  </button>
@@ -133,7 +199,7 @@ Pay for 2 Adults with 2 Children  <button onClick={navigate} className='btns' > 
 Pay for 4 Adults with 1 Child  <button onClick={navigate} className='btns' > <b>PayNow 60</b>  </button>
 <br/>
 <br/>
-Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button> */}
+Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button>
 <br/>
 
                         </p>
