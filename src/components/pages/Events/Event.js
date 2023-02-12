@@ -83,7 +83,7 @@ function Event() {
         "terms": terms,
         "priceid": price,
         "ProductDesc": "Test Dance Session",
-        "CurrentUrl": "http://localhost:3000/eventreg"        
+        "CurrentUrl": "https://feature-event.d1841y90cyxzkk.amplifyapp.com/eventreg"        
       }
       const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer', {
         method: 'POST', 
