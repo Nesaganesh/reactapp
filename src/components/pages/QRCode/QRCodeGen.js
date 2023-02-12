@@ -1,11 +1,14 @@
 import QRCode from "react-qr-code";
 import React, { useState } from 'react';
 import Navbar from '../../Navbar';
+import { Link } from 'react-router-dom';
 
     
 function QRCodeGen() {
 
     const [value, setValue] = useState([]);
+    const [click, setClick] = useState(false);
+    const closeMobileMenu = () => setClick(false);
 
     function onValueChange (e) {
         setValue(e.target.value);
@@ -46,11 +49,16 @@ function QRCodeGen() {
     value={value}
     viewBox={`0 0 256 256`}
     />
+    
 </div>
                     </tr>
                     <br /> <br />
                     <input type="button" value="Download QR" onClick={onImageCownload} />
                     <input type="hidden" id="qrlink" value={value} onChange={onValueChange} />
+<br /><br />
+                    <Link to='/' onClick={closeMobileMenu}>
+                  Go back to Home Page 
+                </Link>
                    
                 </form>
                 </div>

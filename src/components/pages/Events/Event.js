@@ -74,7 +74,7 @@ function Event() {
       var jsonData = {        
         "adults": adults,
         "child": child,
-        "baby": baby,
+        "baby": "1",
         "name": customerName,
         "food": food,
         "Comments": dietanaryComments,

@@ -25,19 +25,19 @@ function App() {
       
       <Router>
           <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/signup" element={<NewSignup />}></Route>
+              <Route path="/" element={<Event />}></Route>
+              {/* <Route path="/signup" element={<NewSignup />}></Route>
               <Route path="/contactus" element={<Contactus />}></Route>
               <Route path="/classes" element={<Classes />}></Route>
               <Route path="/performances" element={<Performances />}></Route>
               <Route path="/payment" element={<Payment />}></Route>
               <Route path="/paysuccess" element={<PaySuccess />}></Route>
               <Route path="/paycancel" element={<PayCancel />}></Route>
-              <Route path="/diwali" element={<Diwali />}></Route>
+              <Route path="/diwali" element={<Diwali />}></Route> */}
               <Route path="/event" element={<Event />}></Route>
               <Route path="/eventreg/paysuccess" element={<QRCodeGen />}></Route>
-              <Route path="/studentForm" element={<StudentForm />}></Route>
-              <Route path="/qrcode" element={<QRCodeGen />}></Route>
+              {/* <Route path="/studentForm" element={<StudentForm />}></Route>
+              <Route path="/qrcode" element={<QRCodeGen />}></Route> */}
           </Routes>
       </Router>
     </>
