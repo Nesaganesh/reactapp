@@ -36,6 +36,7 @@ function App() {
               <Route path="/diwali" element={<Diwali />}></Route> */}
               <Route path="/event" element={<Event />}></Route>
               <Route path="/eventreg/paysuccess" element={<QRCodeGen />}></Route>
+              <Route path="/eventreg/paycancel" element={<Event />}></Route>
               {/* <Route path="/studentForm" element={<StudentForm />}></Route>
               <Route path="/qrcode" element={<QRCodeGen />}></Route> */}
           </Routes>
