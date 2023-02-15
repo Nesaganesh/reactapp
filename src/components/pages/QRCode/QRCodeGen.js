@@ -5,6 +5,32 @@ import { Link } from 'react-router-dom';
     
 function QRCodeGen() {
 
+    
+    const [eventCustomer, setResult] = useState([]);
+
+    window.onload = async function () {
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const customerid = urlParams.get('customerid')
+        
+        var jsonData = {        
+            "id": customerid
+          }
+          const response = await fetch('https://localhost:5001/getEventCustomer', {
+            method: 'POST', 
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": "token-value",
+            },
+            body: JSON.stringify(jsonData)
+          });
+        const data = await response.json();
+        setResult(data);
+    }
+
+
+    const [openpopup, setopenpopup] = useState('');
     const [value, setValue] = useState([]);
     const [click, setClick] = useState(false);
     const closeMobileMenu = () => setClick(false);
@@ -34,7 +60,30 @@ function QRCodeGen() {
 
     return (
         <>
-        <br /><br />
+        <br />
+        {/* <div className='poster-image'>
+                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="no image" 
+                onClick={e => setopenpopup(true)} /> 
+                {openpopup ? (
+                      <dialog
+                        className="dialog"
+                        style={{ position: "absolute" }}
+                        open
+                        onClick={e => setopenpopup(false)}
+                        >
+                          <img
+                            className="image"
+                            src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'}
+                            onClick={e => setopenpopup(false)}
+                            alt="no image"
+                          />
+                        </dialog>
+                ) : (
+                  <div></div>
+                )}
+               
+        </div> */}
+        <br />
         <Link to='/' onClick={closeMobileMenu}>Back </Link>
         <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
                     <QRCode id="QRCode" size={256} style={{ height: "auto", maxWidth: "100%", width: "100%" }} 
@@ -42,17 +91,26 @@ function QRCodeGen() {
                     />
                     <br />               
                 </div>
-                <br /><br /><br />
+                <br />
+        <br />
         <div className='container'>
             <div className='small-container'>
             <u><b>Tickets Included :</b></u>
             <br/>
-            Adult X 1 = £20
+            Email Id : {eventCustomer.email}
             <br/>
-            Child between 5-13 years X 1  = £10
+            Number of Adults paid for : {eventCustomer.adults}
+            <br/>
+            Number of Adults paid for : {eventCustomer.child}
+            <br/>
+            <br/>
             <br/>
             <b>Note:</b> Free for child below 5 years
             <br/>
+            <br/>
+            Food : {eventCustomer.food}
+            <br/>
+            Comments : {eventCustomer.comments}
             
             <form>
                 

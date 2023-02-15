@@ -446,6 +446,13 @@ h5 {
   font-size: 1rem;
 }
 
+.dialog {
+  box-shadow: 0 50px 50px -50px black;
+  position: static;
+  left: 40%;
+  top: 10%;
+}
+
 @media (min-width: 600px) {
   h1:not(:first-child),
   h2:not(:first-child),

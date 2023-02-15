@@ -34,6 +34,7 @@ function Event() {
         
     }
 
+    const [openpopup, setopenpopup] = useState('');
     async function redirectToStripe() {
 
       // alert(adults);
@@ -69,6 +70,7 @@ function Event() {
         });
       }
 
+    let currentWindowUrl = window.location.href;
     var price = totalAmount+"";
 
       var jsonData = {        
@@ -83,9 +85,11 @@ function Event() {
         "terms": terms,
         "priceid": price,
         "ProductDesc": "Test Dance Session",
-        "CurrentUrl": "https://feature-event.d1841y90cyxzkk.amplifyapp.com/eventreg"        
+        "CurrentUrl": currentWindowUrl        
       }
-      const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer', {
+      //https://localhosr:5001/eventcustomer
+      //https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer
+      const response = await fetch('https://localhost:5001/eventcustomer', {
         method: 'POST', 
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +108,26 @@ function Event() {
         <br />
         <br />
         <div className='poster-image'>
-                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
+                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="no image" 
+                onClick={e => setopenpopup(true)} /> 
+                {openpopup ? (
+                      <dialog
+                        className="dialog"
+                        style={{ position: "absolute" }}
+                        open
+                        onClick={e => setopenpopup(false)}
+                        >
+                          <img
+                            className="image"
+                            src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'}
+                            onClick={e => setopenpopup(false)}
+                            alt="no image"
+                          />
+                        </dialog>
+                ) : (
+                  <div></div>
+                )}
+               
         </div>    
         <br/>
         <div className='container'>
