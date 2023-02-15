@@ -17,7 +17,7 @@ function QRCodeGen() {
         var jsonData = {        
             "id": customerid
           }
-          const response = await fetch('https://localhost:5001/getEventCustomer', {
+          const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/getEventCustomer', {
             method: 'POST', 
             headers: {
               "Content-Type": "application/json",

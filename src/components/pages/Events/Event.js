@@ -89,7 +89,7 @@ function Event() {
       }
       //https://localhosr:5001/eventcustomer
       //https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer
-      const response = await fetch('https://localhost:5001/eventcustomer', {
+      const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer', {
         method: 'POST', 
         headers: {
           "Content-Type": "application/json",
