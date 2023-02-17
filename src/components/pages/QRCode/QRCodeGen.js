@@ -1,18 +1,20 @@
 import QRCode from "react-qr-code";
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
     
 function QRCodeGen() {
 
-    
     const [eventCustomer, setResult] = useState([]);
+    const [qrcodestring, setQrcodeString] = useState([]);
 
     window.onload = async function () {
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const customerid = urlParams.get('customerid')
+        setValue(window.location);
         
         var jsonData = {        
             "id": customerid
@@ -27,8 +29,35 @@ function QRCodeGen() {
           });
         const data = await response.json();
         setResult(data);
+        sendEmail(data);
     }
 
+    async function sendEmail(data) {
+
+        var jsonData = {
+                "emailmessage": "Hello "+data.name + " <br/><br/> Thanks for buying tickets via FlyBookEvents !! <br/><br/> Below are the ticket information.<br/><br/> Adults : "+ data.adults+" <br/> Child : "+data.child +" <br/> Infants : "+ data.baby+" <br/><br/> Name : "+data.name +" <br/> Email : "+data.email +" <br/> Food : "+ data.food+" <br/> Comments  : "+ data.comments+"  <br/><br/> Thank You,<br/> Fly Book Events <br/><br/>",
+                "subject": "Tickets",
+                "emailid": data.email
+        }
+
+        const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/email', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": "token-value",
+        },
+        body: JSON.stringify(jsonData)
+        });
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Emailed!',
+            text: `Tickets sent to your email `+data.email,
+            showConfirmButton: false,
+            timer: 2000
+        });
+        
+      }
 
     const [openpopup, setopenpopup] = useState('');
     const [value, setValue] = useState([]);
@@ -39,7 +68,7 @@ function QRCodeGen() {
         setValue(e.target.value);
       };
     
-    function onImageCownload () {
+    function onImageCownload() {
         const svg = document.getElementById("QRCode");
         const svgData = new XMLSerializer().serializeToString(svg);
         const canvas = document.createElement("canvas");
@@ -56,6 +85,7 @@ function QRCodeGen() {
           downloadLink.click();
         };
         img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+        setQrcodeString(img.src);
     };
 
     return (
@@ -89,6 +119,7 @@ function QRCodeGen() {
                     <QRCode id="QRCode" size={256} style={{ height: "auto", maxWidth: "100%", width: "100%" }} 
                         value={value} viewBox={`0 0 256 256`}
                     />
+                    {/* <input type="hidden" value={window.location} /> */}
                     <br />               
                 </div>
                 <br />
@@ -98,25 +129,28 @@ function QRCodeGen() {
             <u><b>Tickets Included :</b></u>
             <br/>
             Email Id : {eventCustomer.email}
-            <br/>
+            <br/><br/>
             Number of Adults paid for : {eventCustomer.adults}
             <br/>
-            Number of Adults paid for : {eventCustomer.child}
+            Number of Child paid for : {eventCustomer.child}
             <br/>
-            <br/>
+            Number of Infants paid for : {eventCustomer.baby}
             <br/>
             <b>Note:</b> Free for child below 5 years
             <br/>
             <br/>
+            Name : {eventCustomer.name}
+            <br />
             Food : {eventCustomer.food}
             <br/>
             Comments : {eventCustomer.comments}
+            <br/>
+            Amount Paid: {eventCustomer.priceid}
             
             <form>
                 
                 <input type="hidden" id="qrlink" value={value} onChange={onValueChange} />
-                <br/>
-                
+                <br/>     
 
                 <label htmlFor="customerName"><b><u>Location Date & Time:</u></b></label>
                 <label htmlFor="customerName">Inspired Suffolk, Lindbergh Rd, Ipswich IP3 9QX</label>
