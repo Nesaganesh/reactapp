@@ -49,7 +49,7 @@ function Event() {
       
 
       if (!customerName || !food || !dietanaryComments || !email || !phone || !terms 
-        || !adults || !child  ) {
+        || !adults  ) {
         
           return Swal.fire({
               icon: 'error',
