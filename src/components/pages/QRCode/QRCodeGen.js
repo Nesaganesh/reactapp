@@ -73,7 +73,6 @@ function QRCodeGen() {
 
     function sendEmail1(data, imageData) {
 
-        alert(imageData);
         emailjs.send("service_mq6ewlx","template_hz7efgn", {
             from_name: "FlyBookEvents",
             to_name: data.name,
