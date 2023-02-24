@@ -1,21 +1,27 @@
-import QRCode from "react-qr-code";
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
-
+import * as htmlToImage from 'html-to-image';
+import { useRef, useState } from "react";
+import QRCode from "qrcode.react";
+import emailjs from '@emailjs/browser';
     
 function QRCodeGen() {
 
+    let value1 = "";
+    const [value, setValue] = useState([]);
     const [eventCustomer, setResult] = useState([]);
-    const [qrcodestring, setQrcodeString] = useState([]);
+    let imageData = null;
 
+    function onValueChange (e) {
+        setValue(e.target.value);
+    };
+   
     window.onload = async function () {
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const customerid = urlParams.get('customerid')
-        setValue(window.location);
-        
+    
         var jsonData = {        
             "id": customerid
           }
@@ -28,104 +34,110 @@ function QRCodeGen() {
             body: JSON.stringify(jsonData)
           });
         const data = await response.json();
-        setResult(data);
-        sendEmail(data);
+        await setResult(data);
+        setValue(window.location);
+        await sendEmail(data);
     }
 
-    async function sendEmail(data) {
-
-        var jsonData = {
-                "emailmessage": "Hello "+data.name + " <br/><br/> Thanks for buying tickets via FlyBookEvents !! <br/><br/> Below are the ticket information.<br/><br/> Adults : "+ data.adults+" <br/> Child : "+data.child +" <br/> Infants : "+ data.baby+" <br/><br/> Name : "+data.name +" <br/> Email : "+data.email +" <br/> Food : "+ data.food+" <br/> Comments  : "+ data.comments+"  <br/><br/> Thank You,<br/> Fly Book Events <br/><br/>",
-                "subject": "Tickets",
-                "emailid": data.email
-        }
-
-        const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/email', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": "token-value",
-        },
-        body: JSON.stringify(jsonData)
-        });
-        
-        Swal.fire({
-            icon: 'success',
-            title: 'Emailed!',
-            text: `Tickets sent to your email `+data.email,
-            showConfirmButton: false,
-            timer: 2000
-        });
-        
-      }
-
-    const [openpopup, setopenpopup] = useState('');
-    const [value, setValue] = useState([]);
     const [click, setClick] = useState(false);
     const closeMobileMenu = () => setClick(false);
-
-    function onValueChange (e) {
-        setValue(e.target.value);
-      };
     
-    function onImageCownload() {
-        const svg = document.getElementById("QRCode");
-        const svgData = new XMLSerializer().serializeToString(svg);
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const img = new Image();
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-          const pngFile = canvas.toDataURL("image/png");
-          const downloadLink = document.createElement("a");
-          downloadLink.download = "QRCode";
-          downloadLink.href = `${pngFile}`;
-          downloadLink.click();
-        };
-        img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
-        setQrcodeString(img.src);
+    async function sendEmail(data) {
+
+        var promise1 = htmlToImage.toCanvas(document.getElementById('QRData'));
+        promise1.then(function (canvas, data) {
+
+            var context = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
+
+            var data = context.getImageData(0, 0, w, h);
+
+            var compositeOperation = context.globalCompositeOperation;
+
+            context.globalCompositeOperation = "destination-over";
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0,0,w,h);
+
+            var base64 = canvas.toDataURL("image/png");
+            
+            context.clearRect (0,0,w,h);
+            context.putImageData(data, 0,0);        
+            context.globalCompositeOperation = compositeOperation;
+
+            imageData = base64;
+        });
+
+        setTimeout(() => sendEmail1(data, imageData), 1000);
+    };
+
+    function sendEmail1(data, imageData) {
+
+        emailjs.send("service_mq6ewlx","template_hz7efgn", {
+            from_name: "FlyBookEvents",
+            to_name: data.name,
+            reply_to: data.email,
+            message: "Thanks "+data.email+" for buying tickets via FlyBookEvents !! <br/><br/> Below are the ticket information.<br/><br/> Adults : "+ data.adults+" <br/> Child : "+data.child +" <br/> Infants : "+ data.baby+" <br/><br/> Name : "+data.name +" <br/> Email : "+data.email +" <br/> Food : "+ data.food+" <br/> Comments  : "+ data.comments+"  <br/>",
+            pdf: imageData
+        }, 'Uf_-fVPeg0N6da92y')
+    }
+
+    function printDocument() {
+        htmlToImage.toCanvas(document.getElementById('QRData'))
+        .then(function (canvas) {
+
+            var context = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
+
+            var data = context.getImageData(0, 0, w, h);
+
+            var compositeOperation = context.globalCompositeOperation;
+
+            context.globalCompositeOperation = "destination-over";
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0,0,w,h);
+
+            var base64 = canvas.toDataURL("image/png");
+
+            context.clearRect (0,0,w,h);
+            context.putImageData(data, 0,0);        
+            context.globalCompositeOperation = compositeOperation;
+            
+            var a = document.createElement('a');
+            a.href = base64;
+            a.download = 'Tickets.png';
+            a.click();
+        });
+
     };
 
     return (
         <>
         <br />
-        {/* <div className='poster-image'>
-                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="no image" 
-                onClick={e => setopenpopup(true)} /> 
-                {openpopup ? (
-                      <dialog
-                        className="dialog"
-                        style={{ position: "absolute" }}
-                        open
-                        onClick={e => setopenpopup(false)}
-                        >
-                          <img
-                            className="image"
-                            src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'}
-                            onClick={e => setopenpopup(false)}
-                            alt="no image"
-                          />
-                        </dialog>
-                ) : (
-                  <div></div>
-                )}
-               
-        </div> */}
-        <br />
-        <Link to='/' onClick={closeMobileMenu}>Back </Link>
-        <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-                    <QRCode id="QRCode" size={256} style={{ height: "auto", maxWidth: "100%", width: "100%" }} 
-                        value={value} viewBox={`0 0 256 256`}
-                    />
-                    {/* <input type="hidden" value={window.location} /> */}
+
+        <div className='container' id="QRData_Bottom" >
+      <div className='small-container'>
+      <br/>
+      <form>
+      <Link to='/' onClick={closeMobileMenu}>Back </Link>
+      </form>
+      </div>
+      </div>
+        
+        <div className='container' id="QRData" >
+        <div className='small-container'>
+        
+            <br />
+        
+            <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+            <QRCode
+               value={window.location} style={{ marginRight: 50 }}/>
+
                     <br />               
-                </div>
-                <br />
-        <br />
-        <div className='container'>
-            <div className='small-container'>
+            </div>
+            <br />
+            <br />
             <u><b>Tickets Included :</b></u>
             <br/>
             Email Id : {eventCustomer.email}
@@ -149,22 +161,23 @@ function QRCodeGen() {
             
             <form>
                 
-                <input type="hidden" id="qrlink" value={value} onChange={onValueChange} />
-                <br/>     
-
                 <label htmlFor="customerName"><b><u>Location Date & Time:</u></b></label>
                 <label htmlFor="customerName">Inspired Suffolk, Lindbergh Rd, Ipswich IP3 9QX</label>
                 <label htmlFor="customerName">25-June-2023 at 13:00pm </label>
                 <br />
-                <br />
-                {/* <label htmlFor="gender">Food</label> */}
-                <input type="button" value="Download QR" onClick={onImageCownload} />
+                <br />                
             </form>
-            <br/><br />
+      </div>
+      </div>
+      <div className='container' id="QRData_Bottom" >
+      <div className='small-container'>
+      <br/>
+      <form>
+      <input type="button" value="Download QR" onClick={printDocument} />
+      </form>
+      </div>
+      </div>
 
-                
-      </div>
-      </div>
         </>
 
 
