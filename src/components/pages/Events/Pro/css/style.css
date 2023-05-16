@@ -1,0 +1,111 @@
+/* .hero {
+  background-color: #abe3ff;
+  background-image: url(./banner.jpg);
+  height: 400px;
+} */
+/* .jumbotron{} */
+body {
+  /* background-image: url(../images/pattern.jpg); */
+  background-image: url(../images/pattern1.jpg);
+  /* font-family: "Poppins"; */
+}
+.main-heading {
+  padding-top: 60px;
+  color: #fff;
+}
+.main-heading h1 {
+  font-weight: bold;
+}
+.navbar {
+  background-color: #000;
+}
+.hero img {
+  width: 100%;
+}
+.ticket-panel,
+.otherdetail-panel {
+  background-color: #fff;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+
+  margin: 25px 0 0 0;
+}
+.adv-panel {
+  margin: 25px 0 0 0;
+}
+.otherdetail-panel {
+  margin: 40px 0 30px 0;
+}
+
+footer {
+  background-color: #171717;
+  padding: 25px 0 5px 0;
+  margin-top: 50px;
+  font-size: 14px;
+  color: #7e7e7e;
+}
+.heading-bg {
+  background-color: #1776dc;
+  color: #fff;
+  padding: 20px 30px;
+}
+.padd-30 {
+  padding: 30px;
+}
+.iconGroupImgII .icnImg[data-icon="iconImgII"] {
+  left: 50%;
+  top: 150%;
+  margin-left: 380px;
+  width: 24px;
+  height: 24px;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.iconGroupImgII .icnImg[data-icon="iconImgIII"] {
+  left: 40%;
+  top: 200%;
+  margin-left: 750px;
+  width: 78px;
+  height: 79px;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.iconGroupImgII .icnImg[data-icon="iconImgIV"] {
+  left: 50%;
+  top: 138%;
+  margin-left: -753px;
+  width: 62px;
+  height: 61px;
+  -webkit-transform: translate(-50%, -63%);
+  -ms-transform: translate(-50%, -63%);
+  transform: translate(-50%, -63%);
+}
+
+.iconGroupImgII .icnImg[data-icon="iconImgV"] {
+  top: 130%;
+  left: 45%;
+  margin-left: 659px;
+  width: 31px;
+  height: 31px;
+  -webkit-transform: translate(-50%, -72%);
+  -ms-transform: translate(-50%, -72%);
+  transform: translate(-50%, -72%);
+}
+
+.iconGroupImgII .icnImg[data-icon="iconImgVI"] {
+  left: 50%;
+  bottom: 46px;
+  margin-left: 620px;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 79px;
+  height: 95px;
+}
+@media (max-width: 767px) {
+  .main-heading h1 {
+    font-size: 30px;
+  }
+}

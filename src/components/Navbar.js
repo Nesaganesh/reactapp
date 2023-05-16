@@ -35,7 +35,7 @@ function Navbar() {
             Menu
           </div>
           <div className='navbar-logo'>
-            <img src={'https://s3.amazonaws.com/flytoez.content/FlyToezLogo_1_ReSize1.jpeg'} alt="Mylogo" /> 
+            <img src={'https://s3.amazonaws.com/flytoez.content/FDC_New_logo_resize.png'} alt="Mylogo" /> 
           </div>
           <div className='navbar-logo-text' >
                Flytoez Dance Company
@@ -74,15 +74,15 @@ function Navbar() {
                   Contact Us
                 </Link>
               </li>
-              {/* <li className='nav-item'>
+              <li className='nav-item'>
                 <Link
-                  to='/login'
+                  to='/UpComingEvents'
                   className='nav-links'
                   onClick={closeMobileMenu}
                 >
-                  Login
+                  Events
                 </Link>
-              </li> */}
+              </li>
               <li>
                 <Link
                   to='/signup'

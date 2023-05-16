@@ -20,7 +20,7 @@ function PromotionSection() {
       
       <Navbar />
       <div className='hero-container'>
-        <video src='https://s3.amazonaws.com/flytoez.content/FlytoezPromo1.mp4' autoPlay loop muted />
+        <video src='https://s3.amazonaws.com/flytoez.content/video-output-F7561B3E-45A3-4C27-8BB5-A05B44DA5C28.MP4' autoPlay loop muted />
         <h1>Bollywood Dance </h1>
         <p> Ipswich and Colchester </p>
         <p>What are you waiting for?</p>
