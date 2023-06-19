@@ -68,8 +68,8 @@ function Classes() {
             }, 
             {
                 "show": {
-                "location": "Myland Church Colchester",
-                "time": " 2-3 pm",
+                "location": "Dance HQ Colchester",
+                "time": " 3-4 pm",
                 "day": "Saturday",
                 "age": "Beginners"
                 } 
@@ -77,8 +77,8 @@ function Classes() {
             , 
             {
                 "show": {
-                    "location": "Myland Church Colchester",
-                "time": " 3-4 pm",
+                    "location": "Dance HQ Colchester",
+                "time": " 4-5 pm",
                 "day": "Saturday",
                 "age": "Intermediate"
                 } 
@@ -126,7 +126,7 @@ function Classes() {
         </tbody>
         </table>
 
-        <form className="form">
+        <form className="formtest">
             <div><h2>CLASSES</h2>
                     <div>
                         <div>

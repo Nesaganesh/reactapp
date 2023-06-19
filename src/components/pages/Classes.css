@@ -6,3 +6,7 @@
 .spaces {
     white-space:pre-wrap;
 }
+
+.formtest {
+    height: 600px;
+}
