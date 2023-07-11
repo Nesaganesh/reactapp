@@ -83,6 +83,15 @@ function Navbar() {
                   Events
                 </Link>
               </li>
+              <li className='nav-item'>
+                <Link
+                  to='/annualevent'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  AnnualEvent
+                </Link>
+              </li>
               <li>
                 <Link
                   to='/signup'

@@ -1,0 +1,10 @@
+.form{
+    background-color: #060606;
+    border-radius: 5px;
+    width: 660px;
+    height: auto;
+    margin: 20px auto;
+    padding: 20px;
+    color: #ffffff; 
+    /* height: 600px; */
+}

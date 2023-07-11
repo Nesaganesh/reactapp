@@ -11,6 +11,8 @@ import QRForm from './components/pages/QRCode/QRForm';
 import AttendanceSuccess from './components/pages/Attendance/AttendanceSuccess';
 import AttendanceList from './components/pages/Attendance/AttendanceList';
 import UpComingEvents from './components/pages/UpComingEvents'
+import AnnualEvent from './components/pages/AnnualEvent'
+
 
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
               <Route path="/attendanceSuccess" element={<AttendanceSuccess />}></Route>
               <Route path="/attendanceList" element={<AttendanceList />}></Route>              
               <Route path="/UpComingEvents" element={<UpComingEvents />}></Route>              
+              <Route path="/annualevent" element={<AnnualEvent />}></Route>              
               
               
           </Routes>
