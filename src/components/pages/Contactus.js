@@ -14,13 +14,14 @@ function Contactus() {
                             Please contact us with any questions or <br/>to book your place on one of our classes!
                         </div>
                         <div className="lastname">
-                            t: 07741 843819
-                            e: flytoezdancecompany@gmail.com 
+                        <br/>Phone: 07741843819<br/>
+                        <br/>WhatsApp: 07424529361<br/>
+                        <br/>Email: flytoezdancecompany@gmail.com <br/>
                         </div>
                         <div className="gender">
                             <br/>facebook: <br/>
-                            www.facebook.com/FlytoezDanceCompany
-                            instagram: @flytoez
+                            <br/>www.facebook.com/FlytoezDanceCompany<br/>
+                            <br/>instagram: @flytoez<br/>
                         </div>
                         
                     </div>
