@@ -10,8 +10,9 @@ import QRCodeGen from './components/pages/QRCode/QRCodeGen';
 import QRForm from './components/pages/QRCode/QRForm';
 import AttendanceSuccess from './components/pages/Attendance/AttendanceSuccess';
 import AttendanceList from './components/pages/Attendance/AttendanceList';
-import UpComingEvents from './components/pages/UpComingEvents'
-import AnnualEvent from './components/pages/AnnualEvent'
+import UpComingEvents from './components/pages/UpComingEvents';
+import AnnualEvent from './components/pages/AnnualEvent';
+import StudentList from './components/pages/Student/StudentList';
 
 
 
@@ -34,7 +35,9 @@ function App() {
               <Route path="/attendanceSuccess" element={<AttendanceSuccess />}></Route>
               <Route path="/attendanceList" element={<AttendanceList />}></Route>              
               <Route path="/UpComingEvents" element={<UpComingEvents />}></Route>              
-              <Route path="/annualevent" element={<AnnualEvent />}></Route>              
+              <Route path="/annualevent" element={<AnnualEvent />}></Route> 
+              <Route path="/studentList" element={<StudentList />}></Route> 
+
               
               
           </Routes>
