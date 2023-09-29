@@ -38,7 +38,6 @@ function QRCodeGen() {
         await setResult(data);
         setValue(window.location);
         setQrLocation("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+window.location);
-        alert(qrLocation);
         await sendEmail(data);
     }
 
