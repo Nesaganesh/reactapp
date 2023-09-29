@@ -81,9 +81,14 @@ function Event() {
     let currentWindowUrl = window.location.href;
     var price = totalAmount+"";
 
+      var childVal1 = child;
+      if(childVal1 == '') {
+        childVal1 = "0";
+      }
+
       var jsonData = {        
         "adults": adults,
-        "child": child,
+        "child": childVal1,
         "baby": "1",
         "name": customerName,
         "food": food,
