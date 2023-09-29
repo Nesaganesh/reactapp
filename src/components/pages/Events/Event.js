@@ -85,11 +85,15 @@ function Event() {
       if(childVal1 == '') {
         childVal1 = "0";
       }
+      var baby1 = baby;
+      if(baby1 == '') {
+        baby1 = "0";
+      }
 
       var jsonData = {        
         "adults": adults,
         "child": childVal1,
-        "baby": "1",
+        "baby": baby1,
         "name": customerName,
         "food": food,
         "Comments": dietanaryComments,
