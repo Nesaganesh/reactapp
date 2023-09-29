@@ -10,6 +10,7 @@ function QRCodeGen() {
     let value1 = "";
     const [value, setValue] = useState([]);
     const [eventCustomer, setResult] = useState([]);
+    const [qrLocation, setQrLocation] = useState([]);
     let imageData = null;
 
     function onValueChange (e) {
@@ -36,6 +37,8 @@ function QRCodeGen() {
         const data = await response.json();
         await setResult(data);
         setValue(window.location);
+        setQrLocation("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+window.location);
+        alert(qrLocation);
         await sendEmail(data);
     }
 
@@ -131,8 +134,10 @@ function QRCodeGen() {
             <br />
         
             <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-            <QRCode
-               value={window.location} style={{ marginRight: 50 }}/>
+            <img src={qrLocation} alt="" title="" />
+            
+            {/* <QRCode
+               value={window.location} style={{ marginRight: 50 }}/> */}
 
                     <br />               
             </div>
