@@ -30,11 +30,13 @@ function Event() {
 
     function calculate()
     {
-      if(child == '') {
-        setChild(0);        
+      var childVal = child;
+      if(childVal == '') {
+        childVal = "0";
       }
+    
       
-      totalAmount =  parseInt(adults) * adultPrice +  parseInt(child) * childPrice;
+      totalAmount =  parseInt(adults) * adultPrice +  parseInt(childVal) * childPrice;
       document.getElementById("totalPay").innerHTML = "Pay Now " + totalAmount;
       changeText = true;
         
