@@ -162,8 +162,8 @@ function QRCodeGen() {
             <form>
                 
                 <label htmlFor="customerName"><b><u>Location Date & Time:</u></b></label>
-                <label htmlFor="customerName">Inspired Suffolk, Lindbergh Rd, Ipswich IP3 9QX</label>
-                <label htmlFor="customerName">25-June-2023 at 13:00pm </label>
+                <label htmlFor="customerName">St Alban's Catholic High School, Digby Rd, Ipswich IP4 3NJ</label>
+                <label htmlFor="customerName">Saturday 18th November 2023 between 12:00 - 21:00 hrs  </label>
                 <br />
                 <br />                
             </form>

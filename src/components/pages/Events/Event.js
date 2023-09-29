@@ -26,8 +26,14 @@ function Event() {
     const adultPrice = 20;
     const childPrice = 10;
 
+      
+
     function calculate()
     {
+      if(child == '') {
+        setChild(0);        
+      }
+      
       totalAmount =  parseInt(adults) * adultPrice +  parseInt(child) * childPrice;
       document.getElementById("totalPay").innerHTML = "Pay Now " + totalAmount;
       changeText = true;
@@ -37,8 +43,8 @@ function Event() {
     const [openpopup, setopenpopup] = useState('');
     async function redirectToStripe() {
 
-      // alert(adults);
-      // alert(child);
+      //alert(adults);
+      //alert(child);
       // alert(baby);
       // alert(customerName);
       // alert(food);
@@ -58,7 +64,7 @@ function Event() {
               showConfirmButton: true
           });
       }else {
-        
+
         calculate();
   
         Swal.fire({
@@ -89,6 +95,7 @@ function Event() {
       }
       //https://localhosr:5001/eventcustomer
       //https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer
+      
       const response = await fetch('https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer', {
         method: 'POST', 
         headers: {
