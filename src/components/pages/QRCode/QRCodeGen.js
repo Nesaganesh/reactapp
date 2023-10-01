@@ -205,8 +205,10 @@ function QRCodeGen() {
                value={window.location} style={{ marginRight: 50 }}/>
 
                     <br />               
+            </div><br /><br />
+            <div> <u><b>
+                **** Please Take Screenshot of this page  ***</b></u>
             </div>
-            <br />
             <br />
             <u><b>Tickets Included :</b></u>
             <br/>
@@ -243,7 +245,9 @@ function QRCodeGen() {
       <div className='small-container'>
       <br/>
       <form>
-      <input type="button" value="Download QR" onClick={printDocument} />
+        
+      {/* <input type="button" value="Download QR" onClick={printDocument} /> */}
+      <label  value="Take Screenshot" />
       </form>
       </div>
       </div>
