@@ -91,23 +91,24 @@ function QRCodeGen() {
             }
         })
         .then(function (imgData) {
-            //var doc = new jsPDF('p', 'pt','a4',true);
-            // var pdf = new jsPDF("p", "pt", [
-            // $("#QRData").width(),
-            // $("#QRData").height()
-            // ], false );
-            // pdf.addImage(
-            // imgData,"PNG",0,0,
-            // $("#QRData").width(),
-            // $("#QRData").height(),undefined,'FAST'
-            // );
+            var doc = new jsPDF('p', 'pt','a4',true);
+            var pdf = new jsPDF("p", "pt", [
+            $("#QRData").width(),
+            $("#QRData").height()
+            ], false );
+            pdf.addImage(
+            imgData,"PNG",0,0,
+            $("#QRData").width(),
+            $("#QRData").height(),undefined,'FAST'
+            );
 
-            // //pdf.addImage(imgData, 'PNG', 0, 0, 400,300, undefined,'FAST');
+            //pdf.addImage(imgData, 'PNG', 0, 0, 400,300, undefined,'FAST');
 
             // pdf.save(fileName);
 
+            alert('1');
             imageData = imgData;
-
+            alert('2');
             
         });
 
@@ -116,6 +117,7 @@ function QRCodeGen() {
 
     function sendEmail1(data, imageData) {
 
+        alert('3');
         emailjs.send("service_mq6ewlx","template_hz7efgn", {
             from_name: "FlyBookEvents",
             to_name: data.name,
@@ -123,6 +125,8 @@ function QRCodeGen() {
             message: "Thanks "+data.email+" for buying tickets via FlyBookEvents !! <br/><br/> Below are the ticket information.<br/><br/> Adults : "+ data.adults+" <br/> Child : "+data.child +" <br/> Infants : "+ data.baby+" <br/><br/> Name : "+data.name +" <br/> Email : "+data.email +" <br/> Food : "+ data.food+" <br/> Comments  : "+ data.comments+"  <br/>",
             pdf: imageData
         }, 'Uf_-fVPeg0N6da92y')
+
+        alert('4');
     }
 
     function printDocument() {
