@@ -63,7 +63,8 @@ function QRCodeGen() {
 
             context.globalCompositeOperation = "destination-over";
             context.fillStyle = "#FFFFFF";
-            context.fillRect(0,0,w,h);
+            context.fillRect(0,0,0,0);
+            
 
             var base64 = canvas.toDataURL("image/png");
             
@@ -79,6 +80,8 @@ function QRCodeGen() {
 
     function sendEmail1(data, imageData) {
 
+        alert();
+        
         emailjs.send("service_mq6ewlx","template_hz7efgn", {
             from_name: "FlyBookEvents",
             to_name: data.name,
@@ -192,7 +195,7 @@ function QRCodeGen() {
         
             <br />
         
-            <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+            <div>
             {/* <img src={qrLocation} alt="" title="" /> */}
             
             <QRCode
