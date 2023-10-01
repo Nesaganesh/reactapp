@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
+    "blueimp-canvas-to-blob": "^3.29.0",
     "dom-to-image": "^2.6.0",
     "emailjs": "^4.0.1",
     "emailjs-com": "^3.2.0",

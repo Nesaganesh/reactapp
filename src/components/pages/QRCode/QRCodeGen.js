@@ -10,6 +10,7 @@ import $ from 'jquery';
     
 function QRCodeGen() {
 
+    var dataURLtoBlob = require('blueimp-canvas-to-blob')
 
     let value1 = "";
     const [value, setValue] = useState([]);
@@ -50,83 +51,46 @@ function QRCodeGen() {
     
     async function sendEmail(data) {
 
-        // var promise1 = htmlToImage.toCanvas(document.getElementById('QRData'));
-        // promise1.then(function (canvas, data) {
+        var promise1 = htmlToImage.toCanvas(document.getElementById('QRData'));
+        
+        promise1.then(function (canvas) {
 
-        //     var context = canvas.getContext('2d');
-        //     var w = canvas.width;
-        //     var h = canvas.height;
+            var context = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
 
-        //     var data = context.getImageData(0, 0, w, h);
+            var data = context.getImageData(0, 0, w, h);
+            
+            var compositeOperation = context.globalCompositeOperation;
 
-        //     var compositeOperation = context.globalCompositeOperation;
-
-        //     context.globalCompositeOperation = "destination-over";
-        //     context.fillStyle = "#FFFFFF";
-        //     context.fillRect(0,0,0,0);
+            context.globalCompositeOperation = "source-over";
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0,0,0,0);
             
 
-        //     var base64 = canvas.toDataURL("image/png");
+            var base64 = canvas.toDataURL("image/jpeg");
             
-        //     context.clearRect (0,0,w,h);
-        //     context.putImageData(data, 0,0);        
-        //     context.globalCompositeOperation = compositeOperation;
+            context.clearRect (0,0,w,h);
+            context.putImageData(data, 0,0);        
+            context.globalCompositeOperation = compositeOperation;
 
-        //     imageData = base64;
-        // });
-
-        var domtoimage = require('dom-to-image');
-        var node = document.getElementById('QRData');
-
-        var scale = 2;
-        var domNode = document.getElementById("QRData");
-        var fileName = 'Tickets';
-
-        domtoimage.toPng(domNode, {
-            width: domNode.clientWidth * scale,
-            height: domNode.clientHeight * scale,
-            style: {
-            transform: "scale(" + scale + ")",
-            transformOrigin: "top left"
-            }
-        })
-        .then(function (imgData) {
-            var doc = new jsPDF('p', 'pt','a4',true);
-            var pdf = new jsPDF("p", "pt", [
-            $("#QRData").width(),
-            $("#QRData").height()
-            ], false );
-            pdf.addImage(
-            imgData,"PNG",0,0,
-            $("#QRData").width(),
-            $("#QRData").height(),undefined,'FAST'
-            );
-
-            //pdf.addImage(imgData, 'PNG', 0, 0, 400,300, undefined,'FAST');
-
-            // pdf.save(fileName);
-
-            alert('1');
-            imageData = imgData;
-            alert('2');
-            
+            imageData = base64;
         });
 
+        
         setTimeout(() => sendEmail1(data, imageData), 1000);
     };
 
     function sendEmail1(data, imageData) {
 
-        alert('3');
+        var qrURL = "https://api.qrserver.com/v1/create-qr-code/?data="+window.location+"&size=50X50";
         emailjs.send("service_mq6ewlx","template_hz7efgn", {
             from_name: "FlyBookEvents",
             to_name: data.name,
             reply_to: data.email,
             message: "Thanks "+data.email+" for buying tickets via FlyBookEvents !! <br/><br/> Below are the ticket information.<br/><br/> Adults : "+ data.adults+" <br/> Child : "+data.child +" <br/> Infants : "+ data.baby+" <br/><br/> Name : "+data.name +" <br/> Email : "+data.email +" <br/> Food : "+ data.food+" <br/> Comments  : "+ data.comments+"  <br/>",
-            pdf: imageData
+            pdf: qrURL
         }, 'Uf_-fVPeg0N6da92y')
-
-        alert('4');
     }
 
     function printDocument() {
