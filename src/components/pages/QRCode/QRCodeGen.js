@@ -4,8 +4,12 @@ import * as htmlToImage from 'html-to-image';
 import { useRef, useState } from "react";
 import QRCode from "qrcode.react";
 import emailjs from '@emailjs/browser';
+import domtoimage from 'dom-to-image';
+import jsPDF from 'jspdf';
+import $ from 'jquery';
     
 function QRCodeGen() {
+
 
     let value1 = "";
     const [value, setValue] = useState([]);
@@ -85,32 +89,88 @@ function QRCodeGen() {
     }
 
     function printDocument() {
-        htmlToImage.toCanvas(document.getElementById('QRData'))
-        .then(function (canvas) {
+        // htmlToImage.toCanvas(document.getElementById('QRData'))
+        // .then(function (canvas) {
 
-            var context = canvas.getContext('2d');
-            var w = canvas.width;
-            var h = canvas.height;
+        //     var context = canvas.getContext('2d');
+        //     var w = canvas.width;
+        //     var h = canvas.height;
 
-            var data = context.getImageData(0, 0, w, h);
+        //     var data = context.getImageData(0, 0, w, h);
 
-            var compositeOperation = context.globalCompositeOperation;
+        //     var compositeOperation = context.globalCompositeOperation;
 
-            context.globalCompositeOperation = "destination-over";
-            context.fillStyle = "#FFFFFF";
-            context.fillRect(0,0,w,h);
+        //     context.globalCompositeOperation = "destination-over";
+        //     context.fillStyle = "#FFFFFF";
+        //     context.fillRect(0,0,w,h);
 
-            var base64 = canvas.toDataURL("image/png");
+        //     var base64 = canvas.toDataURL("image/png");
 
-            context.clearRect (0,0,w,h);
-            context.putImageData(data, 0,0);        
-            context.globalCompositeOperation = compositeOperation;
+        //     context.clearRect (0,0,w,h);
+        //     context.putImageData(data, 0,0);        
+        //     context.globalCompositeOperation = compositeOperation;
             
-            var a = document.createElement('a');
-            a.href = base64;
-            a.download = 'Tickets.png';
-            a.click();
+        //     var a = document.createElement('a');
+        //     a.href = base64;
+        //     a.download = 'Tickets.png';
+        //     a.click();
+        // });
+
+        
+        // domtoimage.toPng(node)
+        //     .then(function (qrLocation) {
+        //         var img = new Image();
+        //         img.src = qrLocation;
+        //         //document.body.appendChild(img);
+        //         var a = document.createElement('a');
+        //         a.href = qrLocation;
+        //         a.download = 'Tickets.png';
+        //         a.click();
+        //     })
+        //     .catch(function (error) {
+        //         console.error('oops, something went wrong!', error);
+        //     });
+        
+        // domtoimage.toJpeg(document.getElementById('QRData'), { quality: 0.95 })
+        // .then(function (qrLocation) {
+        //     var link = document.createElement('a');
+        //     link.download = 'Tickets.jpeg';
+        //     link.href = qrLocation;
+        //     link.click();
+        // });
+
+        var domtoimage = require('dom-to-image');
+        var node = document.getElementById('QRData');
+
+        var scale = 2;
+        var domNode = document.getElementById("QRData");
+        var fileName = 'Tickets';
+
+        domtoimage.toPng(domNode, {
+            width: domNode.clientWidth * scale,
+            height: domNode.clientHeight * scale,
+            style: {
+            transform: "scale(" + scale + ")",
+            transformOrigin: "top left"
+            }
+        })
+        .then(function (imgData) {
+            //var doc = new jsPDF('p', 'pt','a4',true);
+            var pdf = new jsPDF("p", "pt", [
+            $("#QRData").width(),
+            $("#QRData").height()
+            ], false );
+            // pdf.addImage(
+            // imgData,"PNG",0,0,
+            // $("#QRData").width(),
+            // $("#QRData").height()
+            // );
+
+            pdf.addImage(imgData, 'PNG', 0, 0, 900,600, undefined,'FAST');
+
+            pdf.save(fileName);
         });
+        
 
     };
 
@@ -133,10 +193,10 @@ function QRCodeGen() {
             <br />
         
             <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-            <img src={qrLocation} alt="" title="" />
+            {/* <img src={qrLocation} alt="" title="" /> */}
             
-            {/* <QRCode
-               value={window.location} style={{ marginRight: 50 }}/> */}
+            <QRCode
+               value={window.location} style={{ marginRight: 50 }}/>
 
                     <br />               
             </div>
