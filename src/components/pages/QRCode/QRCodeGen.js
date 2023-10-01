@@ -80,8 +80,6 @@ function QRCodeGen() {
 
     function sendEmail1(data, imageData) {
 
-        alert();
-        
         emailjs.send("service_mq6ewlx","template_hz7efgn", {
             from_name: "FlyBookEvents",
             to_name: data.name,
@@ -92,32 +90,49 @@ function QRCodeGen() {
     }
 
     function printDocument() {
-        // htmlToImage.toCanvas(document.getElementById('QRData'))
-        // .then(function (canvas) {
+        htmlToImage.toCanvas(document.getElementById('QRData'))
+        .then(function (canvas) {
 
-        //     var context = canvas.getContext('2d');
-        //     var w = canvas.width;
-        //     var h = canvas.height;
+            var context = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
 
-        //     var data = context.getImageData(0, 0, w, h);
+            var data = context.getImageData(0, 0, w, h);
 
-        //     var compositeOperation = context.globalCompositeOperation;
+            var compositeOperation = context.globalCompositeOperation;
 
-        //     context.globalCompositeOperation = "destination-over";
-        //     context.fillStyle = "#FFFFFF";
-        //     context.fillRect(0,0,w,h);
+            context.globalCompositeOperation = "destination-over";
+            context.fillStyle = "#FFFFFF";
+            //context.fillRect(0,0,w,h);
+            context.fillRect(0,0,0,0);
 
-        //     var base64 = canvas.toDataURL("image/png");
+            var base64 = canvas.toDataURL("image/png");
 
-        //     context.clearRect (0,0,w,h);
-        //     context.putImageData(data, 0,0);        
-        //     context.globalCompositeOperation = compositeOperation;
+            context.clearRect (0,0,w,h);
+            context.putImageData(data, 0,0);        
+            context.globalCompositeOperation = compositeOperation;
             
-        //     var a = document.createElement('a');
-        //     a.href = base64;
-        //     a.download = 'Tickets.png';
-        //     a.click();
-        // });
+            var a = document.createElement('a');
+            a.href = base64;
+            a.download = 'Tickets.png';
+            a.click();
+        })
+         .then(function (imgData) {
+            //var doc = new jsPDF('p', 'pt','a4',true);
+            var pdf = new jsPDF("p", "pt", [
+            $("#QRData").width(),
+            $("#QRData").height()
+            ], false );
+            // pdf.addImage(
+            // imgData,"PNG",0,0,
+            // $("#QRData").width(),
+            // $("#QRData").height()
+            // );
+
+            pdf.addImage(imgData, 'PNG', 0, 0, 900,600, undefined,'FAST');
+
+            pdf.save("Tickets");
+        });
 
         
         // domtoimage.toPng(node)
@@ -142,37 +157,37 @@ function QRCodeGen() {
         //     link.click();
         // });
 
-        var domtoimage = require('dom-to-image');
-        var node = document.getElementById('QRData');
+        // var domtoimage = require('dom-to-image');
+        // var node = document.getElementById('QRData');
 
-        var scale = 2;
-        var domNode = document.getElementById("QRData");
-        var fileName = 'Tickets';
+        // var scale = 2;
+        // var domNode = document.getElementById("QRData");
+        // var fileName = 'Tickets';
 
-        domtoimage.toPng(domNode, {
-            width: domNode.clientWidth * scale,
-            height: domNode.clientHeight * scale,
-            style: {
-            transform: "scale(" + scale + ")",
-            transformOrigin: "top left"
-            }
-        })
-        .then(function (imgData) {
-            //var doc = new jsPDF('p', 'pt','a4',true);
-            var pdf = new jsPDF("p", "pt", [
-            $("#QRData").width(),
-            $("#QRData").height()
-            ], false );
-            // pdf.addImage(
-            // imgData,"PNG",0,0,
-            // $("#QRData").width(),
-            // $("#QRData").height()
-            // );
+        // domtoimage.toPng(domNode, {
+        //     width: domNode.clientWidth * scale,
+        //     height: domNode.clientHeight * scale,
+        //     style: {
+        //     transform: "scale(" + scale + ")",
+        //     transformOrigin: "top left"
+        //     }
+        // })
+        // .then(function (imgData) {
+        //     //var doc = new jsPDF('p', 'pt','a4',true);
+        //     var pdf = new jsPDF("p", "pt", [
+        //     $("#QRData").width(),
+        //     $("#QRData").height()
+        //     ], false );
+        //     // pdf.addImage(
+        //     // imgData,"PNG",0,0,
+        //     // $("#QRData").width(),
+        //     // $("#QRData").height()
+        //     // );
 
-            pdf.addImage(imgData, 'PNG', 0, 0, 900,600, undefined,'FAST');
+        //     pdf.addImage(imgData, 'PNG', 0, 0, 900,600, undefined,'FAST');
 
-            pdf.save(fileName);
-        });
+        //     pdf.save(fileName);
+        // });
         
 
     };
