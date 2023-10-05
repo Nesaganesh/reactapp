@@ -126,7 +126,7 @@ function Event() {
         <br />
         <br />
         <div className='poster-image'>
-                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="no image" 
+                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Poster_2023.png'} alt="no image" 
                 onClick={e => setopenpopup(true)} /> 
                 {openpopup ? (
                       <dialog
@@ -137,7 +137,7 @@ function Event() {
                         >
                           <img
                             className="image"
-                            src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'}
+                            src={'https://s3.amazonaws.com/flytoez.content/Diwali_Poster_2023.png'}
                             onClick={e => setopenpopup(false)}
                             alt="no image"
                           />
@@ -248,7 +248,7 @@ function Event() {
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                 />
-                <label htmlFor="terms">Terms & Conditions <a href=''> Read Now</a></label>
+                {/* <label htmlFor="terms">Terms & Conditions <a href=''> Read Now</a></label> */}
                 <input type="checkbox"
                     id="terms" name="terms"
                     value="Checked"
