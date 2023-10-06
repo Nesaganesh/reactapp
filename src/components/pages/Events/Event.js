@@ -154,7 +154,7 @@ function Event() {
             <br/>
             Adult X 1 = £20
             <br/>
-            Child between 5-13 years X 1  = £10
+            Child between 5-16 years X 1  = £10
             <br/>
             <b>Note:</b> Free for child below 5 years
             <br/>
@@ -226,7 +226,7 @@ function Event() {
                     onChange={e => setFood(e.target.value)}
                 /> <span>Vegan     </span> 
                 
-                <label htmlFor="dietanaryComments">Dietanary Comments</label>
+                <label htmlFor="dietanaryComments">Dietanary Comments (Ex: how many veg/non-veg/vegan or anything related to alergy)</label>
                 <textarea
                     id="dietanaryComments"
                     name="dietanaryComments"
