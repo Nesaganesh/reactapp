@@ -162,7 +162,7 @@ function Event() {
             <form>
               <table>
                 <tr>
-                  <td><label htmlFor="playername">Adult above 14years</label>
+                  <td><label htmlFor="playername">Adult above 16years</label>
             <select name="languages" id="adults" className='select-numberofcustomers' 
             ref={textInput} onChange={e => setAdults(e.target.value)
             }>
