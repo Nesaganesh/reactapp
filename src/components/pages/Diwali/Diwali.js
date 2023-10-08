@@ -6,9 +6,10 @@ import '../../PromotionSection.css';
 
 function Diwali() {
 
-    // const navigate = () => {
-    //   window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
-    // };
+    const navigate = () => {
+      //window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      window.location.href = 'https://feature-event.d1841y90cyxzkk.amplifyapp.com/';
+    };
 
   return (
     <>      
@@ -19,10 +20,11 @@ function Diwali() {
             </div> */}
             <br/>
             <div className='navbar-logo-diwali'>
-                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Final_poster_2.png'} alt="Mylogo" /> 
+                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Poster_2023.4.png'} alt="Mylogo" /> 
+                <button onClick={navigate}  className='btns'>BOOK NOW</button>
             </div>
             <br />
-            <div>
+            {/* <div>
                     <div className="form-body-diwali">
                         
                         <p>
@@ -134,7 +136,7 @@ Pay for 4 Adults with 1 Child  <button onClick={navigate} className='btns' > <b>
 <br/>
 <br/>
 Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > <b>PayNow £65</b>  </button> */}
-<br/>
+{/* <br/>
 
                         </p>
                         <p>
@@ -144,8 +146,9 @@ Pay for 4 Adults with 2 Children  <button onClick={navigate} className='btns' > 
                             Indu whats app : +44 7479986635 <br/> <br/>
 
                         </p>
-                    </div>
-                </div> 
+                    </div> */}
+                {/* </div>  */} 
+                
     </>
   );
 }

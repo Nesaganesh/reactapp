@@ -13,6 +13,7 @@ import AttendanceList from './components/pages/Attendance/AttendanceList';
 import UpComingEvents from './components/pages/UpComingEvents';
 import AnnualEvent from './components/pages/AnnualEvent';
 import StudentList from './components/pages/Student/StudentList';
+import Diwali from './components/pages/Diwali/Diwali';
 
 
 
@@ -37,6 +38,8 @@ function App() {
               <Route path="/UpComingEvents" element={<UpComingEvents />}></Route>              
               <Route path="/annualevent" element={<AnnualEvent />}></Route> 
               <Route path="/studentList" element={<StudentList />}></Route> 
+              <Route path="/diwali" element={<Diwali />}></Route> 
+              
 
               
               
