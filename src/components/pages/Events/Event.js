@@ -126,7 +126,7 @@ function Event() {
         <br />
         <br />
         <div className='poster-image'>
-                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_Poster_2023.4.png'} alt="no image" 
+                <img className='poster-image' src={'https://s3.amazonaws.com/flytoez.content/Diwali_poster_New.jpg'} alt="no image" 
                 onClick={e => setopenpopup(true)} /> 
                 {openpopup ? (
                       <dialog

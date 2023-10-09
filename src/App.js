@@ -16,6 +16,7 @@ import Event from './components/pages/Events/Event';
 import EventReg from './components/pages/Events/EventReg';
 import StudentForm from './components/pages/students/StudentForm';
 import QRCodeGen from './components/pages/QRCode/QRCodeGen';
+import EventHome from './components/pages/Events/EventHome.js';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path="/paysuccess" element={<PaySuccess />}></Route>
               <Route path="/paycancel" element={<PayCancel />}></Route>
               <Route path="/diwali" element={<Diwali />}></Route> */}
+              <Route path="/eventhome" element={<EventHome />}></Route>
               <Route path="/event" element={<Event />}></Route>
               <Route path="/paysuccess" element={<QRCodeGen />}></Route>
               <Route path="/paycancel" element={<Event />}></Route>
