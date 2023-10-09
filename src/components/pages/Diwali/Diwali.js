@@ -20,7 +20,7 @@ function Diwali() {
             </div> */}
             <br/>
             <div className='navbar-logo-diwali'>
-                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_Poster_2023.4.png'} alt="Mylogo" /> 
+                <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_poster_New.jpg'} alt="Mylogo" /> 
                 <button onClick={navigate}  className='btns'>BOOK NOW</button>
             </div>
             <br />
