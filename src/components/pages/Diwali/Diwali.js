@@ -10,6 +10,13 @@ function Diwali() {
       //window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
       window.location.href = 'https://feature-event.d1841y90cyxzkk.amplifyapp.com/';
     };
+    const sportReg = () => {
+      //window.location.href = 'https://buy.stripe.com/8wMcOF4F82cV2re9AA';
+      window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLScxPH1FUFFRCCg0DtCmkWP3vVhAIQ0EsxvRooigGMBVEZJmeQ/viewform';
+    };
+    const CulturalReg = () => {
+      window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSdJfAgHY5Y6Lg5BhY_5JcvqaE_5M8P0COc0IjZTB2knyBaDCw/viewform?usp=sf_link';
+    };
 
   return (
     <>      
@@ -21,8 +28,25 @@ function Diwali() {
             <br/>
             <div className='navbar-logo-diwali'>
                 <img className='navbar-logo-diwali'src={'https://s3.amazonaws.com/flytoez.content/Diwali_poster_New.jpg'} alt="Mylogo" /> 
+                <label><b><u>Tickets</u></b>
                 <button onClick={navigate}  className='btns'>BOOK NOW</button>
+                </label>
+            </div><br/><br/>
+            <br/>
+            <br/>
+            <div >
+            <label><b><u>Sports Registration</u></b>
+              <button onClick={sportReg}  className='btns'>CLICK HERE</button>
+              </label>              
             </div>
+            <br/>
+            <div >
+              <label><b><u>Cultural Registration </u></b>
+              <button onClick={CulturalReg}  className='btns'>CLICK HERE</button>
+              </label>
+              
+            </div>
+
             <br />
             {/* <div>
                     <div className="form-body-diwali">
