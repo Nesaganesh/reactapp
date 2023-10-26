@@ -17,7 +17,10 @@ function Diwali() {
     const CulturalReg = () => {
       window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSdJfAgHY5Y6Lg5BhY_5JcvqaE_5M8P0COc0IjZTB2knyBaDCw/viewform?usp=sf_link';
     };
-
+    const DanceReg = () => {
+      window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSeuET9Z2t7uCDuLf54MkwVIZQzoUPqyT5ubN9khaG_EUbjH_w/viewform?usp=sf_link';
+    };
+    
   return (
     <>      
             {/* <br/>
@@ -39,14 +42,19 @@ function Diwali() {
               <button onClick={sportReg}  className='btns'>CLICK HERE</button>
               <br/><a href='https://chat.whatsapp.com/LLqZLTtZWaTF6PQzc6r8mF'>Badminton Whatsapp Group</a>
               <br/><a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
+              <a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
+
               </label>              
             </div>
-            <br/>
             <div >
               <label><b><u>Cultural Registration </u></b>
               <button onClick={CulturalReg}  className='btns'>CLICK HERE</button>
-              </label>
-              
+              </label>              
+            </div>
+            <div >
+              <label><b><u>Kids Dance/Singing Competition  </u></b>
+              <button onClick={DanceReg}  className='btns'>CLICK HERE</button>
+              </label>              
             </div>
 
             <br />
