@@ -56,8 +56,9 @@ function Diwali() {
               <button onClick={DanceReg}  className='btns'>CLICK HERE</button>
               </label>              
             </div>
-
-            <br />
+            <label><b><u>FOOD:</u> </b>
+            Veg spring Rolls, Chicken 65, Malabar porotta, Mutter paneer, Aloo Gobi, Tadka Dhall, Butter Chicken masala, Lamb Korai, Chicken Biriyani, Veg Biriyani, Plain Rice, Pappadom, Pickle, Raitha, Gulabjamun 
+            </label><br />
             {/* <div>
                     <div className="form-body-diwali">
                         
