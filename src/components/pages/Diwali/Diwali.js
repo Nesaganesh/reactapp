@@ -42,8 +42,6 @@ function Diwali() {
               <button onClick={sportReg}  className='btns'>CLICK HERE</button>
               <br/><a href='https://chat.whatsapp.com/LLqZLTtZWaTF6PQzc6r8mF'>Badminton Whatsapp Group</a>
               <br/><a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
-              <a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
-
               </label>              
             </div>
             <div >
