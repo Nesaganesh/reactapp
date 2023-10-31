@@ -101,7 +101,7 @@ function Event() {
         "phone": phone,
         "terms": terms,
         "priceid": price,
-        "ProductDesc": "Test Dance Session",
+        "ProductDesc": "Ipswich Diwali Event 2023",
         "CurrentUrl": currentWindowUrl        
       }
       //https://localhost:5001/eventcustomer
