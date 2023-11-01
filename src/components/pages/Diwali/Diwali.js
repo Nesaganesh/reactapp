@@ -34,12 +34,22 @@ function Diwali() {
                 <label><b><u>Tickets</u></b>
                 <button onClick={navigate}  className='btns'>BOOK NOW</button>
                 </label>
-            </div><br/><br/>
+                <label>
+                  If you face any issues in the payment link. <br/>
+                  Please do a bank transfer,  mention your email id as your reference of the transaction <br/><br/>
+                  
+                  Name: Flytoez Limited <br/>
+                  AccountNumber: 52659577<br/>
+                  SortCode: 52-30-31<br/>
+
+
+                </label>
+            </div><br/><br/><br/><br/><br/><br/><br/><br/>
             <br/>
             <br/>
             <div >
             <label><b><u>Sports Registration</u></b>
-              <button onClick={sportReg}  className='btns'>CLICK HERE</button>
+              <button  className='btns'>***CLOSED***</button>
               <br/><a href='https://chat.whatsapp.com/LLqZLTtZWaTF6PQzc6r8mF'>Badminton Whatsapp Group</a>
               <br/><a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
               </label>              
