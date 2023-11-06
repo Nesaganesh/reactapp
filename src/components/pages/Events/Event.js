@@ -96,13 +96,13 @@ function Event() {
         "baby": baby1,
         "name": customerName,
         "food": food,
-        "Comments": dietanaryComments,
+        "comments": food,
         "email": email,
         "phone": phone,
         "terms": terms,
         "priceid": price,
-        "ProductDesc": "Test Dance Session",
-        "CurrentUrl": currentWindowUrl        
+        "productdesc": "Test Dance Session",
+        "currenturl": currentWindowUrl        
       }
       //https://localhost:5001/eventcustomer
       //https://5csp3geevlboejfs32pm5oj7iy0asdcg.lambda-url.us-east-1.on.aws/eventcustomer
