@@ -46,14 +46,6 @@ function Diwali() {
                 </label>
             </div><br/><br/><br/><br/><br/><br/><br/><br/>
             <br/>
-            <br/>
-            <div >
-            <label><b><u>Sports Registration</u></b>
-              <button  className='btns'>***CLOSED***</button>
-              <br/><a href='https://chat.whatsapp.com/LLqZLTtZWaTF6PQzc6r8mF'>Badminton Whatsapp Group</a>
-              <br/><a href='https://chat.whatsapp.com/EoCIPoaH94eIQeNrT8ZJ4W'>Indoor Cricket Whatsapp Group</a>
-              </label>              
-            </div>
             <div >
               <label><b><u>Cultural Registration </u></b>
               <button onClick={CulturalReg}  className='btns'>CLICK HERE</button>
