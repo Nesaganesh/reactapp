@@ -65,7 +65,7 @@ function Navbar() {
                   Performances
                 </Link>
               </li>    */}
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
                 <Link
                   to='/diwali'
                   className='nav-links'
@@ -73,7 +73,7 @@ function Navbar() {
                 >
                   DIWALI
                 </Link>
-              </li>         
+              </li>          */}
               <li className='nav-item'>
                 <Link
                   to='/contactus'
@@ -83,7 +83,7 @@ function Navbar() {
                   Contact Us
                 </Link>
               </li>
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
                 <Link
                   to='/UpComingEvents'
                   className='nav-links'
@@ -91,14 +91,23 @@ function Navbar() {
                 >
                   Events
                 </Link>
-              </li>
+              </li> */}
               <li className='nav-item'>
                 <Link
                   to='/annualevent'
                   className='nav-links'
                   onClick={closeMobileMenu}
                 >
-                  AnnualEvent
+                  Who we are ?
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link
+                  to='/videos'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  AnnualEvent 2023
                 </Link>
               </li>
               <li>

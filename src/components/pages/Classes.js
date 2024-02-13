@@ -45,9 +45,17 @@ function Classes() {
             {
                 "show": {
                 "location": "Goals Ipswich",
-                "time": " 7-8 pm",
-                "day": "Wednesday",
-                "age": "Womens Group"
+                "time": " 6:30-7:15 pm",
+                "day": "Thursday",
+                "age": "Ladies Bollywood"
+                } 
+            },
+            {
+                "show": {
+                "location": "Goals Ipswich",
+                "time": " 7:15-8:00 pm",
+                "day": "Thursday",
+                "age": "Ladies Fitness"
                 } 
             },
             {
@@ -55,7 +63,7 @@ function Classes() {
                 "location": "Goals Ipswich",
                 "time": " 6-7 pm",
                 "day": "Friday",
-                "age": "Beginners"
+                "age": "Kids 6-8 years Level  1"
                 } 
             },
             {
@@ -63,24 +71,56 @@ function Classes() {
                 "location": "Goals Ipswich",
                 "time": " 7-8 pm",
                 "day": "Friday",
-                "age": "Intermediate"
+                "age": "Kids 6-10 years Level  2"
                 } 
             }, 
             {
                 "show": {
+                "location": "Goals Ipswich",
+                "time": " 8-9   pm",
+                "day": "Friday",
+                "age": "Teen's 11+ years      Level   3"
+                } 
+            },
+            {
+                "show": {
                 "location": "Dance HQ Colchester",
                 "time": " 3-4 pm",
-                "day": "Saturday",
-                "age": "Beginners"
+                "day": "Sunday",
+                "age": "Kids 6-8 years Level  1"
+                } 
+            },
+            {
+                "show": {
+                "location": "Dance HQ Colchester",
+                "time": " 4-5 pm",
+                "day": "Sunday  ",
+                "age": "Teen's 11+ years      Level   3"
                 } 
             }
             , 
             {
                 "show": {
-                    "location": "Dance HQ Colchester",
-                "time": " 4-5 pm",
-                "day": "Saturday",
-                "age": "Intermediate"
+                "location": "Dance HQ Colchester",
+                "time": " 5-6 pm",
+                "day": "Sunday",
+                "age": "Ladies Bollywood"
+                } 
+            },
+            {
+                "show": {
+                "location": "Boswells School Chelmsford",
+                "time": " 6:30-7:30 pm",
+                "day": "Monday",
+                "age": "Kids 6-16  years Level  1"
+                } 
+            },  
+            {
+                "show": {
+                "location": "Boswells School Chelmsford",
+                "time": " 7:30-8:30 pm",
+                "day": "Monday",
+                "age": "Ladies Bollywood"
                 } 
             }
     ] );
