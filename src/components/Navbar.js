@@ -92,7 +92,7 @@ function Navbar() {
                   Events
                 </Link>
               </li> */}
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
                 <Link
                   to='/annualevent'
                   className='nav-links'
@@ -109,7 +109,7 @@ function Navbar() {
                 >
                   AnnualEvent 2023
                 </Link>
-              </li> */}
+              </li>  */}
               <li>
                 <Link
                   to='/signup'

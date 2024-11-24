@@ -5,6 +5,7 @@ import { Button } from './Button';
 import './PromotionSection.css';
 import Navbar from './Navbar';
 import AboutUs from './aboutus';
+import Testimonials from '../Testimonials';
 
 function PromotionSection() {
 
@@ -39,6 +40,7 @@ function PromotionSection() {
           </Button>
         
       </div>
+      <Testimonials />
     </>
   );
 }

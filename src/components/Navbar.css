@@ -37,7 +37,9 @@
     font-size: 1.0rem;
     display: flex;
     align-items: left;
-  }
+    width: 200px; /* Set a specific width */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
   
   .fa-typo3 {
     margin-left: 0.5rem;
