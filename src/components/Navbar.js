@@ -92,7 +92,11 @@ function Navbar() {
                   Events
                 </Link>
               </li> */}
+<<<<<<< HEAD
               <li className='nav-item'>
+=======
+              {/* <li className='nav-item'>
+>>>>>>> dc924c8 (better home page and class updates)
                 <Link
                   to='/annualevent'
                   className='nav-links'
@@ -109,7 +113,7 @@ function Navbar() {
                 >
                   AnnualEvent 2023
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to='/signup'
