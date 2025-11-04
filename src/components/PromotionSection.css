@@ -1,88 +1,90 @@
+.hero-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #8b0000 0%, #000000 100%);
+}
 
-  .header1{
-    text-align: left;
-  }
-  video {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: -1;
-  }
-  
-  .hero-container {
-    /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
-    object-fit: contain;
-  }
-  
-  .hero-container > h1 {
-    color: #fff;
-    font-size: 100px;
-    margin-top: -100px;
-  }
-  
-  .hero-container > p {
-    margin-top: 8px;
-    color: #fff;
-    font-size: 32px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-      'Lucida Sans', Arial, sans-serif;
-  }
-  
-  .hero-btns {
-    margin-top: 32px;
-  }
-  
-  .hero-btns .btn {
-    margin: 6px;
-  }
-  
-  .fa-play-circle {
-    margin-left: 4px;
-  }
-  
-  @media screen and (max-width: 960px) {
-    .hero-container > h1 {
-      font-size: 70px;
-      margin-top: -150px;
-    }
-  }
-  
-  @media screen and (max-width: 768px) {
-    .hero-container > h1 {
-      font-size: 50px;
-      margin-top: -100px;
-    }
-  
-    .hero-container > p {
-      font-size: 30px;
-    }
-  
-    .btn-mobile {
-      display: block;
-      text-decoration: none;
-    }
-  
-    .btn {
-      width: 100%;
-    }
-  }
+.hero-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  z-index: -1;
+}
 
-  .diwali-promotions {
-    background-color: coral;
-    display:none;
-  }
+.hero-container h1 {
+  font-size: 4rem;
+  background: linear-gradient(90deg, #ff0000, #ff6600, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
 
-  @media screen and (max-width: 960px) {
+.hero-container p {
+  font-size: 1.4rem;
+  margin-top: 10px;
+  color: #ffd700;
+  font-weight: 500;
+}
 
-    .diwali-promotions {
-      display:block;
-    }
+.hero-btns {
+  margin-top: 30px;
+}
+
+.btns {
+  font-size: 1.2rem;
+  background: #ff0000;
+  color: white;
+  border: 2px solid #ff0000;
+  padding: 12px 30px;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btns:hover {
+  background: #000;
+  color: #ff0000;
+  border: 2px solid #ff0000;
+}
+
+.aboutus {
+  background: linear-gradient(135deg, #000000, #8b0000);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.hero-container::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.05),
+    rgba(255, 0, 0, 0.05) 10px,
+    rgba(0, 0, 0, 0.05) 10px,
+    rgba(0, 0, 0, 0.05) 20px
+  );
+  animation: movePattern 8s linear infinite;
+  z-index: -1;
+}
+
+@keyframes movePattern {
+  from {
+    transform: translate(0, 0);
   }
+  to {
+    transform: translate(-50px, -50px);
+  }
+}

@@ -3,19 +3,20 @@ import './Testimonials.css';
 
 const testimonialsData = [
   {
-    name: 'John Doe',
-    text: 'Flytoez Dance Company has transformed my dancing skills. The instructors are amazing!',
-    image: 'path/to/john-image.jpg'
+    name: 'Aarav Mehta',
+    text: 'Flytoez Dance Academy helped me discover my love for Bollywood dance. Every class is full of energy and fun!',
   },
   {
-    name: 'Jane Smith',
-    text: 'I love the energy and passion at Flytoez Dance Company. Highly recommend!',
-    image: 'path/to/jane-image.jpg'
+    name: 'Priya Sharma',
+    text: 'I joined Flytoez to stay active, but I found a family instead! The instructors are so patient and inspiring.',
   },
   {
-    name: 'Sam Wilson',
-    text: 'A fantastic place to learn and grow as a dancer. The community is very supportive.',
-    image: 'path/to/sam-image.jpg'
+    name: 'Rohan Patel',
+    text: 'The choreography, music, and vibe are just amazing. I’ve grown so much as a dancer thanks to Flytoez!',
+  },
+  {
+    name: 'Ananya Iyer',
+    text: 'Flytoez brings Bollywood alive in Ipswich! Every class boosts my confidence and makes me smile.',
   }
 ];
 
@@ -26,14 +27,13 @@ const Testimonials = () => {
       <div className='testimonials'>
         {testimonialsData.map((testimonial, index) => (
           <div key={index} className='testimonial'>
-            <img src={testimonial.image} alt={testimonial.name} className='testimonial-image' />
             <p className='testimonial-text'>"{testimonial.text}"</p>
-            <p className='testimonial-name'>- {testimonial.name}</p>
+            <p className='testimonial-name'>– {testimonial.name}</p>
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
 
 export default Testimonials;
