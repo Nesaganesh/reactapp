@@ -39,92 +39,27 @@ function Classes() {
       );
     
     
-    
     const data = useMemo(
-        () => [
-            {
-                "show": {
-                "location": "Goals Ipswich",
-                "time": " 6:30-7:15 pm",
-                "day": "Thursday",
-                "age": "Ladies Bollywood"
-                } 
-            },
-            {
-                "show": {
-                "location": "Goals Ipswich",
-                "time": " 7:15-8:00 pm",
-                "day": "Thursday",
-                "age": "Ladies Fitness"
-                } 
-            },
-            {
-                "show": {
-                "location": "Goals Ipswich",
-                "time": " 6-7 pm",
-                "day": "Friday",
-                "age": "Kids 6-8 years Level  1"
-                } 
-            },
-            {
-                "show": {
-                "location": "Goals Ipswich",
-                "time": " 7-8 pm",
-                "day": "Friday",
-                "age": "Kids 6-10 years Level  2"
-                } 
-            }, 
-            {
-                "show": {
-                "location": "Goals Ipswich",
-                "time": " 8-9   pm",
-                "day": "Friday",
-                "age": "Teen's 11+ years      Level   3"
-                } 
-            },
-            {
-                "show": {
-                "location": "Dance HQ Colchester",
-                "time": " 3-4 pm",
-                "day": "Sunday",
-                "age": "Kids 6-8 years Level  1"
-                } 
-            },
-            {
-                "show": {
-                "location": "Dance HQ Colchester",
-                "time": " 4-5 pm",
-                "day": "Sunday  ",
-                "age": "Teen's 11+ years      Level   3"
-                } 
-            }
-            , 
-            {
-                "show": {
-                "location": "Dance HQ Colchester",
-                "time": " 5-6 pm",
-                "day": "Sunday",
-                "age": "Ladies Bollywood"
-                } 
-            },
-            {
-                "show": {
-                "location": "Boswells School Chelmsford",
-                "time": " 6:30-7:30 pm",
-                "day": "Monday",
-                "age": "Kids 6-16  years Level  1"
-                } 
-            },  
-            {
-                "show": {
-                "location": "Boswells School Chelmsford",
-                "time": " 7:30-8:30 pm",
-                "day": "Monday",
-                "age": "Ladies Bollywood"
-                } 
-            }
-    ] );
+    () => [
+        // Ipswich - Friday
+        { show: { location: "Goals, Ipswich", day: "Friday", time: "6-7pm", age: "3-5 years PeppyFeet" } },
+        { show: { location: "Goals, Ipswich", day: "Friday", time: "6-7pm", age: "6-9 years Level 1" } },
+        { show: { location: "Goals, Ipswich", day: "Friday", time: "7-8pm", age: "9-12 years Level 2" } },
+        { show: { location: "Goals, Ipswich", day: "Friday", time: "8-9pm", age: "13+ years Advanced" } },
 
+        // Colchester - Sunday
+        { show: { location: "Dance HQ, Mile End Road", day: "Sunday", time: "2-3pm", age: "6-9 years Level 1" } },
+        { show: { location: "Dance HQ, Mile End Road", day: "Sunday", time: "3-4pm", age: "9-12 years Level 2" } },
+        { show: { location: "Dance HQ, Mile End Road", day: "Sunday", time: "4-5pm", age: "13+ years Advanced" } },
+        { show: { location: "Dance HQ, Mile End Road", day: "Sunday", time: "5-6pm", age: "Ladies Level 2" } },
+
+        // Chelmsford - Monday
+        { show: { location: "Boswells School, Chelmsford", day: "Monday", time: "6-7pm", age: "6-9 years Level 1" } },
+        { show: { location: "Boswells School, Chelmsford", day: "Monday", time: "7-8pm", age: "13+ years Advanced" } },
+        { show: { location: "Boswells School, Chelmsford", day: "Monday", time: "8-9pm", age: "Ladies Level 2" } }
+    ],
+    []
+);
 
 
     const {
