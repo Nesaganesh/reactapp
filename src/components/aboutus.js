@@ -7,7 +7,7 @@ function AboutUs() {
         <h2 style={{ color: "#ffcc00", textAlign: "center" }}>About Flytoez Dance Academy</h2>
 
         <p>
-          <b>FLYTOEZ Dance Company</b> is based in Ipswich, Suffolk, United Kingdom.
+          <b>FLYTOEZ Dance Company</b> is based in Ipswich, Colchester, Chelmsford United Kingdom.
         </p>
 
         <p>
@@ -28,11 +28,11 @@ function AboutUs() {
           Flytoez is more than a dance school — it’s a <b>community</b> that celebrates <b>expression, culture,</b> and <b>joy through movement.</b>
         </p>
 
-        <h3 style={{ marginTop: "2rem", color: "#ffcc00" }}>Meet Our Founder — Nesa Ganesh</h3>
+        <h3 style={{ marginTop: "2rem", color: "#ffcc00" }}>Meet Our Founder — Nessa</h3>
 
         <p>
-          <b>Nesa Ganesh</b>, the founder of Flytoez Dance Academy, is a passionate dancer and choreographer dedicated to bringing artistic vision to life.
-          Originally from South India, Nesa professionally trained with the <b>Flyerz Dance Company</b> in 2008 and later founded a successful
+          <b>Nessa</b>, the founder of Flytoez Dance Academy, is a passionate dancer and choreographer dedicated to bringing artistic vision to life.
+          Originally from South India, Nessa professionally trained with the <b>Flyerz Dance Company</b> in 2008 and later founded a successful
           corporate dance company called <b>Tapping Toez</b>.
         </p>
 
