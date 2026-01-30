@@ -4,6 +4,7 @@ import './Navbar.css';
 
 function Navbar() {
   const [click, setClick] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
 
   const handleMenuClick = () => setClick(!click);
 
@@ -46,6 +47,41 @@ function Navbar() {
               <Link to='/classes' className='nav-links' onClick={closeMobileMenu}>
                 Classes
               </Link>
+            </li>
+            <li 
+              className='nav-item dropdown'
+              onMouseEnter={() => setDropdown(true)}
+              onMouseLeave={() => setDropdown(false)}
+            >
+              <span className='nav-links'>
+                Annual Event 2026 <i className='fas fa-caret-down' />
+              </span>
+              {dropdown && (
+                <ul className='dropdown-menu'>
+                  <li>
+                    <a 
+                      href='https://main.d379voawpphpqa.amplifyapp.com/' 
+                      className='dropdown-link'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      onClick={closeMobileMenu}
+                    >
+                      Buy Tickets
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href='https://main.d3ebqsudjnxt9k.amplifyapp.com/vote' 
+                      className='dropdown-link'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      onClick={closeMobileMenu}
+                    >
+                      Vote 4 Performer
+                    </a>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className='nav-item'>
               <Link to='/contactus' className='nav-links' onClick={closeMobileMenu}>
