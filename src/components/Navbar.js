@@ -71,7 +71,7 @@ function Navbar() {
                   </li>
                   <li>
                     <a 
-                      href='https://main.d3ebqsudjnxt9k.amplifyapp.com/vote' 
+                      href='https://main.d3ebqsudjnxt9k.amplifyapp.com' 
                       className='dropdown-link'
                       target='_blank'
                       rel='noopener noreferrer'
