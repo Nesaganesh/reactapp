@@ -1,5 +1,5 @@
 version: 1.0
-runtime: nodejs18
+runtime: nodejs22
 build:
   commands:
     build:
@@ -11,3 +11,5 @@ run:
   env:
     - name: NODE_ENV
       value: production
+
+
