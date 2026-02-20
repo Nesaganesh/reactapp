@@ -2,132 +2,193 @@ const express = require('express');
 const router = express.Router();
 const CostumeMeasurement = require('../models/CostumeMeasurement');
 
-// POST - Create new costume measurement
+/**
+ * @route   POST /api/costume-measurements
+ * @desc    Create a new costume measurement
+ * @access  Public
+ */
 router.post('/', async (req, res) => {
   try {
     const {
-      fullName,
-      shoulder,
+      studentName,
+      age,
+      height,
+      weight,
       chest,
-      shirtLengthHalf,
-      shirtLengthFull,
-      topLength,
-      pantLength,
-      waist
+      waist,
+      hip,
+      shoulder,
+      sleeveLength,
+      inseam,
+      notes,
     } = req.body;
 
-    // Validate required fields
-    if (!fullName || !shoulder || !chest || !shirtLengthHalf || 
-        !shirtLengthFull || !topLength || !pantLength || !waist) {
+    // Validation
+    if (!studentName) {
       return res.status(400).json({ 
-        success: false, 
-        message: 'All fields are required' 
+        error: 'Student name is required' 
       });
     }
 
-    // Create new measurement
-    const newMeasurement = new CostumeMeasurement({
-      fullName,
-      shoulder: parseFloat(shoulder),
-      chest: parseFloat(chest),
-      shirtLengthHalf: parseFloat(shirtLengthHalf),
-      shirtLengthFull: parseFloat(shirtLengthFull),
-      topLength: parseFloat(topLength),
-      pantLength: parseFloat(pantLength),
-      waist: parseFloat(waist)
+    // Create measurement
+    const measurement = await CostumeMeasurement.create({
+      studentName,
+      age,
+      height,
+      weight,
+      chest,
+      waist,
+      hip,
+      shoulder,
+      sleeveLength,
+      inseam,
+      notes,
     });
-
-    // Save to database
-    const savedMeasurement = await newMeasurement.save();
 
     res.status(201).json({
-      success: true,
-      message: 'Costume measurements saved successfully',
-      data: savedMeasurement
+      message: 'Costume measurement created successfully',
+      data: measurement,
     });
-
   } catch (error) {
-    console.error('Error saving costume measurement:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error saving costume measurements',
-      error: error.message
+    console.error('Error creating measurement:', error);
+    res.status(500).json({ 
+      error: 'Failed to create costume measurement',
+      details: error.message 
     });
   }
 });
 
-// GET - Retrieve all costume measurements
+/**
+ * @route   GET /api/costume-measurements
+ * @desc    Get all costume measurements
+ * @access  Public
+ */
 router.get('/', async (req, res) => {
   try {
-    const measurements = await CostumeMeasurement.find()
-      .sort({ submittedAt: -1 }); // Sort by most recent first
-
-    res.status(200).json({
-      success: true,
+    const measurements = await CostumeMeasurement.findAll();
+    
+    res.json({
+      message: 'Measurements retrieved successfully',
       count: measurements.length,
-      data: measurements
+      data: measurements,
     });
-
   } catch (error) {
-    console.error('Error retrieving costume measurements:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error retrieving costume measurements',
-      error: error.message
+    console.error('Error fetching measurements:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch measurements',
+      details: error.message 
     });
   }
 });
 
-// GET - Retrieve single measurement by ID
+/**
+ * @route   GET /api/costume-measurements/:id
+ * @desc    Get a single costume measurement by ID
+ * @access  Public
+ */
 router.get('/:id', async (req, res) => {
   try {
-    const measurement = await CostumeMeasurement.findById(req.params.id);
+    const { id } = req.params;
+    const measurement = await CostumeMeasurement.findById(id);
 
     if (!measurement) {
-      return res.status(404).json({
-        success: false,
-        message: 'Measurement not found'
+      return res.status(404).json({ 
+        error: 'Measurement not found' 
       });
     }
 
-    res.status(200).json({
-      success: true,
-      data: measurement
+    res.json({
+      message: 'Measurement retrieved successfully',
+      data: measurement,
     });
-
   } catch (error) {
-    console.error('Error retrieving costume measurement:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error retrieving costume measurement',
-      error: error.message
+    console.error('Error fetching measurement:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch measurement',
+      details: error.message 
     });
   }
 });
 
-// DELETE - Remove a measurement by ID
-router.delete('/:id', async (req, res) => {
+/**
+ * @route   PUT /api/costume-measurements/:id
+ * @desc    Update a costume measurement
+ * @access  Public
+ */
+router.put('/:id', async (req, res) => {
   try {
-    const measurement = await CostumeMeasurement.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    const updates = req.body;
+
+    // Remove id and timestamps from updates if present
+    delete updates.id;
+    delete updates.createdAt;
+    delete updates.updatedAt;
+
+    const measurement = await CostumeMeasurement.update(id, updates);
 
     if (!measurement) {
-      return res.status(404).json({
-        success: false,
-        message: 'Measurement not found'
+      return res.status(404).json({ 
+        error: 'Measurement not found' 
       });
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Measurement deleted successfully'
+    res.json({
+      message: 'Measurement updated successfully',
+      data: measurement,
     });
-
   } catch (error) {
-    console.error('Error deleting costume measurement:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error deleting costume measurement',
-      error: error.message
+    console.error('Error updating measurement:', error);
+    res.status(500).json({ 
+      error: 'Failed to update measurement',
+      details: error.message 
+    });
+  }
+});
+
+/**
+ * @route   DELETE /api/costume-measurements/:id
+ * @desc    Delete a costume measurement
+ * @access  Public
+ */
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await CostumeMeasurement.delete(id);
+
+    res.json({
+      message: 'Measurement deleted successfully',
+      id,
+    });
+  } catch (error) {
+    console.error('Error deleting measurement:', error);
+    res.status(500).json({ 
+      error: 'Failed to delete measurement',
+      details: error.message 
+    });
+  }
+});
+
+/**
+ * @route   GET /api/costume-measurements/search/:name
+ * @desc    Search measurements by student name
+ * @access  Public
+ */
+router.get('/search/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const measurements = await CostumeMeasurement.searchByName(name);
+
+    res.json({
+      message: 'Search completed successfully',
+      count: measurements.length,
+      data: measurements,
+    });
+  } catch (error) {
+    console.error('Error searching measurements:', error);
+    res.status(500).json({ 
+      error: 'Failed to search measurements',
+      details: error.message 
     });
   }
 });
