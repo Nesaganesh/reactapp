@@ -30,10 +30,17 @@ app.use(cors({
 
 app.use(express.json());
 
-// Initialize DynamoDB connection
-const { REGION } = require('./config/dynamodb');
+// Initialize DynamoDB connection and table
+const { REGION, TABLE_NAME, initializeTable } = require('./config/dynamodb');
 console.log(`📊 Using DynamoDB in region: ${REGION}`);
-console.log(`📋 Table name: ${process.env.DYNAMODB_TABLE || 'CostumeMeasurements'}`);
+console.log(`📋 Table name: ${TABLE_NAME}`);
+
+// Initialize table async (will create if doesn't exist)
+initializeTable().catch(err => {
+  console.error('⚠️ Warning: Could not initialize DynamoDB table:', err.message);
+  console.error('   The server will continue, but database operations may fail.');
+  console.error('   Please check your AWS credentials and permissions.');
+});
 
 // Routes
 const costumeMeasurementsRoutes = require('./routes/costumeMeasurements');
