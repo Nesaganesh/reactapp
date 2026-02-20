@@ -80,6 +80,11 @@ function Navbar() {
                       Vote 4 Performer
                     </a>
                   </li>
+                  <li>
+                    <Link to='/costume-measurements' className='dropdown-link' onClick={closeMobileMenu}>
+                      Student Details
+                    </Link> 
+                  </li>
                 </ul>
               )}
             </li>
