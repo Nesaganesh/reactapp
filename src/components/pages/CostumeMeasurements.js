@@ -44,11 +44,34 @@ function CostumeMeasurements() {
     setError('');
 
     try {
+      // Map frontend fields to backend schema
+      const backendData = {
+        studentName: formData.fullName,
+        shoulder: parseFloat(formData.shoulder),
+        chest: parseFloat(formData.chest),
+        waist: parseFloat(formData.waist),
+        shirtLengthHalf: parseFloat(formData.shirtLengthHalf),
+        shirtLengthFull: parseFloat(formData.shirtLengthFull),
+        topLength: parseFloat(formData.topLength),
+        pantLength: parseFloat(formData.pantLength)
+      };
+
+      // Debug logging
+      console.log('API URL:', API_URL);
+      console.log('Full URL:', `${API_URL}/costume-measurements`);
+      console.log('Sending data:', backendData);
+
       // Send data to backend
-      const response = await axios.post(`${API_URL}/costume-measurements`, formData);
+      const response = await axios.post(`${API_URL}/costume-measurements`, backendData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       
-      if (response.data.success) {
-        console.log('Measurement saved:', response.data);
+      console.log('Response received:', response);
+      
+      if (response.data.message || response.data.data) {
+        console.log('✅ Measurement saved successfully:', response.data);
         setSubmitted(true);
         
         // Reset form after 3 seconds
@@ -67,8 +90,28 @@ function CostumeMeasurements() {
         }, 3000);
       }
     } catch (err) {
-      console.error('Error submitting measurements:', err);
-      setError(err.response?.data?.message || 'Failed to submit measurements. Please try again.');
+      console.error('❌ Error submitting measurements:', err);
+      console.error('Error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+        statusText: err.response?.statusText
+      });
+      
+      let errorMessage = 'Failed to submit measurements. Please try again.';
+      
+      if (err.response) {
+        // Server responded with error
+        errorMessage = err.response.data?.error || err.response.data?.message || errorMessage;
+      } else if (err.request) {
+        // Request made but no response
+        errorMessage = 'Cannot connect to server. Please check your internet connection.';
+      } else {
+        // Something else happened
+        errorMessage = err.message || errorMessage;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

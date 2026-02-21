@@ -11,18 +11,27 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  // Add your Amplify URL after deployment:
-  // 'https://your-app-name.amplifyapp.com'
+  'https://irmsdkmf43.us-east-1.awsapprunner.com',
+  // Add your frontend Amplify URL here when deployed
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    
+    // Allow any origin in development (when testing)
+    // Comment this out in production for security
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
     }
+    
+    // In production, check allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    
+    // For testing purposes, allow all origins (REMOVE THIS IN PRODUCTION)
     return callback(null, true);
   },
   credentials: true

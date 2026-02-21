@@ -11,35 +11,44 @@ router.post('/', async (req, res) => {
   try {
     const {
       studentName,
+      shoulder,
+      chest,
+      waist,
+      shirtLengthHalf,
+      shirtLengthFull,
+      topLength,
+      pantLength,
+      // Optional fields from other forms
       age,
       height,
       weight,
-      chest,
-      waist,
       hip,
-      shoulder,
       sleeveLength,
       inseam,
       notes,
     } = req.body;
 
-    // Validation
+    // Validation - at minimum need studentName
     if (!studentName) {
       return res.status(400).json({ 
         error: 'Student name is required' 
       });
     }
 
-    // Create measurement
+    // Create measurement with all fields (undefined values will be stored as null)
     const measurement = await CostumeMeasurement.create({
       studentName,
+      shoulder,
+      chest,
+      waist,
+      shirtLengthHalf,
+      shirtLengthFull,
+      topLength,
+      pantLength,
       age,
       height,
       weight,
-      chest,
-      waist,
       hip,
-      shoulder,
       sleeveLength,
       inseam,
       notes,
