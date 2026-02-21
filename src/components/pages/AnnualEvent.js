@@ -2,12 +2,14 @@
 import React from 'react';
 import './AnnualEvent.css';
 import Navbar from '../Navbar';
+import AnnualEventBanner from '../AnnualEventBanner';
 
 function AnnualEvent() {
   return (
     <>
         <Navbar />
-        <video src='https://s3.amazonaws.com/flytoez.content/TRAILER3_VER2.mp4' autoPlay loop />
+        <AnnualEventBanner />
+        {/* <video src='https://s3.amazonaws.com/flytoez.content/TRAILER3_VER2.mp4' autoPlay loop /> */}
         {/* <form className="form">
             <div><h2> Annual Event September 24th 2023</h2>
                         

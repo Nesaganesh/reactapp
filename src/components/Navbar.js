@@ -53,11 +53,16 @@ function Navbar() {
               onMouseEnter={() => setDropdown(true)}
               onMouseLeave={() => setDropdown(false)}
             >
-              <span className='nav-links'>
+              <Link to='/annualevent' className='nav-links' onClick={closeMobileMenu}>
                 Annual Event 2026 <i className='fas fa-caret-down' />
-              </span>
+              </Link>
               {dropdown && (
                 <ul className='dropdown-menu'>
+                  <li>
+                    <Link to='/annualevent' className='dropdown-link' onClick={closeMobileMenu}>
+                      Event Home
+                    </Link>
+                  </li>
                   <li>
                     <a 
                       href='https://main.d379voawpphpqa.amplifyapp.com/' 
