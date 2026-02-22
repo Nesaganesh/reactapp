@@ -4,7 +4,7 @@ import './Testimonials.css';
 const testimonialsData = [
   {
     name: 'Aarav Mehta',
-    text: 'Flytoez Dance Academy helped me discover my love for Bollywood dance. Every class is full of energy and fun!',
+    text: 'Flytoez Dance Company helped me discover my love for Bollywood dance. Every class is full of energy and fun!',
   },
   {
     name: 'Priya Sharma',

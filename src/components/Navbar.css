@@ -139,9 +139,39 @@
   cursor: pointer;
 }
 
+.menu-icon-img {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
 @media screen and (max-width: 960px) {
+  .navbar-container {
+    justify-content: space-between;
+  }
+
   .menu-icon {
     display: block;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .menu-icon-img {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Hide only the logo image on mobile, keep the text */
+  .navbar-logo .logo-img {
+    display: none;
+  }
+  
+  .navbar-logo {
+    display: flex;
+  }
+  
+  .navbar-logo-text {
+    font-size: 1.1rem;
   }
 
   .nav-menu {
