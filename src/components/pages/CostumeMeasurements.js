@@ -8,13 +8,26 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 function CostumeMeasurements() {
   const [formData, setFormData] = useState({
     fullName: '',
-    shoulder: '',
-    chest: '',
-    shirtLengthHalf: '',
-    shirtLengthFull: '',
-    topLength: '',
-    pantLength: '',
-    waist: ''
+    branch: '',
+    parentName: '',
+    parentMobile1: '',
+    parentMobile2: '',
+    foodPreference: '',
+    foodAllergies: {
+      nuts: false,
+      dairy: false,
+      eggs: false,
+      gluten: false,
+      other: false,
+      otherDetails: ''
+    },
+    shoulder: '0',
+    chest: '0',
+    shirtLengthHalf: '0',
+    shirtLengthFull: '0',
+    topLength: '0',
+    pantLength: '0',
+    waist: '0'
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -22,21 +35,40 @@ function CostumeMeasurements() {
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    const { name, value, type, checked } = e.target;
+    
+    if (name.startsWith('allergy_')) {
+      const allergyType = name.replace('allergy_', '');
+      setFormData(prevState => ({
+        ...prevState,
+        foodAllergies: {
+          ...prevState.foodAllergies,
+          [allergyType]: checked
+        }
+      }));
+    } else if (name === 'allergyOtherDetails') {
+      setFormData(prevState => ({
+        ...prevState,
+        foodAllergies: {
+          ...prevState.foodAllergies,
+          otherDetails: value
+        }
+      }));
+    } else {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate all fields are filled
-    const allFieldsFilled = Object.values(formData).every(field => field.trim() !== '');
-    
-    if (!allFieldsFilled) {
-      setError('Please fill in all fields');
+    // Validate required fields
+    if (!formData.fullName || !formData.branch || !formData.parentName || 
+        !formData.parentMobile1 || !formData.foodPreference) {
+      setError('Please fill in all required fields');
       return;
     }
 
@@ -44,9 +76,25 @@ function CostumeMeasurements() {
     setError('');
 
     try {
+      // Format food allergies as a string
+      const allergies = [];
+      if (formData.foodAllergies.nuts) allergies.push('Nuts');
+      if (formData.foodAllergies.dairy) allergies.push('Dairy');
+      if (formData.foodAllergies.eggs) allergies.push('Eggs');
+      if (formData.foodAllergies.gluten) allergies.push('Gluten');
+      if (formData.foodAllergies.other && formData.foodAllergies.otherDetails) {
+        allergies.push(`Other: ${formData.foodAllergies.otherDetails}`);
+      }
+
       // Map frontend fields to backend schema
       const backendData = {
         studentName: formData.fullName,
+        branch: formData.branch,
+        parentName: formData.parentName,
+        parentMobile1: formData.parentMobile1,
+        parentMobile2: formData.parentMobile2 || '',
+        foodPreference: formData.foodPreference,
+        foodAllergies: allergies.join(', ') || 'None',
         shoulder: parseFloat(formData.shoulder),
         chest: parseFloat(formData.chest),
         waist: parseFloat(formData.waist),
@@ -71,26 +119,39 @@ function CostumeMeasurements() {
       console.log('Response received:', response);
       
       if (response.data.message || response.data.data) {
-        console.log('✅ Measurement saved successfully:', response.data);
+        console.log('✅ Student details saved successfully:', response.data);
         setSubmitted(true);
         
         // Reset form after 3 seconds
         setTimeout(() => {
           setFormData({
             fullName: '',
-            shoulder: '',
-            chest: '',
-            shirtLengthHalf: '',
-            shirtLengthFull: '',
-            topLength: '',
-            pantLength: '',
-            waist: ''
+            branch: '',
+            parentName: '',
+            parentMobile1: '',
+            parentMobile2: '',
+            foodPreference: '',
+            foodAllergies: {
+              nuts: false,
+              dairy: false,
+              eggs: false,
+              gluten: false,
+              other: false,
+              otherDetails: ''
+            },
+            shoulder: '0',
+            chest: '0',
+            shirtLengthHalf: '0',
+            shirtLengthFull: '0',
+            topLength: '0',
+            pantLength: '0',
+            waist: '0'
           });
           setSubmitted(false);
         }, 3000);
       }
     } catch (err) {
-      console.error('❌ Error submitting measurements:', err);
+      console.error('❌ Error submitting student details:', err);
       console.error('Error details:', {
         message: err.message,
         response: err.response?.data,
@@ -98,7 +159,7 @@ function CostumeMeasurements() {
         statusText: err.response?.statusText
       });
       
-      let errorMessage = 'Failed to submit measurements. Please try again.';
+      let errorMessage = 'Failed to submit student details. Please try again.';
       
       if (err.response) {
         // Server responded with error
@@ -122,13 +183,13 @@ function CostumeMeasurements() {
       <Navbar />
       <div className="costume-container">
         <div className="costume-form-wrapper">
-          <h2 className="costume-title">Costume Measurements Form</h2>
-          <p className="costume-subtitle">All measurements should be in inches</p>
+          <h2 className="costume-title">Student Details Form</h2>
+          <p className="costume-subtitle">Please provide student and parent information for event day</p>
           
           {submitted && (
             <div className="success-message">
               <i className="fas fa-check-circle"></i>
-              <p>Measurements submitted successfully!</p>
+              <p>Student details submitted successfully!</p>
             </div>
           )}
 
@@ -142,7 +203,7 @@ function CostumeMeasurements() {
           <form onSubmit={handleSubmit} className="costume-form">
             <div className="form-group">
               <label htmlFor="fullName">
-                Full Name (for certificate) <span className="required">*</span>
+                Student Name (for certificate) <span className="required">*</span>
               </label>
               <input
                 type="text"
@@ -155,151 +216,186 @@ function CostumeMeasurements() {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="branch">
+                Branch <span className="required">*</span>
+              </label>
+              <select
+                id="branch"
+                name="branch"
+                value={formData.branch}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Branch</option>
+                <option value="Chelmsford">Chelmsford</option>
+                <option value="Colchester">Colchester</option>
+                <option value="Ipswich">Ipswich</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="parentName">
+                Parent Name <span className="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="parentName"
+                name="parentName"
+                value={formData.parentName}
+                onChange={handleChange}
+                placeholder="Enter parent/guardian name"
+                required
+              />
+            </div>
+
             <div className="measurements-grid">
               <div className="form-group">
-                <label htmlFor="shoulder">
-                  Shoulder <span className="required">*</span>
+                <label htmlFor="parentMobile1">
+                  Parent Mobile Number 1 <span className="required">*</span>
                 </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="shoulder"
-                    name="shoulder"
-                    value={formData.shoulder}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
+                <input
+                  type="tel"
+                  id="parentMobile1"
+                  name="parentMobile1"
+                  value={formData.parentMobile1}
+                  onChange={handleChange}
+                  placeholder="Enter mobile number"
+                  required
+                />
               </div>
 
               <div className="form-group">
-                <label htmlFor="chest">
-                  Chest <span className="required">*</span>
+                <label htmlFor="parentMobile2">
+                  Parent Mobile Number 2
                 </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="chest"
-                    name="chest"
-                    value={formData.chest}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="shirtLengthHalf">
-                  Shirt Length Half <span className="required">*</span>
-                </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="shirtLengthHalf"
-                    name="shirtLengthHalf"
-                    value={formData.shirtLengthHalf}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="shirtLengthFull">
-                  Shirt Length Full <span className="required">*</span>
-                </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="shirtLengthFull"
-                    name="shirtLengthFull"
-                    value={formData.shirtLengthFull}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="topLength">
-                  Top Length <span className="required">*</span>
-                </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="topLength"
-                    name="topLength"
-                    value={formData.topLength}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="pantLength">
-                  Pant Length <span className="required">*</span>
-                </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="pantLength"
-                    name="pantLength"
-                    value={formData.pantLength}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="waist">
-                  Waist <span className="required">*</span>
-                </label>
-                <div className="input-with-unit">
-                  <input
-                    type="number"
-                    id="waist"
-                    name="waist"
-                    value={formData.waist}
-                    onChange={handleChange}
-                    placeholder="0.0"
-                    step="0.1"
-                    min="0"
-                    required
-                  />
-                  <span className="unit">inches</span>
-                </div>
+                <input
+                  type="tel"
+                  id="parentMobile2"
+                  name="parentMobile2"
+                  value={formData.parentMobile2}
+                  onChange={handleChange}
+                  placeholder="Enter mobile number (optional)"
+                />
               </div>
             </div>
 
+            <div className="food-info-box">
+              <h3>
+                <i className="fas fa-utensils"></i> Food Information
+              </h3>
+              <p>FDC provides lunch for all performers. Available options:</p>
+              <ul>
+                <li>Veg: Paneer Burger</li>
+                <li>Non-Veg: Chicken Burger</li>
+                <li>Fries</li>
+                <li>Fruit Juice</li>
+              </ul>
+            </div>
+
+            <div className="form-group">
+              <label>
+                Food Preference <span className="required">*</span>
+              </label>
+              <div className="radio-group">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="foodPreference"
+                    value="Veg"
+                    checked={formData.foodPreference === 'Veg'}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span>Vegetarian</span>
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="foodPreference"
+                    value="Non-Veg"
+                    checked={formData.foodPreference === 'Non-Veg'}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span>Non-Vegetarian</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Food Allergies (Please tick if applicable)</label>
+              <div className="checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="allergy_nuts"
+                    checked={formData.foodAllergies.nuts}
+                    onChange={handleChange}
+                  />
+                  <span>Nuts</span>
+                </label>
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="allergy_dairy"
+                    checked={formData.foodAllergies.dairy}
+                    onChange={handleChange}
+                  />
+                  <span>Dairy</span>
+                </label>
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="allergy_eggs"
+                    checked={formData.foodAllergies.eggs}
+                    onChange={handleChange}
+                  />
+                  <span>Eggs</span>
+                </label>
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="allergy_gluten"
+                    checked={formData.foodAllergies.gluten}
+                    onChange={handleChange}
+                  />
+                  <span>Gluten</span>
+                </label>
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="allergy_other"
+                    checked={formData.foodAllergies.other}
+                    onChange={handleChange}
+                  />
+                  <span>Other</span>
+                </label>
+              </div>
+              {formData.foodAllergies.other && (
+                <input
+                  type="text"
+                  name="allergyOtherDetails"
+                  value={formData.foodAllergies.otherDetails}
+                  onChange={handleChange}
+                  placeholder="Please specify other allergies"
+                  className="allergy-other-input"
+                />
+              )}
+            </div>
+
+            {/* Hidden measurement fields with default values */}
+            <input type="hidden" name="shoulder" value={formData.shoulder} />
+            <input type="hidden" name="chest" value={formData.chest} />
+            <input type="hidden" name="shirtLengthHalf" value={formData.shirtLengthHalf} />
+            <input type="hidden" name="shirtLengthFull" value={formData.shirtLengthFull} />
+            <input type="hidden" name="topLength" value={formData.topLength} />
+            <input type="hidden" name="pantLength" value={formData.pantLength} />
+            <input type="hidden" name="waist" value={formData.waist} />
+
             <button type="submit" className="submit-button" disabled={loading}>
               <i className="fas fa-paper-plane"></i>
-              {loading ? 'Submitting...' : 'Submit Measurements'}
+              {loading ? 'Submitting...' : 'Submit Student Details'}
             </button>
           </form>
         </div>

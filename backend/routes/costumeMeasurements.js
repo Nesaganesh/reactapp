@@ -11,6 +11,12 @@ router.post('/', async (req, res) => {
   try {
     const {
       studentName,
+      branch,
+      parentName,
+      parentMobile1,
+      parentMobile2,
+      foodPreference,
+      foodAllergies,
       shoulder,
       chest,
       waist,
@@ -38,6 +44,12 @@ router.post('/', async (req, res) => {
     // Create measurement with all fields (undefined values will be stored as null)
     const measurement = await CostumeMeasurement.create({
       studentName,
+      branch,
+      parentName,
+      parentMobile1,
+      parentMobile2,
+      foodPreference,
+      foodAllergies,
       shoulder,
       chest,
       waist,
@@ -55,13 +67,13 @@ router.post('/', async (req, res) => {
     });
 
     res.status(201).json({
-      message: 'Costume measurement created successfully',
+      message: 'Student details created successfully',
       data: measurement,
     });
   } catch (error) {
-    console.error('Error creating measurement:', error);
+    console.error('Error creating student details:', error);
     res.status(500).json({ 
-      error: 'Failed to create costume measurement',
+      error: 'Failed to create student details',
       details: error.message 
     });
   }
