@@ -50,7 +50,7 @@ function AnnualEventBanner() {
               </div>
               <div className="detail-item">
                 <i className="fas fa-map-marker-alt"></i>
-                <span>Ipswich High School, Woolverstone IP9 1AZ</span>
+                <span>Hayworth Theatre, Ipswich High School, Woolverstone IP9 1AZ</span>
               </div>
             </div>
             <div className="event-cta-buttons">
@@ -117,6 +117,40 @@ function AnnualEventBanner() {
               <h4>Unique Concepts</h4>
               <p>Welcome Dance, 5 Elements Dance & Many More Surprises</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Event Process */}
+      <div className="event-highlights">
+        <div className="highlights-container">
+          <h3 className="highlights-title">Important Information</h3>
+          <p className="highlights-description">
+            Please read the following important details about tickets, voting, and performer registration.
+          </p>
+          <div className="highlights-grid">
+            <div className="highlight-card">
+              <div className="highlight-icon">
+                <i className="fas fa-ticket-alt"></i>
+              </div>
+              <h4>Buy Tickets</h4>
+              <p>Performers do not need to buy tickets. Everyone else must purchase tickets to attend the event.</p>
+            </div>
+            <div className="highlight-card">
+              <div className="highlight-icon">
+                <i className="fas fa-vote-yea"></i>
+              </div>
+              <h4>Vote for Performer</h4>
+              <p>On event day, scan the QR code from your brochure. After watching a performance, select the team and student name, then submit your vote by entering your phone number to receive an OTP.</p>
+            </div>
+            <div className="highlight-card">
+              <div className="highlight-icon">
+                <i className="fas fa-user-edit"></i>
+              </div>
+              <h4>Student Details</h4>
+              <p>If you or your child is performing, please provide certificate name details, parent mobile numbers, and any food allergies. FDC provides lunch for all performers who must be available from morning.</p>
+            </div>
+           
           </div>
         </div>
       </div>
