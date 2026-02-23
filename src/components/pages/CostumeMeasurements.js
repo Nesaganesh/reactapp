@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CostumeMeasurements.css';
 import Navbar from '../Navbar';
@@ -6,6 +7,7 @@ import Navbar from '../Navbar';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 function CostumeMeasurements() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     branch: '',
@@ -121,34 +123,6 @@ function CostumeMeasurements() {
       if (response.data.message || response.data.data) {
         console.log('✅ Student details saved successfully:', response.data);
         setSubmitted(true);
-        
-        // Reset form after 3 seconds
-        setTimeout(() => {
-          setFormData({
-            fullName: '',
-            branch: '',
-            parentName: '',
-            parentMobile1: '',
-            parentMobile2: '',
-            foodPreference: '',
-            foodAllergies: {
-              nuts: false,
-              dairy: false,
-              eggs: false,
-              gluten: false,
-              other: false,
-              otherDetails: ''
-            },
-            shoulder: '0',
-            chest: '0',
-            shirtLengthHalf: '0',
-            shirtLengthFull: '0',
-            topLength: '0',
-            pantLength: '0',
-            waist: '0'
-          });
-          setSubmitted(false);
-        }, 3000);
       }
     } catch (err) {
       console.error('❌ Error submitting student details:', err);
@@ -178,6 +152,40 @@ function CostumeMeasurements() {
     }
   };
 
+  // Show confirmation page after successful submission
+  if (submitted) {
+    return (
+      <>
+        <Navbar />
+        <div className="costume-container">
+          <div className="confirmation-wrapper">
+            <div className="confirmation-icon">
+              <i className="fas fa-check-circle"></i>
+            </div>
+            <h2 className="confirmation-title">Thank You!</h2>
+            <p className="confirmation-message">
+              Your student details have been submitted successfully.
+            </p>
+            <p className="confirmation-info">
+              We have received the information for <strong>{formData.fullName}</strong> from <strong>{formData.branch}</strong> branch.
+            </p>
+            <p className="confirmation-next-steps">
+              Our team will review the details and contact you if any additional information is needed.
+              We look forward to seeing you at the Annual Event 2026!
+            </p>
+            <button 
+              className="home-button" 
+              onClick={() => navigate('/annualevent')}
+            >
+              <i className="fas fa-home"></i>
+              Back to Event Home Page
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />
@@ -185,13 +193,6 @@ function CostumeMeasurements() {
         <div className="costume-form-wrapper">
           <h2 className="costume-title">Student Details Form</h2>
           <p className="costume-subtitle">Please provide student and parent information for event day</p>
-          
-          {submitted && (
-            <div className="success-message">
-              <i className="fas fa-check-circle"></i>
-              <p>Student details submitted successfully!</p>
-            </div>
-          )}
 
           {error && (
             <div className="error-message">
