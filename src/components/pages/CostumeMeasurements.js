@@ -42,6 +42,28 @@ function CostumeMeasurements() {
   const [paymentError, setPaymentError] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
 
+  // Restore form data from localStorage on mount
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
+    if (savedFormData) {
+      try {
+        const parsedData = JSON.parse(savedFormData);
+        setFormData(parsedData);
+        console.log('✅ Form data restored from localStorage');
+      } catch (error) {
+        console.error('Failed to restore form data:', error);
+      }
+    }
+  }, []);
+
+  // Auto-save form data to localStorage whenever it changes
+  useEffect(() => {
+    // Only save if form has some data (not initial empty state)
+    if (formData.fullName || formData.branch || formData.parentName) {
+      localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
+    }
+  }, [formData]);
+
   // Check for Stripe payment success or cancellation on component mount
   useEffect(() => {
     const success = searchParams.get('payment_success');
@@ -116,6 +138,10 @@ function CostumeMeasurements() {
     setPaymentError('');
 
     try {
+      // Save form data to localStorage before redirecting
+      localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
+      console.log('💾 Form data saved to localStorage before payment');
+
       // Create checkout session
       const response = await axios.post(`${API_URL}/stripe/create-checkout-session`, {
         customerName: formData.fullName,
@@ -256,6 +282,9 @@ function CostumeMeasurements() {
       
       if (response.data.message || response.data.data) {
         console.log('✅ Student details saved successfully:', response.data);
+        // Clear localStorage after successful submission
+        localStorage.removeItem('costumeMeasurementsFormData');
+        console.log('🗑️ Form data cleared from localStorage');
         setSubmitted(true);
       }
     } catch (err) {
@@ -595,7 +624,11 @@ function CostumeMeasurements() {
                   {formData.paymentCompleted ? (
                     <div className="payment-completed">
                       <i className="fas fa-check-circle"></i>
-                      <p><strong>Payment Completed!</strong> You can now submit the form.</p>
+                      <div>
+                        <p><strong>Payment Completed!</strong></p>
+                        <span className="paid-badge">✓ PAID £10</span>
+                        <p className="payment-note">You can now submit the form with your details.</p>
+                      </div>
                     </div>
                   ) : (
                     <>
