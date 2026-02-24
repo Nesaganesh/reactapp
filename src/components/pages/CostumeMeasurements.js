@@ -42,48 +42,59 @@ function CostumeMeasurements() {
   const [paymentError, setPaymentError] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
 
-  // Restore form data from localStorage on mount
+  // Combined effect: Restore form data and check payment status
   useEffect(() => {
-    const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
-    if (savedFormData) {
-      try {
-        const parsedData = JSON.parse(savedFormData);
-        setFormData(parsedData);
-        console.log('✅ Form data restored from localStorage');
-      } catch (error) {
-        console.error('Failed to restore form data:', error);
-      }
-    }
-  }, []);
-
-  // Auto-save form data to localStorage whenever it changes
-  useEffect(() => {
-    // Only save if form has some data (not initial empty state)
-    if (formData.fullName || formData.branch || formData.parentName) {
-      localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
-    }
-  }, [formData]);
-
-  // Check for Stripe payment success or cancellation on component mount
-  useEffect(() => {
+    // Check for Stripe payment success or cancellation
     const success = searchParams.get('payment_success');
     const canceled = searchParams.get('payment_canceled');
     const sessionId = searchParams.get('session_id');
     
     if (success === 'true' && sessionId) {
-      // Verify payment with backend
+      // Verify payment with backend (it will restore data from localStorage)
+      console.log('🔍 Verifying payment session:', sessionId);
       verifyPayment(sessionId);
     } else if (canceled === 'true') {
       setPaymentError('Payment was canceled. Please try again to complete your T-Shirt purchase.');
-      setFormData(prev => ({
-        ...prev,
-        paymentCompleted: false
-      }));
-      
+      // Restore form data from localStorage even if payment was canceled
+      const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
+      if (savedFormData) {
+        try {
+          const parsedData = JSON.parse(savedFormData);
+          setFormData(parsedData);
+          console.log('✅ Form data restored after payment cancellation');
+        } catch (error) {
+          console.error('Failed to restore form data:', error);
+        }
+      }
       // Clean up URL
       window.history.replaceState({}, '', '/costume-measurements');
+    } else {
+      // Normal page load - restore from localStorage if available
+      const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
+      if (savedFormData) {
+        try {
+          const parsedData = JSON.parse(savedFormData);
+          setFormData(parsedData);
+          console.log('✅ Form data restored from localStorage:', parsedData);
+        } catch (error) {
+          console.error('Failed to restore form data:', error);
+        }
+      }
     }
   }, [searchParams]);
+
+  // Auto-save form data to localStorage whenever it changes (debounced)
+  useEffect(() => {
+    // Only save if form has some data (not initial empty state)
+    if (formData.fullName || formData.branch || formData.parentName) {
+      const timer = setTimeout(() => {
+        localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
+        console.log('💾 Form data auto-saved to localStorage');
+      }, 500); // Debounce by 500ms
+
+      return () => clearTimeout(timer);
+    }
+  }, [formData]);
 
   // Verify payment session with backend
   const verifyPayment = async (sessionId) => {
@@ -92,10 +103,31 @@ function CostumeMeasurements() {
       
       if (response.data.status === 'paid') {
         setPaymentError('');
-        setFormData(prev => ({
-          ...prev,
-          paymentCompleted: true
-        }));
+        
+        // Get the saved form data from localStorage and merge with payment status
+        const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
+        if (savedFormData) {
+          try {
+            const parsedData = JSON.parse(savedFormData);
+            setFormData({
+              ...parsedData,
+              paymentCompleted: true
+            });
+            console.log('✅ Payment verified and form data restored:', parsedData);
+          } catch (error) {
+            console.error('Failed to parse saved form data:', error);
+            setFormData(prev => ({
+              ...prev,
+              paymentCompleted: true
+            }));
+          }
+        } else {
+          // Fallback if no saved data
+          setFormData(prev => ({
+            ...prev,
+            paymentCompleted: true
+          }));
+        }
         
         // Show success message
         const message = document.createElement('div');

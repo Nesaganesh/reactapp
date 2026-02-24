@@ -21,8 +21,22 @@ router.post('/create-checkout-session', async (req, res) => {
       });
     }
 
-    // Get the frontend URL from environment or default to localhost
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    // Smart frontend URL detection - use origin from request or fallback to env
+    let frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    
+    // If request has origin header, use that (allows both local and production)
+    const origin = req.headers.origin || req.headers.referer;
+    if (origin) {
+      try {
+        const originUrl = new URL(origin);
+        frontendUrl = `${originUrl.protocol}//${originUrl.host}`;
+        console.log(`🔄 Using dynamic frontend URL from request: ${frontendUrl}`);
+      } catch (error) {
+        console.log(`⚠️ Could not parse origin, using configured: ${frontendUrl}`);
+      }
+    }
+    
+    console.log(`💳 Creating Stripe session for ${customerName}, redirecting to: ${frontendUrl}`);
 
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
