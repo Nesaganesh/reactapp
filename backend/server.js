@@ -12,7 +12,8 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
   'https://irmsdkmf43.us-east-1.awsapprunner.com',
-  // Add your frontend Amplify URL here when deployed
+  'https://www.flytoez.co.uk',
+  'https://flytoez.co.uk'
 ];
 
 app.use(cors({
