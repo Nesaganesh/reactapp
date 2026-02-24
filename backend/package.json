@@ -16,7 +16,8 @@
     "dotenv": "^16.0.3",
     "@aws-sdk/client-dynamodb": "^3.478.0",
     "@aws-sdk/lib-dynamodb": "^3.478.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "stripe": "^14.12.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

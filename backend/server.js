@@ -53,7 +53,10 @@ initializeTable().catch(err => {
 
 // Routes
 const costumeMeasurementsRoutes = require('./routes/costumeMeasurements');
+const stripeRoutes = require('./routes/stripe');
+
 app.use('/api/costume-measurements', costumeMeasurementsRoutes);
+app.use('/api/stripe', stripeRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -88,7 +91,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Use port 8080 for AWS App Runner, 5000 for local dev
+// Use port 5000 for both local dev and AWS App Runner
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, '0.0.0.0', () => {

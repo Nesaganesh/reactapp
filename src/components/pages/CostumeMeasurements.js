@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import './CostumeMeasurements.css';
 import Navbar from '../Navbar';
@@ -8,6 +8,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 function CostumeMeasurements() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     fullName: '',
     branch: '',
@@ -23,6 +24,9 @@ function CostumeMeasurements() {
       other: false,
       otherDetails: ''
     },
+    tshirtOption: '',
+    tshirtSize: '',
+    paymentCompleted: false,
     shoulder: '0',
     chest: '0',
     shirtLengthHalf: '0',
@@ -35,9 +39,105 @@ function CostumeMeasurements() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [paymentError, setPaymentError] = useState('');
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  // Check for Stripe payment success or cancellation on component mount
+  useEffect(() => {
+    const success = searchParams.get('payment_success');
+    const canceled = searchParams.get('payment_canceled');
+    const sessionId = searchParams.get('session_id');
+    
+    if (success === 'true' && sessionId) {
+      // Verify payment with backend
+      verifyPayment(sessionId);
+    } else if (canceled === 'true') {
+      setPaymentError('Payment was canceled. Please try again to complete your T-Shirt purchase.');
+      setFormData(prev => ({
+        ...prev,
+        paymentCompleted: false
+      }));
+      
+      // Clean up URL
+      window.history.replaceState({}, '', '/costume-measurements');
+    }
+  }, [searchParams]);
+
+  // Verify payment session with backend
+  const verifyPayment = async (sessionId) => {
+    try {
+      const response = await axios.get(`${API_URL}/stripe/verify-session/${sessionId}`);
+      
+      if (response.data.status === 'paid') {
+        setPaymentError('');
+        setFormData(prev => ({
+          ...prev,
+          paymentCompleted: true
+        }));
+        
+        // Show success message
+        const message = document.createElement('div');
+        message.className = 'payment-success-toast';
+        message.innerHTML = '<i class="fas fa-check-circle"></i> Payment of £10 completed successfully!';
+        document.body.appendChild(message);
+        
+        setTimeout(() => {
+          message.remove();
+        }, 5000);
+      } else {
+        setPaymentError('Payment verification failed. Please contact support if you were charged.');
+      }
+      
+      // Clean up URL
+      window.history.replaceState({}, '', '/costume-measurements');
+    } catch (error) {
+      console.error('Payment verification error:', error);
+      setPaymentError('Failed to verify payment. Please contact support.');
+      
+      // Clean up URL
+      window.history.replaceState({}, '', '/costume-measurements');
+    }
+  };
+
+  // Handle Stripe payment
+  const handleStripePayment = async () => {
+    // Validate required fields before payment
+    if (!formData.fullName) {
+      setPaymentError('Please enter student name before proceeding to payment');
+      return;
+    }
+    
+    if (!formData.tshirtSize) {
+      setPaymentError('Please select T-Shirt size before proceeding to payment');
+      return;
+    }
+
+    setPaymentLoading(true);
+    setPaymentError('');
+
+    try {
+      // Create checkout session
+      const response = await axios.post(`${API_URL}/stripe/create-checkout-session`, {
+        customerName: formData.fullName,
+        tshirtSize: formData.tshirtSize
+      });
+
+      // Redirect to Stripe Checkout
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      } else {
+        setPaymentError('Failed to initialize payment. Please try again.');
+        setPaymentLoading(false);
+      }
+    } catch (error) {
+      console.error('Payment initialization error:', error);
+      setPaymentError(error.response?.data?.error || 'Failed to initialize payment. Please try again.');
+      setPaymentLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, checked } = e.target;
     
     if (name.startsWith('allergy_')) {
       const allergyType = name.replace('allergy_', '');
@@ -56,6 +156,19 @@ function CostumeMeasurements() {
           otherDetails: value
         }
       }));
+    } else if (name === 'tshirtOption') {
+      // Handle t-shirt option change - reset payment when option changes
+      setFormData(prevState => ({
+        ...prevState,
+        tshirtOption: value,
+        paymentCompleted: value === 'have' ? true : false // Auto-complete if they have one
+      }));
+    } else if (name === 'paymentCompleted') {
+      // Handle payment completed checkbox
+      setFormData(prevState => ({
+        ...prevState,
+        paymentCompleted: checked
+      }));
     } else {
       setFormData(prevState => ({
         ...prevState,
@@ -71,6 +184,24 @@ function CostumeMeasurements() {
     if (!formData.fullName || !formData.branch || !formData.parentName || 
         !formData.parentMobile1 || !formData.foodPreference) {
       setError('Please fill in all required fields');
+      return;
+    }
+
+    // T-shirt validation
+    if (!formData.tshirtOption) {
+      setError('Please select Flytoez T-Shirt option');
+      return;
+    }
+
+    // T-shirt size validation - only required when buying
+    if (formData.tshirtOption === 'buy' && !formData.tshirtSize) {
+      setError('Please select T-Shirt size');
+      return;
+    }
+
+    // Payment validation - if user wants to buy, they must complete payment
+    if (formData.tshirtOption === 'buy' && !formData.paymentCompleted) {
+      setError('Please complete the Stripe payment for Flytoez T-Shirt before submitting');
       return;
     }
 
@@ -97,6 +228,9 @@ function CostumeMeasurements() {
         parentMobile2: formData.parentMobile2 || '',
         foodPreference: formData.foodPreference,
         foodAllergies: allergies.join(', ') || 'None',
+        tshirtOption: formData.tshirtOption,
+        tshirtSize: formData.tshirtSize,
+        paymentCompleted: formData.paymentCompleted,
         shoulder: parseFloat(formData.shoulder),
         chest: parseFloat(formData.chest),
         waist: parseFloat(formData.waist),
@@ -198,6 +332,13 @@ function CostumeMeasurements() {
             <div className="error-message">
               <i className="fas fa-exclamation-circle"></i>
               <p>{error}</p>
+            </div>
+          )}
+
+          {paymentError && (
+            <div className="payment-error-message">
+              <i className="fas fa-times-circle"></i>
+              <p>{paymentError}</p>
             </div>
           )}
 
@@ -384,6 +525,109 @@ function CostumeMeasurements() {
                 />
               )}
             </div>
+            {/* Flytoez T-Shirt Section */}
+            <div className="tshirt-section">
+              <div className="tshirt-info-box">
+                <h3>
+                  <i className="fas fa-tshirt"></i> Flytoez T-Shirt
+                </h3>
+                <p>All performers must have a Flytoez T-Shirt for the Annual Event.</p>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  Do you have a Flytoez T-Shirt? <span className="required">*</span>
+                </label>
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="tshirtOption"
+                      value="have"
+                      checked={formData.tshirtOption === 'have'}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span>Yes, I have one</span>
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="tshirtOption"
+                      value="buy"
+                      checked={formData.tshirtOption === 'buy'}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span>I want to buy</span>
+                  </label>
+                </div>
+              </div>
+
+              {formData.tshirtOption === 'buy' && (
+                <div className="form-group">
+                  <label htmlFor="tshirtSize">
+                    T-Shirt Size <span className="required">*</span>
+                  </label>
+                  <select
+                    id="tshirtSize"
+                    name="tshirtSize"
+                    value={formData.tshirtSize}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Size</option>
+                    <option value="Age 6-7">Age 6-7</option>
+                    <option value="Age 8-9">Age 8-9</option>
+                    <option value="Age 10-11">Age 10-11</option>
+                    <option value="Teens">Teens</option>
+                    <option value="Adult Small">Adult Small</option>
+                    <option value="Adult Medium">Adult Medium</option>
+                    <option value="Adult Large">Adult Large</option>
+                    <option value="Adult XL">Adult XL</option>
+                    <option value="Adult XXL">Adult XXL</option>
+                  </select>
+                </div>
+              )}
+
+              {formData.tshirtOption === 'buy' && (
+                <div className="payment-section">
+                  {formData.paymentCompleted ? (
+                    <div className="payment-completed">
+                      <i className="fas fa-check-circle"></i>
+                      <p><strong>Payment Completed!</strong> You can now submit the form.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="payment-info">
+                        <i className="fas fa-credit-card"></i>
+                        <p><strong>Payment Required: £10</strong></p>
+                        <p className="payment-note">Click the button below to complete your payment securely with Stripe.</p>
+                        <p className="payment-note">You will be redirected back to this form after payment.</p>
+                      </div>
+                      
+                      <button
+                        type="button"
+                        onClick={handleStripePayment}
+                        className="stripe-payment-button"
+                        disabled={paymentLoading}
+                      >
+                        <i className="fab fa-stripe"></i>
+                        {paymentLoading ? 'Processing...' : 'Pay £10 with Stripe'}
+                      </button>
+
+                      {!paymentLoading && (
+                        <div className="payment-warning">
+                          <i className="fas fa-exclamation-triangle"></i>
+                          <p>Please complete the payment before submitting the form.</p>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            
 
             {/* Hidden measurement fields with default values */}
             <input type="hidden" name="shoulder" value={formData.shoulder} />
