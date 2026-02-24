@@ -413,7 +413,7 @@ function CostumeMeasurements() {
       <div className="costume-container">
         <div className="costume-form-wrapper">
           <h2 className="costume-title">Student Details Form</h2>
-          <p className="costume-subtitle">Please provide student and parent information for event day</p>
+          <p className="costume-subtitle">Please provide student and parent information for the event day</p>
 
           {error && (
             <div className="error-message">
@@ -664,11 +664,12 @@ function CostumeMeasurements() {
                     required
                   >
                     <option value="">Select Size</option>
-                    <option value="Age 6-7">Age 6-7</option>
-                    <option value="Age 8-9">Age 8-9</option>
-                    <option value="Age 10-11">Age 10-11</option>
-                    <option value="Teens">Teens</option>
-                    <option value="Adult Small">Adult Small</option>
+                    <option value="Kids Age 3/4 years XS">Kids Age 3/4 years XS</option>
+                    <option value="Kids Age 5/6 years S">Kids Age 5/6 years S</option>
+                    <option value="Kids Age 7/8 years M">Kids Age 7/8 years M</option>
+                    <option value="Kids Age 9/11 years L">Kids Age 9/11 years L</option>
+                    <option value="Kids Age 11/12 years XL">Kids Age 11/12 years XL</option>
+                    <option value="Adult Small or Age 13+ years ">Adult Small or Age 13+ years</option>
                     <option value="Adult Medium">Adult Medium</option>
                     <option value="Adult Large">Adult Large</option>
                     <option value="Adult XL">Adult XL</option>
