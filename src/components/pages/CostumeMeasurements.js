@@ -6,6 +6,50 @@ import Navbar from '../Navbar';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+// Helper functions for storage with fallback
+const saveFormData = (data) => {
+  const jsonData = JSON.stringify(data);
+  try {
+    localStorage.setItem('costumeMeasurementsFormData', jsonData);
+    sessionStorage.setItem('costumeMeasurementsFormData', jsonData); // Backup
+    console.log('💾 Form data saved:', data.fullName || 'empty');
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to save form data:', error);
+    return false;
+  }
+};
+
+const loadFormData = () => {
+  try {
+    // Try localStorage first
+    let savedData = localStorage.getItem('costumeMeasurementsFormData');
+    if (!savedData) {
+      // Fallback to sessionStorage
+      savedData = sessionStorage.getItem('costumeMeasurementsFormData');
+      console.log('📦 Using sessionStorage fallback');
+    }
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      console.log('✅ Form data loaded:', parsed.fullName || 'empty');
+      return parsed;
+    }
+  } catch (error) {
+    console.error('❌ Failed to load form data:', error);
+  }
+  return null;
+};
+
+const clearFormData = () => {
+  try {
+    localStorage.removeItem('costumeMeasurementsFormData');
+    sessionStorage.removeItem('costumeMeasurementsFormData');
+    console.log('🗑️ Form data cleared');
+  } catch (error) {
+    console.error('Failed to clear form data:', error);
+  }
+};
+
 function CostumeMeasurements() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -50,46 +94,36 @@ function CostumeMeasurements() {
     const sessionId = searchParams.get('session_id');
     
     if (success === 'true' && sessionId) {
-      // Verify payment with backend (it will restore data from localStorage)
+      // Verify payment with backend (it will restore data from storage)
       console.log('🔍 Verifying payment session:', sessionId);
+      console.log('🌍 Current URL:', window.location.href);
       verifyPayment(sessionId);
     } else if (canceled === 'true') {
       setPaymentError('Payment was canceled. Please try again to complete your T-Shirt purchase.');
-      // Restore form data from localStorage even if payment was canceled
-      const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
-      if (savedFormData) {
-        try {
-          const parsedData = JSON.parse(savedFormData);
-          setFormData(parsedData);
-          console.log('✅ Form data restored after payment cancellation');
-        } catch (error) {
-          console.error('Failed to restore form data:', error);
-        }
+      // Restore form data from storage even if payment was canceled
+      const savedData = loadFormData();
+      if (savedData) {
+        setFormData(savedData);
+        console.log('✅ Form data restored after payment cancellation');
       }
       // Clean up URL
       window.history.replaceState({}, '', '/costume-measurements');
     } else {
-      // Normal page load - restore from localStorage if available
-      const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
-      if (savedFormData) {
-        try {
-          const parsedData = JSON.parse(savedFormData);
-          setFormData(parsedData);
-          console.log('✅ Form data restored from localStorage:', parsedData);
-        } catch (error) {
-          console.error('Failed to restore form data:', error);
-        }
+      // Normal page load - restore from storage if available
+      const savedData = loadFormData();
+      if (savedData) {
+        setFormData(savedData);
+        console.log('✅ Form data restored on page load');
       }
     }
   }, [searchParams]);
 
-  // Auto-save form data to localStorage whenever it changes (debounced)
+  // Auto-save form data to storage whenever it changes (debounced)
   useEffect(() => {
     // Only save if form has some data (not initial empty state)
     if (formData.fullName || formData.branch || formData.parentName) {
       const timer = setTimeout(() => {
-        localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
-        console.log('💾 Form data auto-saved to localStorage');
+        saveFormData(formData);
       }, 500); // Debounce by 500ms
 
       return () => clearTimeout(timer);
@@ -104,24 +138,16 @@ function CostumeMeasurements() {
       if (response.data.status === 'paid') {
         setPaymentError('');
         
-        // Get the saved form data from localStorage and merge with payment status
-        const savedFormData = localStorage.getItem('costumeMeasurementsFormData');
-        if (savedFormData) {
-          try {
-            const parsedData = JSON.parse(savedFormData);
-            setFormData({
-              ...parsedData,
-              paymentCompleted: true
-            });
-            console.log('✅ Payment verified and form data restored:', parsedData);
-          } catch (error) {
-            console.error('Failed to parse saved form data:', error);
-            setFormData(prev => ({
-              ...prev,
-              paymentCompleted: true
-            }));
-          }
+        // Get the saved form data from storage and merge with payment status
+        const savedData = loadFormData();
+        if (savedData) {
+          setFormData({
+            ...savedData,
+            paymentCompleted: true
+          });
+          console.log('✅ Payment verified and form data restored:', savedData);
         } else {
+          console.warn('⚠️ No saved form data found after payment!');
           // Fallback if no saved data
           setFormData(prev => ({
             ...prev,
@@ -170,9 +196,10 @@ function CostumeMeasurements() {
     setPaymentError('');
 
     try {
-      // Save form data to localStorage before redirecting
-      localStorage.setItem('costumeMeasurementsFormData', JSON.stringify(formData));
-      console.log('💾 Form data saved to localStorage before payment');
+      // Save form data to storage before redirecting (synchronous)
+      saveFormData(formData);
+      console.log('💾 Form data saved before payment redirect');
+      console.log('📋 Data being saved:', { fullName: formData.fullName, branch: formData.branch });
 
       // Create checkout session
       const response = await axios.post(`${API_URL}/stripe/create-checkout-session`, {
@@ -314,9 +341,8 @@ function CostumeMeasurements() {
       
       if (response.data.message || response.data.data) {
         console.log('✅ Student details saved successfully:', response.data);
-        // Clear localStorage after successful submission
-        localStorage.removeItem('costumeMeasurementsFormData');
-        console.log('🗑️ Form data cleared from localStorage');
+        // Clear storage after successful submission
+        clearFormData();
         setSubmitted(true);
       }
     } catch (err) {
