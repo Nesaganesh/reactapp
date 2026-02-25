@@ -16,6 +16,7 @@ import StudentList from './components/pages/Student/StudentList';
 import Diwali from './components/pages/Diwali/Diwali';
 import Videos from './components/pages/Videos';
 import CostumeMeasurements from './components/pages/CostumeMeasurements';
+import InvoiceGenerator from './components/pages/InvoiceGenerator';
 
 
 
@@ -43,6 +44,7 @@ function App() {
               <Route path="/studentList" element={<StudentList />}></Route> 
               <Route path="/videos" element={<Videos />}></Route> 
               <Route path="/costume-measurements" element={<CostumeMeasurements />}></Route> 
+              <Route path="/invoices" element={<InvoiceGenerator />}></Route> 
               
               {/* <Route path="/diwali"  element={<Diwali />}></Route>  */}
               
