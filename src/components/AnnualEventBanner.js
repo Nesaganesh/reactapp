@@ -191,15 +191,19 @@ function AnnualEventBanner() {
 
             {/* Poster 3 */}
             <div className="poster-card">
-              <div className="poster-image-placeholder">
-                <i className="fas fa-image fa-3x"></i>
-                <p>Event Poster 3</p>
-                <small>Upload your poster image</small>
-              </div>
+                <img 
+                    src="https://annualevent2026.s3.us-east-1.amazonaws.com/IMG_0732.jpg" 
+                    alt="Theatre Seating Plan"
+                    className="poster-image"
+                    onClick={() => openModal("https://annualevent2026.s3.us-east-1.amazonaws.com/IMG_0732.jpg")}
+                    title="Click to zoom"
+                />
+              
               <div className="poster-caption">
-                <h4>Awards Ceremony</h4>
+                <h4>Theatre Seating Plan</h4>
               </div>
             </div>
+
 
             {/* Poster 4 */}
             <div className="poster-card">

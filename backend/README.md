@@ -224,3 +224,5 @@ backend/
 - [AWS DynamoDB Documentation](https://docs.aws.amazon.com/dynamodb/)
 - [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/)
 - [Express.js Documentation](https://expressjs.com/)
+
+
