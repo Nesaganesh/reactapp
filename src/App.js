@@ -13,10 +13,12 @@ import AttendanceList from './components/pages/Attendance/AttendanceList';
 import UpComingEvents from './components/pages/UpComingEvents';
 import AnnualEvent from './components/pages/AnnualEvent';
 import StudentList from './components/pages/Student/StudentList';
+import Student2026 from './components/pages/Student2026';
 import Diwali from './components/pages/Diwali/Diwali';
 import Videos from './components/pages/Videos';
 import CostumeMeasurements from './components/pages/CostumeMeasurements';
 import InvoiceGenerator from './components/pages/InvoiceGenerator';
+import AttendanceSheet from './components/pages/AttendanceSheet';
 
 
 
@@ -42,9 +44,11 @@ function App() {
               <Route path="/UpComingEvents" element={<UpComingEvents />}></Route>              
               <Route path="/annualevent" element={<AnnualEvent />}></Route> 
               <Route path="/studentList" element={<StudentList />}></Route> 
+              <Route path="/student2026" element={<Student2026 />}></Route>
               <Route path="/videos" element={<Videos />}></Route> 
               <Route path="/costume-measurements" element={<CostumeMeasurements />}></Route> 
               <Route path="/invoices" element={<InvoiceGenerator />}></Route> 
+              <Route path="/attendance" element={<AttendanceSheet />}></Route> 
               
               {/* <Route path="/diwali"  element={<Diwali />}></Route>  */}
               
