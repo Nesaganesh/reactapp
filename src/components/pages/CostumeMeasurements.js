@@ -242,12 +242,14 @@ function CostumeMeasurements() {
         }
       }));
     } else if (name === 'tshirtOption') {
-      // Handle t-shirt option change - reset payment when option changes
+      // Handle t-shirt option change and clear buy-specific fields when not buying now
       setFormData(prevState => ({
         ...prevState,
         tshirtOption: value,
-        paymentCompleted: value === 'have' ? true : false // Auto-complete if they have one
+        tshirtSize: value === 'buy' ? prevState.tshirtSize : '',
+        paymentCompleted: value === 'have' ? true : false // Auto-complete if they already have one
       }));
+      setPaymentError('');
     } else if (name === 'paymentCompleted') {
       // Handle payment completed checkbox
       setFormData(prevState => ({
@@ -647,6 +649,17 @@ function CostumeMeasurements() {
                       required
                     />
                     <span>I want to buy</span>
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="tshirtOption"
+                      value="later"
+                      checked={formData.tshirtOption === 'later'}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span>I will buy later</span>
                   </label>
                 </div>
               </div>

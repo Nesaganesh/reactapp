@@ -73,12 +73,12 @@ const Student2026 = () => {
       parentMobile1: s.parentMobile1 || s.parent_mobile1 || s.parentMobile2 || '-',
       tshirtOption: s.tshirtOption || s.tshirt_option || '-',
       tshirtSize: s.tshirtSize || s.tshirt_size || '-',
-      // derive paymentCompleted: if tshirtOption indicates buy => true (Paid)
-      // if tshirtOption indicates have => null (N/A). Otherwise fall back to stored value.
+      // derive paymentCompleted: buy => paid, have => N/A, later => unpaid
       paymentCompleted: (() => {
         const opt = (s.tshirtOption || s.tshirt_option || '').toString().toLowerCase();
         if (opt.includes('buy')) return true;
         if (opt.includes('have')) return null;
+        if (opt.includes('later')) return false;
         return s.paymentCompleted || s.payment_completed || false;
       })(),
       createdAt: s.createdAt || s.created_at || null,
@@ -94,6 +94,7 @@ const Student2026 = () => {
         const opt = (s.tshirtOption || '').toString().toLowerCase();
         if (opt.includes('buy') || opt === 'yes' || opt === 'need') return 'To Buy';
         if (opt.includes('have') || opt === 'no' || opt === 'already') return 'Have';
+        if (opt.includes('later')) return 'Buy Later';
         if (s.tshirtSize && s.tshirtSize !== '-') return 'Have';
         return '-';
       })();
@@ -275,6 +276,7 @@ const Student2026 = () => {
               const opt = (s.tshirtOption || '').toString().toLowerCase();
               if (opt.includes('buy') || opt === 'yes' || opt === 'need') return 'To Buy';
               if (opt.includes('have') || opt === 'no' || opt === 'already') return 'Have';
+              if (opt.includes('later')) return 'Buy Later';
               if (s.tshirtSize && s.tshirtSize !== '-') return 'Have';
               return '-';
             })();
