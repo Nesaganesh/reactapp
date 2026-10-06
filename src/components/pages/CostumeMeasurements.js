@@ -267,7 +267,7 @@ function CostumeMeasurements() {
     
     // Validate required fields
     if (!formData.fullName || !formData.branch || !formData.parentName || 
-        !formData.parentMobile1 || !formData.foodPreference) {
+        !formData.parentMobile1) {
       setError('Please fill in all required fields');
       return;
     }
@@ -311,7 +311,7 @@ function CostumeMeasurements() {
         parentName: formData.parentName,
         parentMobile1: formData.parentMobile1,
         parentMobile2: formData.parentMobile2 || '',
-        foodPreference: formData.foodPreference,
+        foodPreference: formData.foodPreference || 'Not specified',
         foodAllergies: allergies.join(', ') || 'None',
         tshirtOption: formData.tshirtOption,
         tshirtSize: formData.tshirtSize,
