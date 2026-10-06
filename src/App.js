@@ -49,6 +49,7 @@ function App() {
               <Route path="/costume-measurements" element={<CostumeMeasurements />}></Route> 
               <Route path="/invoices" element={<InvoiceGenerator />}></Route> 
               <Route path="/attendance" element={<AttendanceSheet />}></Route> 
+              <Route path="/newregistration" element={<CostumeMeasurements />}></Route> 
               
               {/* <Route path="/diwali"  element={<Diwali />}></Route>  */}
               

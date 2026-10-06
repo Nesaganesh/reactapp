@@ -509,7 +509,7 @@ function CostumeMeasurements() {
               </div>
             </div>
 
-            <div className="food-info-box">
+            {/* <div className="food-info-box">
               <h3>
                 <i className="fas fa-utensils"></i> Food Information
               </h3>
@@ -611,7 +611,7 @@ function CostumeMeasurements() {
                   className="allergy-other-input"
                 />
               )}
-            </div>
+            </div> */}
             {/* Flytoez T-Shirt Section */}
             <div className="tshirt-section">
               <div className="tshirt-info-box">
