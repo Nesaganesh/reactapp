@@ -461,6 +461,7 @@ function CostumeMeasurements() {
                 <option value="">Select Branch</option>
                 <option value="Chelmsford">Chelmsford</option>
                 <option value="Colchester">Colchester</option>
+                <option value="Croydon">Croydon</option>
                 <option value="Ipswich">Ipswich</option>
               </select>
             </div>

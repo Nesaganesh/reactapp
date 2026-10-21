@@ -333,6 +333,7 @@ const InvoiceGenerator = () => {
                   >
                     <option value="Colchester">Colchester</option>
                     <option value="Chelmsford">Chelmsford</option>
+                    <option value="Croydon">Croydon</option>
                     <option value="Ipswich">Ipswich</option>
                   </select>
                 </div>

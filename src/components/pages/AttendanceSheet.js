@@ -3,7 +3,7 @@ import './AttendanceSheet.css';
 import Navbar from '../Navbar';
 
 const AttendanceSheet = () => {
-  const branches = ['Ipswich', 'Colchester', 'Chelmsford'];
+  const branches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
   const groups = ['Peppy Feet', 'Little Legends', 'Energetic Expressors', 'Teens Society'];
   
   const classSchedules = [
