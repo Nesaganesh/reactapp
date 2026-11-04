@@ -51,11 +51,11 @@ function Navbar() {
               onMouseLeave={() => setDropdown(false)}
             >
               <Link to='/annualevent' className='nav-links' onClick={closeMobileMenu}>
-                Annual Event 2026 <i className='fas fa-caret-down' />
+                StudentDetails <i className='fas fa-caret-down' />
               </Link>
               {dropdown && (
                 <ul className='dropdown-menu'>
-                  <li>
+                  {/* <li>
                     <Link to='/annualevent' className='dropdown-link' onClick={closeMobileMenu}>
                       Event Home
                     </Link>
@@ -81,11 +81,31 @@ function Navbar() {
                     >
                       Vote 4 Performer
                     </a>
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <Link to='/costume-measurements' className='dropdown-link' onClick={closeMobileMenu}>
                       Student Details
                     </Link> 
+                  </li> */}
+                  {/* <li>
+                    <Link to='/studentreport' className='dropdown-link' onClick={closeMobileMenu}>
+                      Progress Reports
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link to='/teacherreports' className='dropdown-link' onClick={closeMobileMenu}>
+                      Create Report
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='/parentreports' className='dropdown-link' onClick={closeMobileMenu}>
+                      View Report
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='/generateaccesscode' className='dropdown-link' onClick={closeMobileMenu}>
+                      Generate Code
+                    </Link>
                   </li>
                 </ul>
               )}

@@ -83,6 +83,68 @@ The backend server will run on http://localhost:5000
 
 ## API Endpoints
 
+### Student Progress Reports
+
+- **POST** `/api/student-reports/teacher/login` - Teacher code sign-in; returns a short-lived signed token
+- **GET** `/api/student-reports/teacher/students?branch=Ipswich&group=LittleLegends` - Load the class roster (teacher token required)
+- **POST** `/api/student-reports/teacher/students` - Add a student to a branch and group in DynamoDB (teacher token required)
+- **POST** `/api/student-reports/teacher/reports` - Save an assessment (teacher token required)
+- **POST** `/api/student-reports/teacher/reports/bulk` - Save shared scores and feedback for 1–50 selected students (teacher token required)
+- **POST** `/api/student-reports/teacher/students/:studentId/parent-code/reset` - Generate or reset a student's six-digit parent code (teacher token required; only its keyed HMAC hash is stored)
+- **POST** `/api/student-reports/parent/register` - Register a parent once by branch and the student's full roster name; returns the six-digit code once
+- **POST** `/api/student-reports/parent/authorize` - Verify branch, first name and parent access code; returns only that student's reports
+
+After deploying frontend changes, deploy/restart the backend too so it includes `/api/student-reports/teacher/reports/bulk`. A `404` for that route means the running backend is outdated; HTML returned from an API request usually means the frontend API URL points to a web frontend rather than the backend service.
+
+Set `STUDENT_REPORT_TEACHER_CODE` and `STUDENT_REPORT_SESSION_SECRET` in the backend environment before enabling teacher sign-in and parent code generation. The teacher code is shared by the instructors and is protected by a temporary failed-attempt lockout; because it is a shared credential, use it only in a controlled environment and prefer individual teacher accounts for production. Parent registration is limited to one code per roster student; the code is only displayed when first generated and cannot be retrieved later. A teacher must sign in to reset it, which invalidates the previous code. Never put these secrets in frontend environment variables.
+
+Student roster profiles, reports, and parent-code hashes are stored in the dedicated `FlytoezStudentReports` DynamoDB table. Costume measurements continue to use the existing `CostumeMeasurements` table. Keep the original JSON file as a migration backup; the API does not use it after this change.
+
+### Create the reports table and migrate the roster
+
+The single-table design stores student profiles, reports, parent-code hashes, and report metadata under composite `PK` and `SK` keys. `ClassIndex` loads a class roster, while `NameIndex` resolves a child's full roster name during parent registration. The table definition is in `dynamodb/student-reports-table.json`.
+
+1. Make sure your AWS CLI is authenticated to the intended AWS account and region (`us-east-1`). For local development, use `AWS_PROFILE` or the standard AWS credential chain; do not put production credentials in source files.
+2. Set `STUDENT_REPORTS_TABLE=FlytoezStudentReports` in `backend/.env` and ensure `AWS_REGION=us-east-1`.
+3. From the `backend` directory, create the table and import the existing data:
+
+  ```sh
+  aws dynamodb create-table --cli-input-json file://dynamodb/student-reports-table.json --region us-east-1
+  npm run migrate:student-reports
+  ```
+
+  Alternatively, let the migration create the table and its indexes: `npm run migrate:student-reports -- --create-table`. The import inserts students, reports, existing parent-code hashes, and roster metadata. It is safe to rerun: existing primary keys are not overwritten.
+4. Verify in DynamoDB Console → Tables → `FlytoezStudentReports` → Explore items. Check student profile, report, and parent-code lookup records. Do not delete `data/student-roster.json` until you have verified the imported counts and taken a backup.
+5. Grant the backend/App Runner instance role DynamoDB access to this table and its two indexes. The least-privilege policy template is `dynamodb/student-reports-app-runner-policy.json`; replace `ACCOUNT_ID` with the AWS account ID before attaching it. The existing DynamoDB initialization also needs `DescribeTable`/`CreateTable` only if you intend it to create the separate costume table at runtime.
+6. Deploy the backend with `STUDENT_REPORTS_TABLE=FlytoezStudentReports` and restart it. App Runner should use its instance role. Keep `STUDENT_REPORT_SESSION_SECRET` stable across deploys because it signs teacher sessions and keys new parent-code hashes.
+
+The JSON file is only used by the one-time migration script; student report API routes no longer read or write it. The AWS SDK document client and DynamoDB table-definition JSON are included in this repository. For future schema changes, add a versioned migration rather than editing the source backup manually.
+
+In Instructor Reports, sign in, select any supported branch and group, then use **Add student to this class**. The new profile is written directly to DynamoDB and appears in that class roster.
+
+For a one-off manual insert in the DynamoDB PartiQL editor (not for bulk migration), a student profile must include the index keys:
+
+```sql
+INSERT INTO "FlytoezStudentReports" VALUE {
+  'PK': 'STUDENT#manual-student-001',
+  'SK': 'PROFILE',
+  'entityType': 'STUDENT',
+  'id': 'manual-student-001',
+  'name': 'Example Student',
+  'branch': 'Ipswich',
+  'group': 'LittleLegends',
+  'GSI1PK': 'CLASS#Ipswich#LittleLegends',
+  'GSI1SK': 'NAME#example student#manual-student-001',
+  'GSI2PK': 'NAME#example student',
+  'GSI2SK': 'STUDENT#manual-student-001'
+};
+
+SELECT * FROM "FlytoezStudentReports"
+WHERE "PK" = 'STUDENT#manual-student-001';
+```
+
+Do not manually insert sample data if you are importing the real roster; run the migration instead so all 27 students and existing reports/codes are copied with their correct keys.
+
 ### Costume Measurements
 
 - **POST** `/api/costume-measurements` - Create new measurement

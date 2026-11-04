@@ -32,8 +32,7 @@ app.use(cors({
       return callback(null, true);
     }
     
-    // For testing purposes, allow all origins (REMOVE THIS IN PRODUCTION)
-    return callback(null, true);
+    return callback(new Error('Origin not allowed by CORS'));
   },
   credentials: true
 }));
@@ -42,6 +41,7 @@ app.use(express.json());
 
 // Initialize DynamoDB connection and table
 const { REGION, TABLE_NAME, initializeTable } = require('./config/dynamodb');
+const STUDENT_REPORTS_TABLE = process.env.STUDENT_REPORTS_TABLE || 'FlytoezStudentReports';
 console.log(`📊 Using DynamoDB in region: ${REGION}`);
 console.log(`📋 Table name: ${TABLE_NAME}`);
 
@@ -55,9 +55,11 @@ initializeTable().catch(err => {
 // Routes
 const costumeMeasurementsRoutes = require('./routes/costumeMeasurements');
 const stripeRoutes = require('./routes/stripe');
+const studentReportsRoutes = require('./routes/studentReports');
 
 app.use('/api/costume-measurements', costumeMeasurementsRoutes);
 app.use('/api/stripe', stripeRoutes);
+app.use('/api/student-reports', studentReportsRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -66,6 +68,7 @@ app.get('/api/health', (req, res) => {
     database: 'DynamoDB',
     region: REGION,
     table: process.env.DYNAMODB_TABLE || 'CostumeMeasurements',
+    studentReportsTable: STUDENT_REPORTS_TABLE,
     timestamp: new Date().toISOString()
   });
 });
@@ -81,6 +84,11 @@ app.get('/', (req, res) => {
       costumeMeasurements: '/api/costume-measurements'
     }
   });
+});
+
+// Keep unknown API requests machine-readable for clients expecting JSON.
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: `API endpoint not found: ${req.method} ${req.originalUrl}` });
 });
 
 // Error handling middleware

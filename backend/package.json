@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "migrate:student-reports": "node scripts/migrateStudentReports.js"
   },
   "keywords": [],
   "author": "",

@@ -17,6 +17,8 @@ run:
       value: us-east-1
     - name: DYNAMODB_TABLE
       value: CostumeMeasurements
+    - name: STUDENT_REPORTS_TABLE
+      value: FlytoezStudentReports
   # Note: Set STRIPE_SECRET_KEY and FRONTEND_URL in App Runner Console as secrets
 
 

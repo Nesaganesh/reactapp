@@ -19,6 +19,10 @@ import Videos from './components/pages/Videos';
 import CostumeMeasurements from './components/pages/CostumeMeasurements';
 import InvoiceGenerator from './components/pages/InvoiceGenerator';
 import AttendanceSheet from './components/pages/AttendanceSheet';
+import StudentReport from './components/pages/StudentReport';
+import TeacherReports from './components/pages/TeacherReports';
+import ParentReports from './components/pages/ParentReports';
+import ParentRegistration from './components/pages/ParentRegistration';
 
 
 
@@ -49,6 +53,10 @@ function App() {
               <Route path="/costume-measurements" element={<CostumeMeasurements />}></Route> 
               <Route path="/invoices" element={<InvoiceGenerator />}></Route> 
               <Route path="/attendance" element={<AttendanceSheet />}></Route> 
+              <Route path="/studentreport" element={<StudentReport />}></Route>
+              <Route path="/teacherreports" element={<TeacherReports />}></Route>
+              <Route path="/parentreports" element={<ParentReports />}></Route>
+              <Route path="/generateaccesscode" element={<ParentRegistration />}></Route>
               <Route path="/newregistration" element={<CostumeMeasurements />}></Route> 
               
               {/* <Route path="/diwali"  element={<Diwali />}></Route>  */}

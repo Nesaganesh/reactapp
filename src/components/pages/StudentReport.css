@@ -1,0 +1,265 @@
+.student-report-page {
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+  background: #f3f5f8;
+  color: #172033;
+}
+
+.student-report-actions {
+  max-width: 1080px;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.report-action-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 17px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.report-print-button { background: #bd1825; color: #fff; }
+.report-reset-button { background: #e4e8ef; color: #344054; }
+.report-action-button:hover { filter: brightness(0.95); }
+
+.student-report-document {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 42px 48px;
+  background: #fff;
+  border: 1px solid #e2e6ed;
+  border-radius: 16px;
+  box-shadow: 0 15px 45px rgba(27, 39, 61, 0.09);
+}
+
+.report-brand-header {
+  padding: 0 0 26px;
+  text-align: center;
+  border-bottom: 3px solid #bd1825;
+}
+
+.report-eyebrow {
+  margin-bottom: 8px;
+  color: #bd1825;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.report-brand-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.55rem, 3.4vw, 2.5rem);
+  letter-spacing: 0.055em;
+}
+
+.report-brand-header h1 span { color: #e5a900; }
+
+.report-subtitle {
+  margin: 10px 0 0;
+  color: #5b6474;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.report-information,
+.report-form-section { padding-top: 30px; }
+
+.report-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.report-kicker {
+  margin: 0 0 5px;
+  color: #bd1825;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.report-section-heading h2 {
+  margin: 0;
+  color: #192235;
+  font-size: 1.45rem;
+}
+
+.assessment-period-badge {
+  flex: 0 0 auto;
+  padding: 7px 12px;
+  border-radius: 30px;
+  background: #fff4d6;
+  color: #805c00;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.report-intro,
+.report-disclaimer { color: #576174; font-size: 0.9rem; line-height: 1.6; }
+.report-intro { margin: 14px 0 20px; }
+
+.report-guide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.report-table-wrap h3,
+.report-assessment-heading h3,
+.report-feedback-section h3 {
+  margin: 0 0 10px;
+  color: #253149;
+  font-size: 1rem;
+}
+
+.report-reference-table,
+.report-score-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.report-reference-table { font-size: 0.81rem; }
+.report-reference-table th,
+.report-score-table th {
+  background: #f0f2f6;
+  color: #39445a;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+
+.report-reference-table th,
+.report-reference-table td { padding: 7px 9px; border-bottom: 1px solid #e8ebf0; }
+.report-reference-table .points-cell { width: 58px; text-align: center; font-weight: 700; }
+.reference-total td { background: #faf6f0; font-weight: 800; }
+.grade-table th, .grade-table td { padding-left: 8px; padding-right: 8px; }
+.grade-mark { color: #bd1825; font-weight: 800; }
+
+.report-disclaimer {
+  margin: 17px 0 0;
+  padding: 11px 14px;
+  border-left: 3px solid #e5a900;
+  background: #fffaf0;
+  font-size: 0.82rem;
+}
+
+.report-form-section { margin-top: 25px; border-top: 1px solid #e6e9ef; }
+.report-form-heading { align-items: center; }
+.report-term-date { display: flex; gap: 12px; }
+.compact-field { display: grid; gap: 5px; color: #4a5568; font-size: 0.73rem; font-weight: 700; }
+.compact-field input { width: 150px; }
+
+.report-student-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 20px;
+  margin: 22px 0 24px;
+}
+
+.report-field,
+.feedback-field,
+.signature-field { display: flex; flex-direction: column; gap: 6px; }
+.report-field > span,
+.feedback-field > span,
+.signature-field > span { color: #455066; font-size: 0.78rem; font-weight: 800; }
+
+.student-report-document input,
+.student-report-document select,
+.student-report-document textarea {
+  min-width: 0;
+  border: 1px solid #d6dbe4;
+  border-radius: 6px;
+  padding: 9px 10px;
+  background: #fff;
+  color: #192235;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.student-report-document input:focus,
+.student-report-document select:focus,
+.student-report-document textarea:focus {
+  outline: 2px solid rgba(189, 24, 37, 0.22);
+  border-color: #bd1825;
+}
+
+.student-report-document input::placeholder,
+.student-report-document textarea::placeholder { color: #98a1b1; }
+.attendance-input { display: flex; align-items: center; gap: 9px; }
+.attendance-input input { width: 90px; }
+.attendance-input > span { color: #596377; font-weight: 700; }
+
+.report-assessment-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 10px;
+}
+
+.report-assessment-heading p { margin: 0; color: #70798a; font-size: 0.78rem; }
+.report-score-table-wrap { overflow-x: auto; }
+.report-score-table { min-width: 650px; font-size: 0.84rem; }
+.report-score-table th, .report-score-table td { padding: 9px 10px; border-bottom: 1px solid #e6e9ef; }
+.report-score-table th:nth-child(1) { width: 32%; }
+.report-score-table th:nth-child(2) { width: 17%; }
+.report-score-table td:nth-child(2) select { width: 100%; }
+.report-score-table td:nth-child(3) input { width: 100%; }
+.skill-name { color: #263149; font-weight: 700; }
+.score-select-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.score-total-row td { background: #f8f2f2; font-weight: 800; }
+.grade-result { display: block; color: #455066; font-size: 0.8rem; }
+.grade-result strong { color: #bd1825; }
+
+.report-feedback-section { margin-top: 24px; }
+.report-feedback-section h3 { margin-bottom: 12px; }
+.feedback-field { margin-bottom: 12px; }
+.feedback-field textarea { resize: vertical; line-height: 1.45; }
+
+.report-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 24px 0 15px; }
+.signature-field input { border: 0; border-bottom: 1px solid #9aa3b1; border-radius: 0; padding-left: 0; }
+.report-assessment-note { margin: 18px 0 0; color: #616b7c; font-size: 0.78rem; line-height: 1.55; }
+
+@media (max-width: 720px) {
+  .student-report-page { padding: 20px 10px 36px; }
+  .student-report-document { padding: 28px 20px; border-radius: 10px; }
+  .report-guide-grid { grid-template-columns: 1fr; }
+  .report-section-heading, .report-form-heading { flex-direction: column; }
+  .report-term-date { width: 100%; flex-wrap: wrap; }
+  .report-student-details { grid-template-columns: 1fr; }
+  .report-assessment-heading { align-items: flex-start; flex-direction: column; }
+  .report-signatures { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .navbar, .student-report-actions { display: none !important; }
+  .student-report-page { min-height: 0; padding: 0; background: #fff; }
+  .student-report-document { max-width: none; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
+  .report-brand-header { padding-bottom: 15px; }
+  .report-information, .report-form-section { padding-top: 18px; }
+  .report-guide-grid { gap: 12px; }
+  .report-reference-table { font-size: 0.7rem; }
+  .report-reference-table th, .report-reference-table td { padding: 5px 6px; }
+  .report-student-details { gap: 9px 15px; margin: 15px 0 18px; }
+  .student-report-document input, .student-report-document select, .student-report-document textarea { padding: 5px 6px; font-size: 0.75rem; }
+  .report-score-table { min-width: 0; font-size: 0.72rem; }
+  .report-score-table th, .report-score-table td { padding: 6px; }
+  .report-score-table select { appearance: none; border: 0 !important; padding: 0 !important; }
+  .report-score-table input { border: 0 !important; border-bottom: 1px solid #b8bec8 !important; padding: 2px !important; }
+  .report-score-table tr, .report-reference-table tr, .report-feedback-section, .report-signatures { break-inside: avoid; }
+  .report-feedback-section { margin-top: 15px; }
+  .feedback-field { margin-bottom: 7px; }
+  .feedback-field textarea { min-height: 30px; }
+}
