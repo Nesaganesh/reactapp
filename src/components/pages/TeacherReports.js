@@ -4,7 +4,7 @@ import './ReportPortals.css';
 
 const API_ORIGIN = (process.env.REACT_APP_API_URL || 'http://localhost:5001').replace(/\/api\/?$/, '').replace(/\/$/, '');
 const API_BASE = `${API_ORIGIN}/api/student-reports`;
-const branches = ['Ipswich', 'Colchester', 'Chelmsford'];
+const branches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
 const groups = [
   { value: 'PeppyToez', label: 'PeppyToez' },
   { value: 'LittleLegends', label: 'LittleLegends' },
@@ -18,6 +18,64 @@ const skillNames = [
   'Expression & energy',
   'Confidence & stage presence',
   'Teamwork & formations'
+];
+const observationOptions = [
+  [
+    'Excellent step memory and performs choreography accurately with confidence.',
+    'Good understanding of the steps, with some room to improve consistency.',
+    'Performs well on stage but needs to focus more during class practice.',
+    'Challenging choreography becomes easier with regular practice at home.'
+  ],
+  [
+    'Excellent sense of rhythm and consistently performs in time with the music.',
+    'Good timing overall, with opportunities to improve musical accuracy.',
+    'Maintains good rhythm during performances but needs more consistency in class.',
+    'Regular practice with music will help improve rhythm and timing.'
+  ],
+  [
+    'Excellent body coordination, control and dance technique.',
+    'Shows good coordination but can improve the accuracy of certain movements.',
+    'Demonstrates strong technique on stage but needs to maintain it during classes.',
+    'Practising movements slowly at home will help develop better coordination.'
+  ],
+  [
+    'Excellent facial expressions and energy throughout the performance.',
+    'Shows good energy but can improve facial expressions and engagement.',
+    'Very expressive on stage but needs to bring the same energy to classes.',
+    'Practising expressions and performing with enthusiasm will build confidence.'
+  ],
+  [
+    'Performs confidently with excellent stage presence.',
+    'Shows growing confidence and can become more comfortable performing.',
+    'Confident on stage but could participate more actively during classes.',
+    'Regular practice and performance opportunities will help build confidence.'
+  ],
+  [
+    'Excellent teamwork, awareness of formations and cooperation with others.',
+    'Works well with the team but can improve positioning and formation accuracy.',
+    'Maintains formations well on stage but needs more focus during group practice.',
+    'Regular group practice and attention to positioning will improve teamwork.'
+  ]
+];
+const feedbackTemplates = [
+  {
+    value: 'very-good',
+    label: 'Very Good',
+    description: 'Positive feedback',
+    text: 'Excellent effort and performance! You have demonstrated strong dance skills, confidence and enthusiasm. Keep up the fantastic work!'
+  },
+  {
+    value: 'average',
+    label: 'Average / Good Progress',
+    description: 'Balanced feedback',
+    text: 'Good progress so far! You are developing your dance skills and showing improvement. With regular practice and greater focus, you can achieve even better results.'
+  },
+  {
+    value: 'needs-improvement',
+    label: 'Needs Improvement',
+    description: 'Constructive feedback',
+    text: 'You have great potential! Try to focus more during lessons and practise the choreography at home. With consistent effort, your timing, coordination and confidence will continue to improve.'
+  }
 ];
 const gradeBands = [
   { min: 27, grade: 'A+', description: 'Outstanding' },
@@ -54,18 +112,19 @@ function TeacherReports() {
   const [branch, setBranch] = useState('');
   const [group, setGroup] = useState('');
   const [students, setStudents] = useState([]);
-  const [showAddStudent, setShowAddStudent] = useState(false);
-  const [newStudentName, setNewStudentName] = useState('');
+  const [unassignedMeasurementStudents, setUnassignedMeasurementStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [selectedStudentIds, setSelectedStudentIds] = useState([]);
   const [bulkMode, setBulkMode] = useState(false);
   const [branchConfirmed, setBranchConfirmed] = useState(false);
-  const [term, setTerm] = useState('Term 1');
-  const [customTerm, setCustomTerm] = useState('');
+  const [term, setTerm] = useState('');
   const [assessmentDate, setAssessmentDate] = useState(new Date().toISOString().slice(0, 10));
   const [scores, setScores] = useState(Array(skillNames.length).fill(''));
   const [observations, setObservations] = useState(Array(skillNames.length).fill(''));
+  const [observationChoices, setObservationChoices] = useState(Array(skillNames.length).fill(''));
   const [comments, setComments] = useState('');
+  const [feedbackType, setFeedbackType] = useState('custom');
+  const [feedbackCopyMessage, setFeedbackCopyMessage] = useState('');
   const [generatedParentCode, setGeneratedParentCode] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
@@ -111,7 +170,7 @@ function TeacherReports() {
   };
 
   const loadStudents = async event => {
-    event.preventDefault();
+    event?.preventDefault();
     setBusy(true);
     setMessage('');
     setSelectedStudent(null);
@@ -121,10 +180,19 @@ function TeacherReports() {
       const query = new URLSearchParams({ branch, group });
       const data = await apiRequest(`/teacher/students?${query}`);
       setStudents(data.students);
+      setUnassignedMeasurementStudents(data.unassignedMeasurementStudents || []);
+      const notices = [];
       if (data.branchNeedsConfirmation) {
-        setMessage('The supplied roster has group names but no verified branch assignments. Confirm the selected branch before creating a report.');
+        notices.push('The supplied roster has group names but no verified branch assignments. Confirm the selected branch before creating a report.');
       }
-      if (!data.students.length) setMessage('No students are listed for this group yet. The supplied group names currently map to LittleLegends, EnergeticExpressors and TeensSociety.');
+      if (data.unassignedMeasurementStudents?.length) {
+        notices.push(`${data.unassignedMeasurementStudents.length} existing costume measurement record(s) for ${branch} do not have a class group. Assign each to the correct group below.`);
+      }
+      if (data.importedCount) notices.push(`${data.importedCount} student(s) loaded from costume measurements.`);
+      if (!data.students.length && !data.unassignedMeasurementStudents?.length) {
+        notices.push('No CostumeMeasurements entries were found for this branch and group. Check that each student has the correct branch and class group in the costume details.');
+      }
+      setMessage(notices.join(' '));
     } catch (error) {
       setMessage(error.message);
       if (error.message.includes('sign-in')) setToken('');
@@ -133,24 +201,17 @@ function TeacherReports() {
     }
   };
 
-  const addStudent = async event => {
-    event.preventDefault();
+  const assignMeasurementGroup = async measurement => {
     setBusy(true);
     setMessage('');
     try {
-      await apiRequest('/teacher/students', {
+      await apiRequest(`/teacher/measurements/${encodeURIComponent(measurement.id)}/group`, {
         method: 'POST',
-        body: JSON.stringify({ branch, group, name: newStudentName })
+        body: JSON.stringify({ branch, group })
       });
-      const query = new URLSearchParams({ branch, group });
-      const data = await apiRequest(`/teacher/students?${query}`);
-      setStudents(data.students);
-      setNewStudentName('');
-      setShowAddStudent(false);
-      setMessage('Student added to this branch and group.');
+      await loadStudents();
     } catch (error) {
       setMessage(error.message);
-      if (error.message.includes('sign-in')) setToken('');
     } finally {
       setBusy(false);
     }
@@ -163,10 +224,12 @@ function TeacherReports() {
     setBranchConfirmed(!student.branchUnassigned);
     setScores(Array(skillNames.length).fill(''));
     setObservations(Array(skillNames.length).fill(''));
+    setObservationChoices(Array(skillNames.length).fill(''));
     setComments('');
+    setFeedbackType('custom');
+    setFeedbackCopyMessage('');
     setGeneratedParentCode('');
-    setTerm('Term 1');
-    setCustomTerm('');
+    setTerm('');
     setMessage('');
   };
 
@@ -182,10 +245,12 @@ function TeacherReports() {
     setBranchConfirmed(false);
     setScores(Array(skillNames.length).fill(''));
     setObservations(Array(skillNames.length).fill(''));
+    setObservationChoices(Array(skillNames.length).fill(''));
     setComments('');
+    setFeedbackType('custom');
+    setFeedbackCopyMessage('');
     setGeneratedParentCode('');
-    setTerm('Term 1');
-    setCustomTerm('');
+    setTerm('');
     setMessage('');
   };
 
@@ -193,6 +258,10 @@ function TeacherReports() {
     event.preventDefault();
     if (!allScoresEntered) {
       setMessage('Enter a score for all six skills before saving.');
+      return;
+    }
+    if (observationChoices.some((choice, index) => choice === 'custom' && !observations[index].trim())) {
+      setMessage('Add a custom observation or choose one of the suggested observations.');
       return;
     }
     const reportStudents = bulkMode
@@ -210,7 +279,7 @@ function TeacherReports() {
     setBusy(true);
     setMessage('');
     try {
-      const savedTerm = term === 'Custom term' ? customTerm.trim() : term;
+      const savedTerm = term.trim();
       await apiRequest(bulkMode ? '/teacher/reports/bulk' : '/teacher/reports', {
         method: 'POST',
         body: JSON.stringify({
@@ -239,12 +308,28 @@ function TeacherReports() {
       }
       setScores(Array(skillNames.length).fill(''));
       setObservations(Array(skillNames.length).fill(''));
+      setObservationChoices(Array(skillNames.length).fill(''));
       setComments('');
+      setFeedbackType('custom');
+      setFeedbackCopyMessage('');
     } catch (error) {
       setMessage(error.message);
       if (error.message.includes('sign-in')) setToken('');
     } finally {
       setBusy(false);
+    }
+  };
+
+  const copyFeedback = async () => {
+    if (!comments.trim()) {
+      setFeedbackCopyMessage('Enter feedback before copying.');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(comments);
+      setFeedbackCopyMessage('Feedback copied.');
+    } catch (error) {
+      setFeedbackCopyMessage('Copy is unavailable in this browser. Select and copy the feedback text.');
     }
   };
 
@@ -263,6 +348,49 @@ function TeacherReports() {
       setMessage('New parent authorization code generated. Share it directly with the parent; it will not be shown again.');
     } catch (error) {
       setMessage(error.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const clearAllReports = async () => {
+    const confirmation = window.prompt('This permanently deletes every student progress report in the database. Student profiles and parent codes will remain. Type DELETE ALL REPORTS to continue.');
+    if (confirmation !== 'DELETE ALL REPORTS') return;
+    setBusy(true);
+    setMessage('');
+    try {
+      const data = await apiRequest('/teacher/reports/clear-all', {
+        method: 'POST',
+        body: JSON.stringify({ confirmation })
+      });
+      setStudents(previous => previous.map(student => ({ ...student, reports: [] })));
+      setSelectedStudent(previous => previous ? { ...previous, reports: [] } : previous);
+      setMessage(data.message);
+    } catch (error) {
+      setMessage(error.message);
+      if (error.message.includes('sign-in')) setToken('');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const clearAllParentCodes = async () => {
+    const confirmation = window.prompt('This permanently removes all parent authorization codes. Parents will need new codes generated individually. Type REMOVE ALL PARENT CODES to continue.');
+    if (confirmation !== 'REMOVE ALL PARENT CODES') return;
+    setBusy(true);
+    setMessage('');
+    setGeneratedParentCode('');
+    try {
+      const data = await apiRequest('/teacher/parent-codes/clear-all', {
+        method: 'POST',
+        body: JSON.stringify({ confirmation })
+      });
+      setStudents(previous => previous.map(student => ({ ...student, parentCodeSet: false })));
+      setSelectedStudent(previous => previous ? { ...previous, parentCodeSet: false } : previous);
+      setMessage(data.message);
+    } catch (error) {
+      setMessage(error.message);
+      if (error.message.includes('sign-in')) setToken('');
     } finally {
       setBusy(false);
     }
@@ -309,22 +437,23 @@ function TeacherReports() {
                   <label className="portal-field"><span>Group</span><select value={group} onChange={event => setGroup(event.target.value)} required><option value="">Select group</option>{groups.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
                   <button className="portal-primary-button" type="submit" disabled={busy}>{busy ? 'Loading…' : 'Load students'}</button>
                 </form>
-                {branch && group && <div className="teacher-add-student-action">
-                  <button className="portal-secondary-button" type="button" onClick={() => { setShowAddStudent(value => !value); setNewStudentName(''); setMessage(''); }}>
-                    {showAddStudent ? 'Cancel adding student' : '+ Add student to this class'}
-                  </button>
-                </div>}
-                {showAddStudent && <form className="teacher-add-student-form" onSubmit={addStudent}>
-                  <div><h3>Add a student</h3><p>New student will be added to {branch} · {group}.</p></div>
-                  <label className="portal-field"><span>Student name</span><input value={newStudentName} onChange={event => setNewStudentName(event.target.value)} maxLength="120" autoComplete="off" required /></label>
-                  <button className="portal-primary-button" type="submit" disabled={busy}>{busy ? 'Adding…' : 'Add student'}</button>
-                </form>}
+                <section className="teacher-danger-zone" aria-labelledby="teacher-danger-zone-heading">
+                  <div><h3 id="teacher-danger-zone-heading">Global reset tools</h3><p>These actions affect all students and all terms. They cannot be undone. Student profiles will remain.</p></div>
+                  <div className="teacher-danger-actions">
+                    <button className="teacher-danger-button" type="button" onClick={clearAllReports} disabled={busy}>{busy ? 'Working…' : 'Clear all reports'}</button>
+                    <button className="teacher-danger-button" type="button" onClick={clearAllParentCodes} disabled={busy}>{busy ? 'Working…' : 'Remove all parent codes'}</button>
+                  </div>
+                </section>
                 {message && <p className="portal-message" role="status">{message}</p>}
               </div>
 
               {students.length > 0 && (
                 <section className="portal-card">
                   <div className="portal-card-heading"><div><h2>Student roster</h2><p>{students.length} students · {group}. Select students to apply the same report feedback to a group.</p></div></div>
+                  {unassignedMeasurementStudents.length > 0 && <div className="teacher-measurement-import">
+                    <div><h3>Costume entries without a group</h3><p>Confirm each student’s class before adding them to the report roster. Assigning adds the record to {group}.</p></div>
+                    {unassignedMeasurementStudents.map(measurement => <div className="teacher-measurement-import-row" key={measurement.id}><span>{measurement.name}</span><button className="portal-small-button" type="button" onClick={() => assignMeasurementGroup(measurement)} disabled={busy || Boolean(selectedStudent) || bulkMode}>Assign to {group}</button></div>)}
+                  </div>}
                   <div className="bulk-roster-actions">
                     <label className="bulk-select-all"><input type="checkbox" checked={students.length > 0 && selectedStudentIds.length === students.length} onChange={event => setSelectedStudentIds(event.target.checked ? students.map(student => student.id) : [])} /> Select all</label>
                     <button className="portal-secondary-button" type="button" onClick={openBulkFeedback} disabled={selectedStudentIds.length === 0}>
@@ -337,19 +466,53 @@ function TeacherReports() {
                 </section>
               )}
 
+              {students.length === 0 && unassignedMeasurementStudents.length > 0 && <section className="portal-card">
+                <div className="portal-card-heading"><div><h2>Costume entries without a group</h2><p>Confirm each student’s class before adding them to the report roster.</p></div></div>
+                <div className="teacher-measurement-import">
+                  {unassignedMeasurementStudents.map(measurement => <div className="teacher-measurement-import-row" key={measurement.id}><span>{measurement.name}</span><button className="portal-small-button" type="button" onClick={() => assignMeasurementGroup(measurement)} disabled={busy || Boolean(selectedStudent) || bulkMode}>Assign to {group}</button></div>)}
+                </div>
+              </section>}
+
               {(selectedStudent || bulkMode) && (
                 <section className="portal-card teacher-student-workspace">
                   <div className="portal-card-heading"><div><p className="portal-eyebrow">{branch} · {group}</p><h2>{bulkMode ? `Shared feedback for ${selectedStudentIds.length} students` : `Report for ${selectedStudent.name}`}</h2>{bulkMode && <p>These scores, observations and comments will be copied to every selected student. Review the selection before saving.</p>}</div><button type="button" className="portal-quiet-button" onClick={() => { setSelectedStudent(null); setBulkMode(false); }}>Close</button></div>
                   {(bulkMode ? students.some(student => selectedStudentIds.includes(student.id) && student.branchUnassigned) : selectedStudent.branchUnassigned) && <label className="portal-warning branch-confirmation"><input type="checkbox" checked={branchConfirmed} onChange={event => setBranchConfirmed(event.target.checked)} /><span>The source roster did not include the branch for {bulkMode ? 'one or more selected students' : selectedStudent.name}. Confirm that {bulkMode ? 'they belong' : `${selectedStudent.name} belongs`} to {branch}; this assignment will be saved with the report.</span></label>}
-                  <form onSubmit={saveReport}>
+                  <form className="teacher-assessment-form" onSubmit={saveReport}>
                     <div className="portal-form-grid">
-                      <label className="portal-field"><span>Term</span><select value={term} onChange={event => setTerm(event.target.value)}><option>Term 1</option><option>Term 2</option><option>Term 3</option><option>Term 4</option><option>Term 5 - 2026</option><option>Custom term</option></select></label>
-                      {term === 'Custom term' && <label className="portal-field"><span>Term name</span><input value={customTerm} onChange={event => setCustomTerm(event.target.value)} required /></label>}
+                      <label className="portal-field"><span>Term name</span><input value={term} onChange={event => setTerm(event.target.value)} placeholder="e.g. Autumn 2026" maxLength="60" required /></label>
                       <label className="portal-field"><span>Assessment date</span><input type="date" value={assessmentDate} onChange={event => setAssessmentDate(event.target.value)} required /></label>
                     </div>
-                    <div className="portal-skills-grid">{skillNames.map((skill, index) => <div className="portal-skill-row" key={skill}><label className="portal-field"><span>{skill}</span><select aria-label={`${skill} score`} value={scores[index]} onChange={event => setScores(previous => previous.map((score, itemIndex) => itemIndex === index ? event.target.value : score))} required><option value="">Score</option>{[1, 2, 3, 4, 5].map(score => <option key={score} value={score}>{score} / 5</option>)}</select></label><label className="portal-field"><span>Observation</span><input value={observations[index]} onChange={event => setObservations(previous => previous.map((observation, itemIndex) => itemIndex === index ? event.target.value : observation))} placeholder="Optional observation" /></label></div>)}</div>
-                    <div className="portal-score-summary"><span>Total <strong>{total} / 30</strong></span><span>Grade <strong>{grade ? `${grade.grade} — ${grade.description}` : 'Score all skills'}</strong></span></div>
-                    <label className="portal-field portal-comments"><span>Personalised feedback</span><textarea rows="3" value={comments} onChange={event => setComments(event.target.value)} placeholder="Strengths, next step and encouragement" /></label>
+                    <div className="teacher-assessment-heading"><h3>Instructor assessment form</h3><span>6 areas</span></div>
+                    <div className="teacher-assessment-areas">{skillNames.map((skill, index) => <fieldset className="teacher-assessment-area" key={skill}>
+                      <legend>{index + 1}. {skill}</legend>
+                      <div className="teacher-assessment-score-row"><span className="teacher-assessment-label">Score</span><div className="teacher-score-options" role="radiogroup" aria-label={`${skill} score`}>
+                        {[1, 2, 3, 4, 5].map(score => <label className="teacher-radio-option" key={score}><input type="radio" name={`score-${index}`} value={score} checked={scores[index] === String(score)} onChange={event => setScores(previous => previous.map((value, itemIndex) => itemIndex === index ? event.target.value : value))} required /><span>{score}</span></label>)}
+                      </div></div>
+                      <span className="teacher-assessment-label teacher-observation-label">Observation</span>
+                      <div className="teacher-observation-options" role="radiogroup" aria-label={`${skill} observation`}>
+                        {observationOptions[index].map(option => <label className="teacher-observation-option" key={option}><input type="radio" name={`observation-${index}`} value={option} checked={observationChoices[index] === option} onChange={() => { setObservationChoices(previous => previous.map((choice, itemIndex) => itemIndex === index ? option : choice)); setObservations(previous => previous.map((value, itemIndex) => itemIndex === index ? option : value)); }} /><span>{option}</span></label>)}
+                        <label className="teacher-observation-option"><input type="radio" name={`observation-${index}`} value="custom" checked={observationChoices[index] === 'custom'} onChange={() => { setObservationChoices(previous => previous.map((choice, itemIndex) => itemIndex === index ? 'custom' : choice)); setObservations(previous => previous.map((value, itemIndex) => itemIndex === index ? '' : value)); }} /><span>Custom observation</span></label>
+                      </div>
+                      {observationChoices[index] === 'custom' && <label className="teacher-custom-observation"><span className="visually-hidden">Custom observation for {skill}</span><textarea rows="2" maxLength="500" value={observations[index]} onChange={event => setObservations(previous => previous.map((value, itemIndex) => itemIndex === index ? event.target.value : value))} placeholder="Write a custom observation…" required /></label>}
+                    </fieldset>)}</div>
+                    <div className="teacher-assessment-total"><div><strong>Total score</strong><span>{scores.filter(score => score !== '').length} of 6 areas scored · {observations.filter(observation => observation.trim()).length} observations selected</span></div><strong className="teacher-total-value">{total} / 30</strong></div>
+                    <div className="portal-score-summary"><span>Grade <strong>{grade ? `${grade.grade} — ${grade.description}` : 'Score all skills'}</strong></span></div>
+                    <section className="teacher-feedback-panel" aria-labelledby="teacher-feedback-heading">
+                      <h3 id="teacher-feedback-heading">Personalised feedback — Teacher selection</h3>
+                      <fieldset className="teacher-feedback-types">
+                        <legend>Choose feedback type</legend>
+                        {feedbackTemplates.map(template => <label className="teacher-feedback-choice" key={template.value}>
+                          <input type="radio" name="feedback-type" value={template.value} checked={feedbackType === template.value} onChange={() => { setFeedbackType(template.value); setComments(template.text); setFeedbackCopyMessage(''); }} />
+                          <span><strong>{template.label}</strong><small>{template.description}</small></span>
+                        </label>)}
+                        <label className="teacher-feedback-choice">
+                          <input type="radio" name="feedback-type" value="custom" checked={feedbackType === 'custom'} onChange={() => { setFeedbackType('custom'); setFeedbackCopyMessage(''); }} />
+                          <span><strong>Custom Feedback</strong><small>Teacher writes their own</small></span>
+                        </label>
+                      </fieldset>
+                      <label className="portal-field portal-comments"><span>Feedback preview (editable)</span><textarea rows="5" maxLength="3000" value={comments} onChange={event => { setComments(event.target.value); setFeedbackType('custom'); setFeedbackCopyMessage(''); }} placeholder="Enter personalised feedback…" /></label>
+                      <div className="teacher-feedback-actions"><span role="status" aria-live="polite">{feedbackCopyMessage}</span><button className="portal-secondary-button" type="button" onClick={copyFeedback}>Copy feedback</button></div>
+                    </section>
                     <div className="portal-form-actions"><button className="portal-primary-button" type="submit" disabled={busy}>{busy ? 'Saving…' : bulkMode ? `Save shared feedback for ${selectedStudentIds.length} students` : 'Save progress report'}</button></div>
                   </form>
                   {selectedStudent && <div className="parent-code-form">
@@ -366,7 +529,7 @@ function TeacherReports() {
               )}
             </>
           )}
-          <p className="portal-footnote">Student profiles and progress reports are stored in DynamoDB. Teachers can add students to the selected branch and group from this page.</p>
+          <p className="portal-footnote">The report roster is loaded from CostumeMeasurements. Progress reports and parent access records are stored in the student reports database.</p>
         </section>
       </main>
     </>

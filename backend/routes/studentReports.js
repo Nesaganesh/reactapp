@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const express = require('express');
 const studentReportsStore = require('../services/studentReportsStore');
+const CostumeMeasurement = require('../models/CostumeMeasurement');
 
 const router = express.Router();
 const skills = [
@@ -172,13 +173,58 @@ router.post('/teacher/login', (req, res) => {
   return res.json({ token: signToken({ role: 'teacher', expiresAt: Date.now() + 8 * 60 * 60 * 1000 }) });
 });
 
+router.post('/teacher/reports/clear-all', requireTeacher, asyncHandler(async (req, res) => {
+  if (req.body.confirmation !== 'DELETE ALL REPORTS') {
+    return res.status(400).json({ error: 'Type DELETE ALL REPORTS to confirm this action.' });
+  }
+  const deletedCount = await studentReportsStore.deleteItemsByEntityTypes(['REPORT']);
+  return res.json({ deletedCount, message: `Removed ${deletedCount} student report(s). Student profiles were kept.` });
+}));
+
+router.post('/teacher/parent-codes/clear-all', requireTeacher, asyncHandler(async (req, res) => {
+  if (req.body.confirmation !== 'REMOVE ALL PARENT CODES') {
+    return res.status(400).json({ error: 'Type REMOVE ALL PARENT CODES to confirm this action.' });
+  }
+  const deletedCount = await studentReportsStore.deleteItemsByEntityTypes(['PARENT_CODE', 'PARENT_CODE_LOOKUP']);
+  return res.json({ deletedCount, message: `Removed ${deletedCount} parent-code record(s). Generate new codes individually from student profiles.` });
+}));
+
 router.get('/teacher/students', requireTeacher, asyncHandler(async (req, res) => {
   const { branch, group } = req.query;
   if (!branch || !group) {
     return res.status(400).json({ error: 'Branch and group are required.' });
   }
 
-  const records = await studentReportsStore.listStudents(branch, group);
+  const { students: measurementStudents, unassignedGroupStudents } = await CostumeMeasurement.findReportRosterByBranch(branch, group);
+  let records = await studentReportsStore.listStudents(branch, group);
+  const knownNames = new Set(records.map(student => String(student.name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase()));
+  let importedCount = 0;
+
+  for (const measurement of measurementStudents) {
+    const normalizedName = measurement.name.toLocaleLowerCase();
+    if (knownNames.has(normalizedName)) continue;
+
+    try {
+      await studentReportsStore.createStudent({
+        id: `costume-${measurement.id}`,
+        name: measurement.name,
+        branch: measurement.branch,
+        group: measurement.group,
+        section: null,
+        source: 'CostumeMeasurements',
+        sourceMeasurementId: measurement.id,
+        createdAt: new Date().toISOString()
+      });
+      knownNames.add(normalizedName);
+      importedCount += 1;
+    } catch (error) {
+      if (error.name !== 'ConditionalCheckFailedException') throw error;
+    }
+  }
+
+  if (importedCount || measurementStudents.length) records = await studentReportsStore.listStudents(branch, group);
+  const measurementNames = new Set(measurementStudents.map(student => student.name.toLocaleLowerCase()));
+  records = records.filter(student => measurementNames.has(String(student.name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase()));
   const students = await Promise.all(records.map(async student => {
     const [reports, parentCode] = await Promise.all([
       studentReportsStore.getReports(student.id, branch),
@@ -195,36 +241,34 @@ router.get('/teacher/students', requireTeacher, asyncHandler(async (req, res) =>
     };
   }));
 
-  return res.json({ students, branch, branchNeedsConfirmation: students.some(student => student.branchUnassigned) });
+  return res.json({
+    students,
+    branch,
+    branchNeedsConfirmation: students.some(student => student.branchUnassigned),
+    importedCount,
+    unassignedMeasurementStudents: unassignedGroupStudents
+  });
 }));
 
-router.post('/teacher/students', requireTeacher, asyncHandler(async (req, res) => {
+router.post('/teacher/measurements/:measurementId/group', requireTeacher, asyncHandler(async (req, res) => {
   const branch = String(req.body.branch || '').trim();
   const group = String(req.body.group || '').trim();
-  const name = String(req.body.name || '').trim().replace(/\s+/g, ' ');
-  const validBranches = ['Ipswich', 'Colchester', 'Chelmsford'];
+  const validBranches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
   const validGroups = ['PeppyToez', 'LittleLegends', 'EnergeticExpressors', 'TeensSociety'];
-
-  if (!validBranches.includes(branch) || !validGroups.includes(group) || !name || name.length > 120) {
-    return res.status(400).json({ error: 'Select a valid branch and group and enter a student name (up to 120 characters).' });
+  if (!validBranches.includes(branch) || !validGroups.includes(group)) {
+    return res.status(400).json({ error: 'Select a valid branch and class group.' });
   }
 
-  const existingStudents = await studentReportsStore.listStudents(branch, group);
-  const normalizedName = name.toLocaleLowerCase();
-  if (existingStudents.some(student => String(student.name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === normalizedName)) {
-    return res.status(409).json({ error: 'A student with this name is already listed in this branch and group.' });
+  let measurement;
+  try {
+    measurement = await CostumeMeasurement.assignReportGroup(req.params.measurementId, branch, group);
+  } catch (error) {
+    if (error.name === 'ConditionalCheckFailedException') {
+      return res.status(409).json({ error: 'This costume entry is missing, belongs to another branch, or already has a group.' });
+    }
+    throw error;
   }
-
-  const student = {
-    id: `student-${crypto.randomUUID()}`,
-    name,
-    branch,
-    group,
-    section: null,
-    createdAt: new Date().toISOString()
-  };
-  await studentReportsStore.createStudent(student);
-  return res.status(201).json({ student: { id: student.id, name: student.name, branch, group, branchUnassigned: false, parentCodeSet: false, reports: [] } });
+  return res.json({ message: 'Class group assigned to the costume record.' });
 }));
 
 router.post('/teacher/reports', requireTeacher, asyncHandler(async (req, res) => {
@@ -240,6 +284,9 @@ router.post('/teacher/reports', requireTeacher, asyncHandler(async (req, res) =>
   }
   if (student.group && student.group !== req.body.group) {
     return res.status(409).json({ error: 'The selected group does not match this student’s saved group assignment.' });
+  }
+  if (!await CostumeMeasurement.hasStudentInBranchAndGroup(req.body.branch, req.body.group, student.name)) {
+    return res.status(409).json({ error: 'Reports can only be created for students listed in the matching CostumeMeasurements branch and group.' });
   }
 
   const report = createReport(student, req.body);
@@ -270,6 +317,12 @@ router.post('/teacher/reports/bulk', requireTeacher, asyncHandler(async (req, re
   }
   if (selectedStudents.some(student => student.branch && student.branch !== branch)) {
     return res.status(409).json({ error: 'One or more selected students have a different saved branch.' });
+  }
+  const sourceRosterMatches = await Promise.all(selectedStudents.map(student =>
+    CostumeMeasurement.hasStudentInBranchAndGroup(branch, group, student.name)
+  ));
+  if (sourceRosterMatches.some(matches => !matches)) {
+    return res.status(409).json({ error: 'Reports can only be created for students listed in the matching CostumeMeasurements branch and group.' });
   }
 
   const entries = selectedStudents.map(student => ({ student, report: createReport(student, req.body) }));
@@ -306,6 +359,9 @@ async function generateAndSaveParentCode(student, branch, replace) {
 router.post('/teacher/students/:studentId/parent-code/reset', requireTeacher, asyncHandler(async (req, res) => {
   const student = await studentReportsStore.getStudent(req.params.studentId);
   if (!student) return res.status(404).json({ error: 'Student not found.' });
+  if (!await CostumeMeasurement.hasStudentInBranchAndGroup(student.branch, student.group, student.name)) {
+    return res.status(409).json({ error: 'Parent codes can only be generated for students listed in the matching CostumeMeasurements branch and group.' });
+  }
   const code = await generateAndSaveParentCode(student, student.branch, true);
   return res.json({ accessCode: code, message: 'Parent authorization code reset.' });
 }));
@@ -322,10 +378,15 @@ router.post('/parent/register', asyncHandler(async (req, res) => {
 
   const branch = String(req.body.branch || '').trim();
   const studentName = String(req.body.studentName || '').trim().replace(/\s+/g, ' ');
-  const validBranches = ['Ipswich', 'Colchester', 'Chelmsford'];
+  const validBranches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
   if (!validBranches.includes(branch) || !studentName || studentName.length > 120) {
     registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(400).json({ error: 'Choose a branch and enter your child’s full name.' });
+  }
+
+  if (!await CostumeMeasurement.hasStudentInBranch(branch, studentName)) {
+    registerFailedAttempt(parentAttempts, attemptKey);
+    return res.status(400).json({ error: 'We could not verify that student and branch. Check the details or contact a teacher.' });
   }
 
   const matches = (await studentReportsStore.findStudentsByName(studentName))
@@ -376,6 +437,10 @@ router.post('/parent/authorize', asyncHandler(async (req, res) => {
 
   const student = await studentReportsStore.getStudent(access.studentId);
   if (!student || student.name.trim().split(/\s+/)[0].toLocaleLowerCase() !== firstName || (student.branch && student.branch !== branch)) {
+    registerFailedAttempt(parentAttempts, attemptKey);
+    return res.status(401).json({ error: 'Unable to verify those details.' });
+  }
+  if (!await CostumeMeasurement.hasStudentInBranchAndGroup(branch, student.group, student.name)) {
     registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(401).json({ error: 'Unable to verify those details.' });
   }

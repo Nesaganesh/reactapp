@@ -6,6 +6,9 @@
       "Effect": "Allow",
       "Action": [
         "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Scan",
+        "dynamodb:BatchWriteItem",
         "dynamodb:TransactWriteItems"
       ],
       "Resource": "arn:aws:dynamodb:us-east-1:ACCOUNT_ID:table/FlytoezStudentReports"
@@ -18,6 +21,16 @@
         "arn:aws:dynamodb:us-east-1:ACCOUNT_ID:table/FlytoezStudentReports/index/ClassIndex",
         "arn:aws:dynamodb:us-east-1:ACCOUNT_ID:table/FlytoezStudentReports/index/NameIndex"
       ]
+    },
+    {
+      "Sid": "CostumeMeasurementsReportRosterIntegration",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:us-east-1:ACCOUNT_ID:table/CostumeMeasurements"
     }
   ]
 }

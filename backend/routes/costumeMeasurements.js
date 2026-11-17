@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
     const {
       studentName,
       branch,
+      group,
       parentName,
       parentMobile1,
       parentMobile2,
@@ -37,17 +38,22 @@ router.post('/', async (req, res) => {
       notes,
     } = req.body;
 
-    // Validation - at minimum need studentName
+    // Keep older clients compatible while validating groups supplied by the current form.
     if (!studentName) {
       return res.status(400).json({ 
         error: 'Student name is required' 
       });
+    }
+    const validGroups = ['PeppyToez', 'LittleLegends', 'EnergeticExpressors', 'TeensSociety'];
+    if (group && !validGroups.includes(group)) {
+      return res.status(400).json({ error: 'Select a valid class group.' });
     }
 
     // Create measurement with all fields (undefined values will be stored as null)
     const measurement = await CostumeMeasurement.create({
       studentName,
       branch,
+      group,
       parentName,
       parentMobile1,
       parentMobile2,

@@ -5,6 +5,12 @@ import './CostumeMeasurements.css';
 import Navbar from '../Navbar';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const studentGroups = [
+  { value: 'PeppyToez', label: 'PeppyToez' },
+  { value: 'LittleLegends', label: 'LittleLegends' },
+  { value: 'EnergeticExpressors', label: 'EnergeticExpressors' },
+  { value: 'TeensSociety', label: 'Teens Society' }
+];
 
 // Helper functions for storage with fallback
 const saveFormData = (data) => {
@@ -56,6 +62,7 @@ function CostumeMeasurements() {
   const [formData, setFormData] = useState({
     fullName: '',
     branch: '',
+    group: '',
     parentName: '',
     parentMobile1: '',
     parentMobile2: '',
@@ -268,7 +275,7 @@ function CostumeMeasurements() {
     e.preventDefault();
     
     // Validate required fields
-    if (!formData.fullName || !formData.branch || !formData.parentName || 
+    if (!formData.fullName || !formData.branch || !formData.group || !formData.parentName ||
         !formData.parentMobile1) {
       setError('Please fill in all required fields');
       return;
@@ -310,6 +317,7 @@ function CostumeMeasurements() {
       const backendData = {
         studentName: formData.fullName,
         branch: formData.branch,
+        group: formData.group,
         parentName: formData.parentName,
         parentMobile1: formData.parentMobile1,
         parentMobile2: formData.parentMobile2 || '',
@@ -463,6 +471,22 @@ function CostumeMeasurements() {
                 <option value="Colchester">Colchester</option>
                 <option value="Croydon">Croydon</option>
                 <option value="Ipswich">Ipswich</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="group">
+                Class group <span className="required">*</span>
+              </label>
+              <select
+                id="group"
+                name="group"
+                value={formData.group || ''}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select class group</option>
+                {studentGroups.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}
               </select>
             </div>
 

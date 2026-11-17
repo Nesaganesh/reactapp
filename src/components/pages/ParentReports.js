@@ -5,7 +5,7 @@ import './ReportPortals.css';
 
 const API_ORIGIN = (process.env.REACT_APP_API_URL || 'http://localhost:5001').replace(/\/api\/?$/, '').replace(/\/$/, '');
 const API_BASE = `${API_ORIGIN}/api/student-reports`;
-const branches = ['Ipswich', 'Colchester', 'Chelmsford'];
+const branches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
 
 function ParentReports() {
   const [branch, setBranch] = useState('');

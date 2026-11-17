@@ -2,7 +2,9 @@ const {
   GetCommand,
   PutCommand,
   QueryCommand,
-  TransactWriteCommand
+  TransactWriteCommand,
+  ScanCommand,
+  BatchWriteCommand
 } = require('@aws-sdk/lib-dynamodb');
 const { docClient } = require('../config/dynamodb');
 
@@ -227,6 +229,55 @@ async function getMetadata() {
   return result.Item || null;
 }
 
+async function deleteItemsByEntityTypes(entityTypes) {
+  if (!Array.isArray(entityTypes) || !entityTypes.length) return 0;
+
+  const expressionValues = {};
+  const placeholders = entityTypes.map((entityType, index) => {
+    expressionValues[`:entityType${index}`] = entityType;
+    return `:entityType${index}`;
+  });
+  let ExclusiveStartKey;
+  let deletedCount = 0;
+
+  do {
+    const result = await docClient.send(new ScanCommand({
+      TableName: TABLE_NAME,
+      ProjectionExpression: 'PK, SK, #entityType',
+      FilterExpression: `#entityType IN (${placeholders.join(', ')})`,
+      ExpressionAttributeNames: { '#entityType': 'entityType' },
+      ExpressionAttributeValues: expressionValues,
+      ExclusiveStartKey
+    }));
+
+    const keys = (result.Items || []).map(item => ({ DeleteRequest: { Key: { PK: item.PK, SK: item.SK } } }));
+    for (let offset = 0; offset < keys.length; offset += 25) {
+      let pending = keys.slice(offset, offset + 25);
+      let attempts = 0;
+      while (pending.length && attempts < 8) {
+        const response = await docClient.send(new BatchWriteCommand({
+          RequestItems: { [TABLE_NAME]: pending }
+        }));
+        pending = response.UnprocessedItems?.[TABLE_NAME] || [];
+        attempts += 1;
+        if (pending.length && attempts < 8) {
+          await new Promise(resolve => setTimeout(resolve, Math.min(100 * (2 ** attempts), 2000)));
+        }
+      }
+      if (pending.length) {
+        const error = new Error('DynamoDB left items unprocessed during bulk deletion. Retry the operation to finish cleanup.');
+        error.deletedCount = deletedCount;
+        throw error;
+      }
+      deletedCount += Math.min(25, keys.length - offset);
+    }
+
+    ExclusiveStartKey = result.LastEvaluatedKey;
+  } while (ExclusiveStartKey);
+
+  return deletedCount;
+}
+
 module.exports = {
   TABLE_NAME,
   studentItem,
@@ -243,5 +294,6 @@ module.exports = {
   saveReports,
   saveParentCode,
   saveLegacyParentCode,
-  getMetadata
+  getMetadata,
+  deleteItemsByEntityTypes
 };
