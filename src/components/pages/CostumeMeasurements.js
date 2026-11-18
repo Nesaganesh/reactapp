@@ -4,7 +4,7 @@ import axios from 'axios';
 import './CostumeMeasurements.css';
 import Navbar from '../Navbar';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = `${(process.env.REACT_APP_API_URL || 'http://localhost:5000').replace(/\/api\/?$/, '').replace(/\/$/, '')}/api`;
 const studentGroups = [
   { value: 'PeppyToez', label: 'PeppyToez' },
   { value: 'LittleLegends', label: 'LittleLegends' },
@@ -402,14 +402,13 @@ function CostumeMeasurements() {
             </p>
             <p className="confirmation-next-steps">
               Our team will review the details and contact you if any additional information is needed.
-              We look forward to seeing you at the Annual Event 2026!
             </p>
             <button 
               className="home-button" 
-              onClick={() => navigate('/annualevent')}
+              onClick={() => navigate('/home')}
             >
               <i className="fas fa-home"></i>
-              Back to Event Home Page
+              Back to Home Page
             </button>
           </div>
         </div>
@@ -423,7 +422,7 @@ function CostumeMeasurements() {
       <div className="costume-container">
         <div className="costume-form-wrapper">
           <h2 className="costume-title">Student Details Form</h2>
-          <p className="costume-subtitle">Please provide student and parent information for the event day</p>
+          {/* <p className="costume-subtitle">Please provide student and parent information for the event day</p> */}
 
           {error && (
             <div className="error-message">
@@ -645,7 +644,7 @@ function CostumeMeasurements() {
                 <h3>
                   <i className="fas fa-tshirt"></i> Flytoez T-Shirt
                 </h3>
-                <p>All performers must have a Flytoez T-Shirt for the Annual Event.</p>
+                <p>All performers must have a Flytoez T-Shirt for the End of term class and other events.</p>
               </div>
 
               <div className="form-group">

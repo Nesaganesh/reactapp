@@ -2,6 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import './Student2026.css';
 
 const DEFAULT_SORT = { key: 'studentName', direction: 'asc' };
+const API_ORIGIN = (process.env.REACT_APP_API_URL || 'http://localhost:5000').replace(/\/api\/?$/, '').replace(/\/$/, '');
+const API_BASE = `${API_ORIGIN}/api`;
+const COSTUME_MEASUREMENTS_API = `${API_BASE}/costume-measurements`;
 
 const Student2026 = () => {
   const [students, setStudents] = useState([]);
@@ -11,12 +14,10 @@ const Student2026 = () => {
   const [sort, setSort] = useState(DEFAULT_SORT);
 
   useEffect(() => {
-    const rawBase = process.env.REACT_APP_API_URL || '';
-    const API_BASE = rawBase.replace(/\/$/, '');
     const fetchStudents = async () => {
       try {
-        const res = await fetch(`${API_BASE}/costume-measurements`);
-        if (!res.ok) throw new Error(`Server responded ${res.status} ${API_BASE}/costume-measurements`);
+        const res = await fetch(COSTUME_MEASUREMENTS_API);
+        if (!res.ok) throw new Error(`Server responded ${res.status} ${COSTUME_MEASUREMENTS_API}`);
 
         const contentType = res.headers.get('content-type') || '';
         if (!contentType.includes('application/json')) {
@@ -129,17 +130,14 @@ const Student2026 = () => {
 
   const clearSelection = () => setSelected(new Set());
 
-  const rawAPI = process.env.REACT_APP_API_URL || '';
-  const API_BASE = rawAPI.replace(/\/$/, '');
-
   const refetch = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/costume-measurements`);
+      const res = await fetch(COSTUME_MEASUREMENTS_API);
       const contentType = res.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
-        throw new Error(`Expected JSON but received ${contentType || 'unknown content-type'} from ${API_BASE}/costume-measurements (status ${res.status})`);
+        throw new Error(`Expected JSON but received ${contentType || 'unknown content-type'} from ${COSTUME_MEASUREMENTS_API} (status ${res.status})`);
       }
       const json = await res.json();
       const data = Array.isArray(json.data) ? json.data : json;
@@ -166,7 +164,7 @@ const Student2026 = () => {
     if (!window.confirm(`Delete ${selected.size} selected student(s)? This cannot be undone.`)) return;
     try {
       for (const id of Array.from(selected)) {
-        const res = await fetch(`${API_BASE}/costume-measurements/${id}`, { method: 'DELETE' });
+        const res = await fetch(`${COSTUME_MEASUREMENTS_API}/${id}`, { method: 'DELETE' });
         if (!res.ok) console.warn('Failed to delete', id);
       }
       clearSelection();
