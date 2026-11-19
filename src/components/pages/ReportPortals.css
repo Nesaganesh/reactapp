@@ -68,6 +68,8 @@
 .portal-roster-table th, .portal-roster-table td { padding: 12px 11px; border-bottom: 1px solid #e7eaf0; vertical-align: middle; }
 .portal-roster-table tbody tr:last-child td { border-bottom: 0; }
 .selected-roster-row td { background: #fff9f0; }
+.roster-report-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.roster-report-actions .portal-secondary-button, .roster-report-actions .portal-small-button { min-height: 34px; padding: 7px 11px; }
 .unassigned-tag { display: inline-block; padding: 5px 8px; border-radius: 20px; background: #fff3d4; color: #725300; font-size: .72rem; font-weight: 700; }
 .teacher-measurement-import { margin: 0 0 18px; padding: 14px; border: 1px solid #f0dfc8; border-radius: 9px; background: #fffaf3; }
 .teacher-measurement-import > div:first-child h3 { margin: 0 0 5px; color: #263149; font-size: .95rem; }
