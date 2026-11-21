@@ -1,0 +1,228 @@
+.report-guide-page {
+  min-height: calc(100vh - 80px);
+  padding: 48px 20px 72px;
+  color: #202133;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 204, 0, 0.18), transparent 25%),
+    radial-gradient(circle at 88% 28%, rgba(211, 25, 45, 0.12), transparent 28%),
+    #f8f7f4;
+}
+
+.report-guide-shell {
+  width: min(1060px, 100%);
+  margin: 0 auto;
+}
+
+.report-guide-header {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.report-guide-company {
+  margin: 0 0 12px;
+  color: #b10f22;
+  font-size: 0.86rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.report-guide-header h1 {
+  margin: 0 0 18px;
+  color: #171722;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.08;
+}
+
+.report-guide-header > p:not(.report-guide-company) {
+  margin: 8px 0;
+  color: #5a5e6c;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.report-guide-header > strong {
+  display: block;
+  margin-top: 20px;
+  color: #292c38;
+  font-size: 1.05rem;
+}
+
+.report-guide-steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+
+.report-guide-card {
+  position: relative;
+  min-height: 430px;
+  padding: 34px 32px;
+  overflow: hidden;
+  border: 1px solid #e4dfe0;
+  border-top: 5px solid #d3192f;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 42px rgba(39, 24, 29, 0.09);
+}
+
+.report-guide-number {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  color: rgba(211, 25, 47, 0.1);
+  font-size: 5.5rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.report-guide-icon {
+  margin: 0 0 16px;
+  font-size: 2rem;
+}
+
+.report-guide-card h2 {
+  position: relative;
+  margin: 0 0 20px;
+  color: #191923;
+  font-size: 1.45rem;
+}
+
+.report-guide-card ol {
+  position: relative;
+  display: grid;
+  gap: 13px;
+  min-height: 190px;
+  margin: 0 0 28px;
+  padding-left: 23px;
+  color: #535766;
+  line-height: 1.55;
+}
+
+.report-guide-card li::marker {
+  color: #d3192f;
+  font-weight: 800;
+}
+
+.report-guide-card a:not(.report-guide-button) {
+  color: #b10f22;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.report-guide-button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #d3192f;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.report-guide-button:hover {
+  transform: translateY(-2px);
+  background: #aa1022;
+}
+
+.report-guide-connector {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  background: #171722;
+  color: #ffcc00;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.report-guide-notes {
+  margin-top: 30px;
+  padding: 25px 30px;
+  border: 1px solid #efdfb4;
+  border-left: 5px solid #e0a800;
+  border-radius: 15px;
+  background: #fffaf0;
+}
+
+.report-guide-notes h2 {
+  margin: 0 0 14px;
+  color: #332b17;
+  font-size: 1.15rem;
+}
+
+.report-guide-notes ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report-guide-notes li {
+  color: #62583c;
+  line-height: 1.55;
+}
+
+.report-guide-footer {
+  margin-top: 38px;
+  text-align: center;
+}
+
+.report-guide-footer p {
+  margin: 8px 0;
+  color: #515564;
+}
+
+.report-guide-footer .report-guide-signature {
+  color: #1b1c25;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.report-guide-footer a {
+  display: inline-block;
+  margin-top: 6px;
+  color: #b10f22;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+@media (max-width: 760px) {
+  .report-guide-page {
+    padding: 32px 14px 50px;
+  }
+
+  .report-guide-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .report-guide-card {
+    min-height: 0;
+    padding: 28px 22px;
+  }
+
+  .report-guide-card ol {
+    min-height: 0;
+  }
+
+  .report-guide-connector {
+    margin: 0 auto;
+    transform: rotate(90deg);
+  }
+
+  .report-guide-notes ul {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

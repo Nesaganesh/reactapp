@@ -93,6 +93,11 @@ function Navbar() {
                     </Link>
                   </li> */}
                   <li>
+                    <Link to='/how-to-view-report' className='dropdown-link' onClick={closeMobileMenu}>
+                      How to View Report
+                    </Link>
+                  </li>
+                  <li>
                     <Link to='/teacherreports' className='dropdown-link' onClick={closeMobileMenu}>
                       Create Report
                     </Link>

@@ -23,6 +23,7 @@ import StudentReport from './components/pages/StudentReport';
 import TeacherReports from './components/pages/TeacherReports';
 import ParentReports from './components/pages/ParentReports';
 import ParentRegistration from './components/pages/ParentRegistration';
+import HowToViewReport from './components/pages/HowToViewReport';
 
 
 
@@ -58,6 +59,7 @@ function App() {
               <Route path="/teacherreports" element={<TeacherReports />}></Route>
               <Route path="/parentreports" element={<ParentReports />}></Route>
               <Route path="/generateaccesscode" element={<ParentRegistration />}></Route>
+              <Route path="/how2viewreport" element={<HowToViewReport />}></Route>
               <Route path="/newregistration" element={<CostumeMeasurements />}></Route> 
               
               {/* <Route path="/diwali"  element={<Diwali />}></Route>  */}
