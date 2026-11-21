@@ -55,6 +55,7 @@ function HowToViewReport() {
           <aside className="report-guide-notes" aria-labelledby="important-notes-title">
             <h2 id="important-notes-title">📌 Important Notes</h2>
             <ul>
+              <li>📝 Your child must already be registered <Link to="/newregistration">HERE</Link></li>
               <li>🔒 Keep your access code private.</li>
               <li>💬 Lost your code? Please message <strong>Nesa privately</strong>.</li>
               <li>📩 For any technical issues, please send a private message.</li>
