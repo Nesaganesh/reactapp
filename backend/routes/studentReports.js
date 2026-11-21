@@ -83,6 +83,10 @@ function hashLegacyAccessCode(code) {
   return crypto.createHash('sha256').update(String(code).trim()).digest('hex');
 }
 
+function generateParentCode() {
+  return String(crypto.randomInt(100000, 1000000));
+}
+
 function accessCodeMatches(credential, code) {
   const expectedHash = credential.hashVersion === 'hmac-sha256-v1'
     ? hashAccessCode(code)
@@ -320,7 +324,7 @@ router.post('/teacher/reports/bulk', requireTeacher, asyncHandler(async (req, re
 
 async function generateAndSaveParentCode(student, branch, replace) {
   for (let attempt = 0; attempt < 10; attempt += 1) {
-    const code = generateParentCode([]);
+    const code = generateParentCode();
     try {
       await studentReportsStore.saveParentCode({
         student,
