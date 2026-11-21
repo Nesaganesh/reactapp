@@ -138,7 +138,7 @@ async function saveReports(entries) {
   await docClient.send(new TransactWriteCommand({ TransactItems }));
 }
 
-async function saveParentCode({ student, codeHash, hashVersion, branch, replace }) {
+async function saveParentCode({ student, codeHash, hashVersion, branch, replace, encryptedCode }) {
   const previous = await getParentCode(student.id);
   const codeItem = {
     ...codeLookupKey(codeHash),
@@ -154,6 +154,7 @@ async function saveParentCode({ student, codeHash, hashVersion, branch, replace 
     entityType: 'PARENT_CODE',
     codeHash,
     hashVersion,
+    encryptedCode,
     createdAt: codeItem.createdAt
   };
   const TransactItems = [];

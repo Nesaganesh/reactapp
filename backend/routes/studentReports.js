@@ -20,18 +20,6 @@ const gradeBands = [
   { minimum: 15, maximum: 17, grade: 'C', description: 'Developing' },
   { minimum: 0, maximum: 14, grade: 'D', description: 'More support recommended' }
 ];
-const loginAttempts = new Map();
-const parentAttempts = new Map();
-
-function registerFailedAttempt(attempts, key) {
-  const attempt = attempts.get(key) || { count: 0, blockedUntil: 0 };
-  attempt.count += 1;
-  if (attempt.count >= 5) {
-    attempt.count = 0;
-    attempt.blockedUntil = Date.now() + 10 * 60 * 1000;
-  }
-  attempts.set(key, attempt);
-}
 
 const asyncHandler = handler => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
 
@@ -102,15 +90,27 @@ function accessCodeMatches(credential, code) {
   return safeEqual(credential.codeHash, expectedHash);
 }
 
-function generateParentCode(credentials) {
-  const existingHashes = new Set(credentials.map(item => item.codeHash));
+function parentCodeCipherKey() {
+  return crypto.createHash('sha256').update(`${sessionSecret()}:parent-code-display`).digest();
+}
 
-  for (let attempt = 0; attempt < 100; attempt += 1) {
-    const code = String(crypto.randomInt(100000, 1000000));
-    if (!existingHashes.has(hashAccessCode(code))) return code;
+function encryptParentCode(code) {
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', parentCodeCipherKey(), iv);
+  const encrypted = Buffer.concat([cipher.update(String(code), 'utf8'), cipher.final()]);
+  return [iv.toString('base64url'), cipher.getAuthTag().toString('base64url'), encrypted.toString('base64url')].join('.');
+}
+
+function decryptParentCode(encryptedCode) {
+  if (!encryptedCode || typeof encryptedCode !== 'string') return null;
+  try {
+    const [ivValue, tagValue, contentValue] = encryptedCode.split('.');
+    const decipher = crypto.createDecipheriv('aes-256-gcm', parentCodeCipherKey(), Buffer.from(ivValue, 'base64url'));
+    decipher.setAuthTag(Buffer.from(tagValue, 'base64url'));
+    return Buffer.concat([decipher.update(Buffer.from(contentValue, 'base64url')), decipher.final()]).toString('utf8');
+  } catch (error) {
+    return null;
   }
-
-  throw new Error('Unable to generate a unique parent code.');
 }
 
 function createReport(student, { branch, group, term, assessmentDate, scores, observations, comments }) {
@@ -150,26 +150,12 @@ function validateReportInput({ branch, group, term, scores }) {
 router.post('/teacher/login', (req, res) => {
   const configuredCode = process.env.STUDENT_REPORT_TEACHER_CODE;
   const secret = sessionSecret();
-  const attemptKey = req.ip || req.socket.remoteAddress || 'unknown';
-  const attempt = loginAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 };
-
-  if (attempt.blockedUntil > Date.now()) {
-    return res.status(429).json({ error: 'Too many attempts. Try again later.' });
-  }
   if (!configuredCode || !secret) {
     return res.status(503).json({ error: 'Teacher access is not configured on the server.' });
   }
   if (!safeEqual(req.body.accessCode || '', configuredCode)) {
-    attempt.count += 1;
-    if (attempt.count >= 5) {
-      attempt.count = 0;
-      attempt.blockedUntil = Date.now() + 10 * 60 * 1000;
-    }
-    loginAttempts.set(attemptKey, attempt);
     return res.status(401).json({ error: 'Invalid access code.' });
   }
-
-  loginAttempts.delete(attemptKey);
   return res.json({ token: signToken({ role: 'teacher', expiresAt: Date.now() + 8 * 60 * 60 * 1000 }) });
 });
 
@@ -237,6 +223,7 @@ router.get('/teacher/students', requireTeacher, asyncHandler(async (req, res) =>
       branch: student.branch,
       branchUnassigned: !student.branch,
       parentCodeSet: Boolean(parentCode),
+      parentAccessCode: decryptParentCode(parentCode?.encryptedCode),
       reports
     };
   }));
@@ -339,6 +326,7 @@ async function generateAndSaveParentCode(student, branch, replace) {
         student,
         codeHash: hashAccessCode(code),
         hashVersion: 'hmac-sha256-v1',
+        encryptedCode: encryptParentCode(code),
         branch,
         replace
       });
@@ -370,29 +358,21 @@ router.post('/parent/register', asyncHandler(async (req, res) => {
   if (!sessionSecret()) {
     return res.status(503).json({ error: 'Parent access is not configured on the server.' });
   }
-  const attemptKey = req.ip || req.socket.remoteAddress || 'unknown';
-  const attempt = parentAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 };
-  if (attempt.blockedUntil > Date.now()) {
-    return res.status(429).json({ error: 'Too many attempts. Try again later.' });
-  }
 
   const branch = String(req.body.branch || '').trim();
   const studentName = String(req.body.studentName || '').trim().replace(/\s+/g, ' ');
   const validBranches = ['Ipswich', 'Colchester', 'Chelmsford', 'Croydon'];
   if (!validBranches.includes(branch) || !studentName || studentName.length > 120) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(400).json({ error: 'Choose a branch and enter your child’s full name.' });
   }
 
   if (!await CostumeMeasurement.hasStudentInBranch(branch, studentName)) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(400).json({ error: 'We could not verify that student and branch. Check the details or contact a teacher.' });
   }
 
   const matches = (await studentReportsStore.findStudentsByName(studentName))
     .filter(student => String(student.name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === studentName.toLocaleLowerCase());
   if (matches.length !== 1 || (matches[0].branch && matches[0].branch !== branch)) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(400).json({ error: 'We could not verify that student and branch. Check the details or contact a teacher.' });
   }
 
@@ -410,17 +390,10 @@ router.post('/parent/register', asyncHandler(async (req, res) => {
     }
     throw error;
   }
-  parentAttempts.delete(attemptKey);
   return res.status(201).json({ studentName: student.name, branch, accessCode: code });
 }));
 
 router.post('/parent/authorize', asyncHandler(async (req, res) => {
-  const attemptKey = req.ip || req.socket.remoteAddress || 'unknown';
-  const attempt = parentAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 };
-  if (attempt.blockedUntil > Date.now()) {
-    return res.status(429).json({ error: 'Too many attempts. Try again later.' });
-  }
-
   const branch = String(req.body.branch || '').trim();
   const firstName = String(req.body.firstName || '').trim().toLocaleLowerCase();
   if (!branch || !firstName || !req.body.accessCode) {
@@ -431,28 +404,42 @@ router.post('/parent/authorize', asyncHandler(async (req, res) => {
   if (!access) access = await studentReportsStore.findParentCodeByHash(hashLegacyAccessCode(req.body.accessCode));
   if (access && !accessCodeMatches(access, req.body.accessCode)) access = null;
   if (!access) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(401).json({ error: 'Unable to verify those details.' });
   }
 
   const student = await studentReportsStore.getStudent(access.studentId);
   if (!student || student.name.trim().split(/\s+/)[0].toLocaleLowerCase() !== firstName || (student.branch && student.branch !== branch)) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(401).json({ error: 'Unable to verify those details.' });
   }
   if (!await CostumeMeasurement.hasStudentInBranchAndGroup(branch, student.group, student.name)) {
-    registerFailedAttempt(parentAttempts, attemptKey);
     return res.status(401).json({ error: 'Unable to verify those details.' });
   }
 
-  parentAttempts.delete(attemptKey);
   const reports = await studentReportsStore.getReports(student.id, branch);
   return res.json({ student: { id: student.id, name: student.name }, reports });
 }));
 
 router.use((error, req, res, next) => {
-  if (error.statusCode) return res.status(error.statusCode).json({ error: error.message });
-  return sendDatabaseError(error, req, res, next);
+  if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message });
+  }
+  if (error.name === 'UnauthorizedError') {
+    return res.status(401).json({ error: 'Invalid token.' });
+  }
+  if (error.name === 'ForbiddenError') {
+    return res.status(403).json({ error: 'You do not have permission to access this resource.' });
+  }
+  if (error.name === 'NotFoundError') {
+    return res.status(404).json({ error: 'Resource not found.' });
+  }
+  if (error.name === 'ConflictError') {
+    return res.status(409).json({ error: error.message });
+  }
+  if (error.name === 'ServiceUnavailableException') {
+    return res.status(503).json({ error: 'Service temporarily unavailable. Please try again later.' });
+  }
+  console.error('Unexpected error:', error);
+  return res.status(500).json({ error: 'An unexpected error occurred. Please try again later.' });
 });
 
 module.exports = router;

@@ -126,6 +126,9 @@ function TeacherReports() {
   const [feedbackType, setFeedbackType] = useState('custom');
   const [feedbackCopyMessage, setFeedbackCopyMessage] = useState('');
   const [generatedParentCode, setGeneratedParentCode] = useState('');
+  const [generatedCodeStudentName, setGeneratedCodeStudentName] = useState('');
+  const [parentCodeCopyMessage, setParentCodeCopyMessage] = useState('');
+  const [copiedCodeStudentId, setCopiedCodeStudentId] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -333,23 +336,39 @@ function TeacherReports() {
     }
   };
 
-  const resetParentCode = async () => {
-    if (!selectedStudent) return;
-    if (selectedStudent.parentCodeSet && !window.confirm(`Reset the parent authorization code for ${selectedStudent.name}? The current code will stop working.`)) return;
+  const resetParentCode = async student => {
+    if (!student) return;
+    if (student.parentCodeSet && !window.confirm(`Reset the parent authorization code for ${student.name}? The current code will stop working.`)) return;
     setBusy(true);
     setMessage('');
     setGeneratedParentCode('');
+    setGeneratedCodeStudentName('');
+    setParentCodeCopyMessage('');
     try {
-      const data = await apiRequest(`/teacher/students/${encodeURIComponent(selectedStudent.id)}/parent-code/reset`, {
+      const data = await apiRequest(`/teacher/students/${encodeURIComponent(student.id)}/parent-code/reset`, {
         method: 'POST'
       });
       setGeneratedParentCode(data.accessCode);
-      setSelectedStudent(previous => ({ ...previous, parentCodeSet: true }));
-      setMessage('New parent authorization code generated. Share it directly with the parent; it will not be shown again.');
+      setGeneratedCodeStudentName(student.name);
+      setStudents(previous => previous.map(item => item.id === student.id ? { ...item, parentCodeSet: true, parentAccessCode: data.accessCode } : item));
+      setSelectedStudent(previous => previous?.id === student.id ? { ...previous, parentCodeSet: true, parentAccessCode: data.accessCode } : previous);
+      setMessage(`New parent authorization code generated for ${student.name}. Share it directly with the parent; it will not be shown again.`);
     } catch (error) {
       setMessage(error.message);
     } finally {
       setBusy(false);
+    }
+  };
+
+  const copyParentCode = async (code = generatedParentCode, studentId = '') => {
+    if (!code) return;
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedCodeStudentId(studentId);
+      setParentCodeCopyMessage('Code copied.');
+    } catch (error) {
+      setCopiedCodeStudentId(studentId);
+      setParentCodeCopyMessage('Copy is unavailable in this browser. Select the code and copy it manually.');
     }
   };
 
@@ -450,6 +469,12 @@ function TeacherReports() {
               {students.length > 0 && (
                 <section className="portal-card">
                   <div className="portal-card-heading"><div><h2>Student roster</h2><p>{students.length} students · {group}. Select students to apply the same report feedback to a group.</p></div></div>
+                  {generatedParentCode && <div className="teacher-generated-code">
+                    <span>New six-digit code for {generatedCodeStudentName} — share it now</span>
+                    <strong>{generatedParentCode}</strong>
+                    <button className="portal-small-button" type="button" onClick={copyParentCode} disabled={busy}>{busy ? 'Copying…' : 'Copy code'}</button>
+                    {parentCodeCopyMessage && <span className="copy-confirmation">{parentCodeCopyMessage}</span>}
+                  </div>}
                   {unassignedMeasurementStudents.length > 0 && <div className="teacher-measurement-import">
                     <div><h3>Costume entries without a group</h3><p>Confirm each student’s class before adding them to the report roster. Assigning adds the record to {group}.</p></div>
                     {unassignedMeasurementStudents.map(measurement => <div className="teacher-measurement-import-row" key={measurement.id}><span>{measurement.name}</span><button className="portal-small-button" type="button" onClick={() => assignMeasurementGroup(measurement)} disabled={busy || Boolean(selectedStudent) || bulkMode}>Assign to {group}</button></div>)}
@@ -461,10 +486,17 @@ function TeacherReports() {
                     </button>
                   </div>
                   <div className="portal-table-scroll"><table className="portal-roster-table"><thead><tr><th>Select</th><th>Student</th><th>Branch status</th><th>Saved reports</th><th>Action</th></tr></thead><tbody>
-                    {students.map(student => <tr key={student.id} className={selectedStudentIds.includes(student.id) || selectedStudent?.id === student.id ? 'selected-roster-row' : ''}><td><input className="roster-student-checkbox" type="checkbox" aria-label={`Select ${student.name}`} checked={selectedStudentIds.includes(student.id)} onChange={() => toggleStudentSelection(student.id)} /></td><td>{student.name}</td><td>{student.branchUnassigned ? <span className="unassigned-tag">Needs branch confirmation</span> : student.branch}</td><td>{student.reports.length}</td><td><div className="roster-report-actions">{student.reports.length > 0 && <button className="portal-secondary-button" type="button" onClick={() => printReport([...student.reports].sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0])} title="View or download the latest saved report">View report</button>}<button className="portal-small-button" type="button" onClick={() => openStudent(student)}>{selectedStudent?.id === student.id ? 'Selected' : 'Write report'}</button></div></td></tr>)}
+                    {students.map(student => <tr key={student.id} className={selectedStudentIds.includes(student.id) || selectedStudent?.id === student.id ? 'selected-roster-row' : ''}><td><input className="roster-student-checkbox" type="checkbox" aria-label={`Select ${student.name}`} checked={selectedStudentIds.includes(student.id)} onChange={() => toggleStudentSelection(student.id)} /></td><td>{student.name}</td><td>{student.branchUnassigned ? <span className="unassigned-tag">Needs branch confirmation</span> : student.branch}</td><td>{student.reports.length}</td><td><div className="roster-report-actions">{student.reports.length > 0 && <button className="portal-secondary-button" type="button" onClick={() => printReport([...student.reports].sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')))[0])} title="View or download the latest saved report">View report</button>}<button className="portal-small-button" type="button" onClick={() => openStudent(student)}>{selectedStudent?.id === student.id ? 'Selected' : 'Write report'}</button><button className="portal-small-button" type="button" onClick={() => resetParentCode(student)} disabled={busy}>{student.parentCodeSet ? 'Reset parent code' : 'Generate parent code'}</button></div></td></tr>)}
                   </tbody></table></div>
                 </section>
               )}
+
+              {students.some(student => student.parentCodeSet) && <section className="portal-card teacher-parent-code-list">
+                <div className="portal-card-heading"><div><h2>Generated parent codes</h2><p>Copy the active code and send it privately to the relevant parent.</p></div></div>
+                <div className="portal-table-scroll"><table className="portal-roster-table"><thead><tr><th>Student</th><th>Parent access code</th><th>Action</th></tr></thead><tbody>
+                  {students.filter(student => student.parentCodeSet).map(student => <tr key={`parent-code-${student.id}`}><td>{student.name}</td><td><code className="teacher-parent-code">{student.parentAccessCode || 'Unavailable — reset code'}</code>{copiedCodeStudentId === student.id && <span className="copy-confirmation">{parentCodeCopyMessage}</span>}</td><td><button className="portal-small-button" type="button" onClick={() => copyParentCode(student.parentAccessCode, student.id)} disabled={!student.parentAccessCode}>Copy code</button></td></tr>)}
+                </tbody></table></div>
+              </section>}
 
               {students.length === 0 && unassignedMeasurementStudents.length > 0 && <section className="portal-card">
                 <div className="portal-card-heading"><div><h2>Costume entries without a group</h2><p>Confirm each student’s class before adding them to the report roster.</p></div></div>
@@ -485,9 +517,7 @@ function TeacherReports() {
                     <div className="teacher-assessment-heading"><h3>Instructor assessment form</h3><span>6 areas</span></div>
                     <div className="teacher-assessment-areas">{skillNames.map((skill, index) => <fieldset className="teacher-assessment-area" key={skill}>
                       <legend>{index + 1}. {skill}</legend>
-                      <div className="teacher-assessment-score-row"><span className="teacher-assessment-label">Score</span><div className="teacher-score-options" role="radiogroup" aria-label={`${skill} score`}>
-                        {[1, 2, 3, 4, 5].map(score => <label className="teacher-radio-option" key={score}><input type="radio" name={`score-${index}`} value={score} checked={scores[index] === String(score)} onChange={event => setScores(previous => previous.map((value, itemIndex) => itemIndex === index ? event.target.value : value))} required /><span>{score}</span></label>)}
-                      </div></div>
+                      <div className="teacher-assessment-score-row"><span className="teacher-assessment-label">Score</span><div className="teacher-score-options" role="radiogroup" aria-label={`${skill} score`}>{[1, 2, 3, 4, 5].map(score => <label className="teacher-radio-option" key={score}><input type="radio" name={`score-${index}`} value={score} checked={scores[index] === String(score)} onChange={event => setScores(previous => previous.map((value, itemIndex) => itemIndex === index ? event.target.value : value))} required /><span>{score}</span></label>)}</div></div>
                       <span className="teacher-assessment-label teacher-observation-label">Observation</span>
                       <div className="teacher-observation-options" role="radiogroup" aria-label={`${skill} observation`}>
                         {observationOptions[index].map(option => <label className="teacher-observation-option" key={option}><input type="radio" name={`observation-${index}`} value={option} checked={observationChoices[index] === option} onChange={() => { setObservationChoices(previous => previous.map((choice, itemIndex) => itemIndex === index ? option : choice)); setObservations(previous => previous.map((value, itemIndex) => itemIndex === index ? option : value)); }} /><span>{option}</span></label>)}
@@ -499,30 +529,15 @@ function TeacherReports() {
                     <div className="portal-score-summary"><span>Grade <strong>{grade ? `${grade.grade} — ${grade.description}` : 'Score all skills'}</strong></span></div>
                     <section className="teacher-feedback-panel" aria-labelledby="teacher-feedback-heading">
                       <h3 id="teacher-feedback-heading">Personalised feedback — Teacher selection</h3>
-                      <fieldset className="teacher-feedback-types">
-                        <legend>Choose feedback type</legend>
-                        {feedbackTemplates.map(template => <label className="teacher-feedback-choice" key={template.value}>
-                          <input type="radio" name="feedback-type" value={template.value} checked={feedbackType === template.value} onChange={() => { setFeedbackType(template.value); setComments(template.text); setFeedbackCopyMessage(''); }} />
-                          <span><strong>{template.label}</strong><small>{template.description}</small></span>
-                        </label>)}
-                        <label className="teacher-feedback-choice">
-                          <input type="radio" name="feedback-type" value="custom" checked={feedbackType === 'custom'} onChange={() => { setFeedbackType('custom'); setFeedbackCopyMessage(''); }} />
-                          <span><strong>Custom Feedback</strong><small>Teacher writes their own</small></span>
-                        </label>
+                      <fieldset className="teacher-feedback-types"><legend>Choose feedback type</legend>
+                        {feedbackTemplates.map(template => <label className="teacher-feedback-choice" key={template.value}><input type="radio" name="feedback-type" value={template.value} checked={feedbackType === template.value} onChange={() => { setFeedbackType(template.value); setComments(template.text); setFeedbackCopyMessage(''); }} /><span><strong>{template.label}</strong><small>{template.description}</small></span></label>)}
+                        <label className="teacher-feedback-choice"><input type="radio" name="feedback-type" value="custom" checked={feedbackType === 'custom'} onChange={() => { setFeedbackType('custom'); setFeedbackCopyMessage(''); }} /><span><strong>Custom Feedback</strong><small>Teacher writes their own</small></span></label>
                       </fieldset>
                       <label className="portal-field portal-comments"><span>Feedback preview (editable)</span><textarea rows="5" maxLength="3000" value={comments} onChange={event => { setComments(event.target.value); setFeedbackType('custom'); setFeedbackCopyMessage(''); }} placeholder="Enter personalised feedback…" /></label>
                       <div className="teacher-feedback-actions"><span role="status" aria-live="polite">{feedbackCopyMessage}</span><button className="portal-secondary-button" type="button" onClick={copyFeedback}>Copy feedback</button></div>
                     </section>
                     <div className="portal-form-actions"><button className="portal-primary-button" type="submit" disabled={busy}>{busy ? 'Saving…' : bulkMode ? `Save shared feedback for ${selectedStudentIds.length} students` : 'Save progress report'}</button></div>
                   </form>
-                  {selectedStudent && <div className="parent-code-form">
-                    <div>
-                      <h3>Parent report access</h3>
-                      <p>{selectedStudent.parentCodeSet ? 'A code is already set. Resetting it invalidates the current code.' : 'No parent code has been registered for this student yet.'}</p>
-                    </div>
-                    <button className="portal-secondary-button" type="button" onClick={resetParentCode} disabled={busy}>{busy ? 'Generating…' : selectedStudent.parentCodeSet ? 'Reset parent code' : 'Generate parent code'}</button>
-                    {generatedParentCode && <div className="teacher-generated-code"><span>Share this six-digit code with the parent now</span><strong>{generatedParentCode}</strong></div>}
-                  </div>}
                   {selectedStudent && selectedStudent.reports.length > 0 && <div className="saved-report-list"><h3>Saved reports</h3>{selectedStudent.reports.map(report => <div className="saved-report-row" key={report.id}><span>{report.term} · {report.totalScore}/30 · {report.grade}</span><button type="button" className="portal-small-button" onClick={() => printReport(report)}>View / download</button></div>)}</div>}
                   {message && <p className="portal-message" role="status">{message}</p>}
                 </section>
